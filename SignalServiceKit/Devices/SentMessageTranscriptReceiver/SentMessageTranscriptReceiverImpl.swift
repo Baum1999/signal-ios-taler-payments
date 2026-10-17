@@ -217,6 +217,16 @@ public class SentMessageTranscriptReceiverImpl: SentMessageTranscriptReceiver {
             // The sender may have resent the message. If so, we should swap it in place of the placeholder
             interactionStore.insertOrReplacePlaceholder(for: outgoingMessage, from: localIdentifiers.aciAddress, tx: tx)
 
+            // GNU Taler: Taler-Karten auch auf verknuepften
+            // Geraeten (Android 3a71ac1c6e). Sent-Transcript = eigene Zahlung.
+            TalerPaymentTracker.track(
+                message: outgoingMessage,
+                body: outgoingMessage.body,
+                structured: messageParams.talerPayment,
+                isOwnPayment: true,
+                tx: tx,
+            )
+
             if let validatedPollCreate = messageParams.validatedPollCreate {
                 do {
                     try pollMessageManager.processIncomingPollCreate(

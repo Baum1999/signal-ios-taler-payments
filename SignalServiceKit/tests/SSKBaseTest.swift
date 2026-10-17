@@ -34,10 +34,12 @@ public class SSKBaseTest: XCTestCase {
         return SSKEnvironment.shared.databaseStorageRef.read(block: block)
     }
 
+    @discardableResult
     public func write<T>(_ block: (DBWriteTransaction) -> T) -> T {
         return SSKEnvironment.shared.databaseStorageRef.write(block: block)
     }
 
+    @discardableResult
     public func write<T>(_ block: (DBWriteTransaction) throws -> T) rethrows -> T {
         try SSKEnvironment.shared.databaseStorageRef.write(block: block)
     }

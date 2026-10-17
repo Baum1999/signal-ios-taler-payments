@@ -360,6 +360,11 @@ extension BackupArchive {
         /// messages for recipient hidden state separately.
         case contactHiddenInfoMessage
 
+        /// GNU Taler: a local Taler payment status line.
+        /// These are local-only and correspondingly dropped when creating a
+        /// backup.
+        case talerStatusLine
+
         /// This is a past revision for a message that was later edited. We skip
         /// these, instead handling all past revisions when handling the latest
         /// revision of a message.

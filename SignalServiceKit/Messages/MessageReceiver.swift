@@ -1675,6 +1675,29 @@ public final class MessageReceiver {
         // should swap it in place of the placeholder.
         message.insertOrReplacePlaceholder(from: SignalServiceAddress(envelope.sourceAci), transaction: tx)
 
+        // GNU Taler: Taler-Vorgaenge aus empfangenen
+        // Nachrichten nachverfolgen (Feld 9000 bevorzugt, sonst Body).
+        TalerPaymentTracker.track(
+            message: message,
+            body: message.body,
+            structured: TalerPaymentTracker.structuredPayload(from: dataMessage.talerPayment),
+            isOwnPayment: false,
+            tx: tx,
+        )
+
+        // GNU Taler: Bestaetigungsnachricht der Gegenseite
+        // erkennen (S7a) - nur 1:1-Chats, spiegelbildlich zur Sendebedingung in
+        // TalerConfirmationSender.
+        if let interactionId = message.sqliteRowId {
+            TalerConfirmationTracker.track(
+                body: message.body,
+                threadUniqueId: message.uniqueThreadId,
+                isGroupThread: thread is TSGroupThread,
+                interactionId: interactionId,
+                tx: tx,
+            )
+        }
+
         // Inserting the message may have modified the thread on disk, so reload
         // it. For example, we may have marked the thread as visible.
         let updatedThread = TSThread.fetchViaCache(uniqueId: thread.uniqueId, transaction: tx) ?? thread

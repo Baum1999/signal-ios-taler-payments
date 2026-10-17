@@ -346,6 +346,7 @@ public class OWSIncomingSentMessageTranscript: SentMessageTranscript {
             expireTimerVersion: dataMessage.expireTimerVersion,
             storyTimestamp: storyTimestamp,
             storyAuthorAci: storyAuthorAci,
+            talerPayment: TalerPaymentTracker.structuredPayload(from: dataMessage.talerPayment),
         )
     }
 

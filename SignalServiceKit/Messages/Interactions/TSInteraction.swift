@@ -279,6 +279,7 @@ extension TSInteraction {
         case .unblockedGroup: return true
         case .typeEndPoll: return true
         case .typePinnedMessage: return true
+        case .talerPaymentUpdate: return false
         }
     }
 }

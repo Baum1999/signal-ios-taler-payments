@@ -3709,6 +3709,227 @@ extension SSKProtoCallMessageBuilder {
 
 #endif
 
+// MARK: - SSKProtoDataMessageTalerPayment
+
+@objc
+public class SSKProtoDataMessageTalerPayment: NSObject, Codable, NSSecureCoding {
+
+    fileprivate let proto: SignalServiceProtos_DataMessage.TalerPayment
+
+    @objc
+    public var uris: [String] {
+        return proto.uris
+    }
+
+    @objc
+    public var version: UInt32 {
+        return proto.version
+    }
+    @objc
+    public var hasVersion: Bool {
+        return proto.hasVersion
+    }
+
+    @objc
+    public var isGroupSplit: Bool {
+        return proto.isGroupSplit
+    }
+    @objc
+    public var hasIsGroupSplit: Bool {
+        return proto.hasIsGroupSplit
+    }
+
+    @objc
+    public var includeSelf: Bool {
+        return proto.includeSelf
+    }
+    @objc
+    public var hasIncludeSelf: Bool {
+        return proto.hasIncludeSelf
+    }
+
+    @objc
+    public var totalAmount: String? {
+        guard hasTotalAmount else {
+            return nil
+        }
+        return proto.totalAmount
+    }
+    @objc
+    public var hasTotalAmount: Bool {
+        return proto.hasTotalAmount
+    }
+
+    public var hasUnknownFields: Bool {
+        return !proto.unknownFields.data.isEmpty
+    }
+    public var unknownFields: SwiftProtobuf.UnknownStorage? {
+        guard hasUnknownFields else { return nil }
+        return proto.unknownFields
+    }
+
+    private init(proto: SignalServiceProtos_DataMessage.TalerPayment) {
+        self.proto = proto
+    }
+
+    @objc
+    public func serializedData() throws -> Data {
+        return try self.proto.serializedData()
+    }
+
+    @objc
+    public required convenience init(serializedData: Data) throws {
+        let proto = try SignalServiceProtos_DataMessage.TalerPayment(serializedBytes: serializedData)
+        self.init(proto)
+    }
+
+    fileprivate convenience init(_ proto: SignalServiceProtos_DataMessage.TalerPayment) {
+        self.init(proto: proto)
+    }
+
+    public required convenience init(from decoder: Swift.Decoder) throws {
+        let singleValueContainer = try decoder.singleValueContainer()
+        let serializedData = try singleValueContainer.decode(Data.self)
+        try self.init(serializedData: serializedData)
+    }
+    public func encode(to encoder: Swift.Encoder) throws {
+        var singleValueContainer = encoder.singleValueContainer()
+        try singleValueContainer.encode(try serializedData())
+    }
+
+    public static var supportsSecureCoding: Bool { true }
+
+    public required convenience init?(coder: NSCoder) {
+        guard let serializedData = coder.decodeData() else { return nil }
+        do {
+            try self.init(serializedData: serializedData)
+        } catch {
+            owsFailDebug("Failed to decode serialized data \(error)")
+            return nil
+        }
+    }
+
+    public func encode(with coder: NSCoder) {
+        do {
+            coder.encode(try serializedData())
+        } catch {
+            owsFailDebug("Failed to encode serialized data \(error)")
+        }
+    }
+
+    @objc
+    public override var debugDescription: String {
+        return "\(proto)"
+    }
+}
+
+extension SSKProtoDataMessageTalerPayment {
+    @objc
+    public static func builder() -> SSKProtoDataMessageTalerPaymentBuilder {
+        return SSKProtoDataMessageTalerPaymentBuilder()
+    }
+
+    // asBuilder() constructs a builder that reflects the proto's contents.
+    @objc
+    public func asBuilder() -> SSKProtoDataMessageTalerPaymentBuilder {
+        let builder = SSKProtoDataMessageTalerPaymentBuilder()
+        builder.setUris(uris)
+        if hasVersion {
+            builder.setVersion(version)
+        }
+        if hasIsGroupSplit {
+            builder.setIsGroupSplit(isGroupSplit)
+        }
+        if hasIncludeSelf {
+            builder.setIncludeSelf(includeSelf)
+        }
+        if let _value = totalAmount {
+            builder.setTotalAmount(_value)
+        }
+        if let _value = unknownFields {
+            builder.setUnknownFields(_value)
+        }
+        return builder
+    }
+}
+
+@objc
+public class SSKProtoDataMessageTalerPaymentBuilder: NSObject {
+
+    private var proto = SignalServiceProtos_DataMessage.TalerPayment()
+
+    @objc
+    fileprivate override init() {}
+
+    @objc
+    public func addUris(_ valueParam: String) {
+        proto.uris.append(valueParam)
+    }
+
+    @objc
+    public func setUris(_ wrappedItems: [String]) {
+        proto.uris = wrappedItems
+    }
+
+    @objc
+    public func setVersion(_ valueParam: UInt32) {
+        proto.version = valueParam
+    }
+
+    @objc
+    public func setIsGroupSplit(_ valueParam: Bool) {
+        proto.isGroupSplit = valueParam
+    }
+
+    @objc
+    public func setIncludeSelf(_ valueParam: Bool) {
+        proto.includeSelf = valueParam
+    }
+
+    @objc
+    @available(swift, obsoleted: 1.0)
+    public func setTotalAmount(_ valueParam: String?) {
+        guard let valueParam = valueParam else { return }
+        proto.totalAmount = valueParam
+    }
+
+    public func setTotalAmount(_ valueParam: String) {
+        proto.totalAmount = valueParam
+    }
+
+    public func setUnknownFields(_ unknownFields: SwiftProtobuf.UnknownStorage) {
+        proto.unknownFields = unknownFields
+    }
+
+    @objc
+    public func buildInfallibly() -> SSKProtoDataMessageTalerPayment {
+        return SSKProtoDataMessageTalerPayment(proto)
+    }
+
+    @objc
+    public func buildSerializedData() throws -> Data {
+        return try SSKProtoDataMessageTalerPayment(proto).serializedData()
+    }
+}
+
+#if TESTABLE_BUILD
+
+extension SSKProtoDataMessageTalerPayment {
+    @objc
+    public func serializedDataIgnoringErrors() -> Data? {
+        return try! self.serializedData()
+    }
+}
+
+extension SSKProtoDataMessageTalerPaymentBuilder {
+    @objc
+    public func buildIgnoringErrors() -> SSKProtoDataMessageTalerPayment? {
+        return self.buildInfallibly()
+    }
+}
+
+#endif
+
 // MARK: - SSKProtoDataMessageQuoteQuotedAttachment
 
 @objc
@@ -9423,6 +9644,9 @@ public class SSKProtoDataMessage: NSObject, Codable, NSSecureCoding {
     public let adminDelete: SSKProtoDataMessageAdminDelete?
 
     @objc
+    public let talerPayment: SSKProtoDataMessageTalerPayment?
+
+    @objc
     public var body: String? {
         guard hasBody else {
             return nil
@@ -9527,7 +9751,8 @@ public class SSKProtoDataMessage: NSObject, Codable, NSSecureCoding {
                  pollVote: SSKProtoDataMessagePollVote?,
                  pinMessage: SSKProtoDataMessagePinMessage?,
                  unpinMessage: SSKProtoDataMessageUnpinMessage?,
-                 adminDelete: SSKProtoDataMessageAdminDelete?) {
+                 adminDelete: SSKProtoDataMessageAdminDelete?,
+                 talerPayment: SSKProtoDataMessageTalerPayment?) {
         self.proto = proto
         self.attachments = attachments
         self.groupV2 = groupV2
@@ -9548,6 +9773,7 @@ public class SSKProtoDataMessage: NSObject, Codable, NSSecureCoding {
         self.pinMessage = pinMessage
         self.unpinMessage = unpinMessage
         self.adminDelete = adminDelete
+        self.talerPayment = talerPayment
     }
 
     @objc
@@ -9649,6 +9875,11 @@ public class SSKProtoDataMessage: NSObject, Codable, NSSecureCoding {
             adminDelete = SSKProtoDataMessageAdminDelete(proto.adminDelete)
         }
 
+        var talerPayment: SSKProtoDataMessageTalerPayment?
+        if proto.hasTalerPayment {
+            talerPayment = SSKProtoDataMessageTalerPayment(proto.talerPayment)
+        }
+
         self.init(proto: proto,
                   attachments: attachments,
                   groupV2: groupV2,
@@ -9668,7 +9899,8 @@ public class SSKProtoDataMessage: NSObject, Codable, NSSecureCoding {
                   pollVote: pollVote,
                   pinMessage: pinMessage,
                   unpinMessage: unpinMessage,
-                  adminDelete: adminDelete)
+                  adminDelete: adminDelete,
+                  talerPayment: talerPayment)
     }
 
     public required convenience init(from decoder: Swift.Decoder) throws {
@@ -9789,6 +10021,9 @@ extension SSKProtoDataMessage {
         }
         if let _value = adminDelete {
             builder.setAdminDelete(_value)
+        }
+        if let _value = talerPayment {
+            builder.setTalerPayment(_value)
         }
         if let _value = unknownFields {
             builder.setUnknownFields(_value)
@@ -10060,6 +10295,17 @@ public class SSKProtoDataMessageBuilder: NSObject {
 
     public func setAdminDelete(_ valueParam: SSKProtoDataMessageAdminDelete) {
         proto.adminDelete = valueParam.proto
+    }
+
+    @objc
+    @available(swift, obsoleted: 1.0)
+    public func setTalerPayment(_ valueParam: SSKProtoDataMessageTalerPayment?) {
+        guard let valueParam = valueParam else { return }
+        proto.talerPayment = valueParam.proto
+    }
+
+    public func setTalerPayment(_ valueParam: SSKProtoDataMessageTalerPayment) {
+        proto.talerPayment = valueParam.proto
     }
 
     public func setUnknownFields(_ unknownFields: SwiftProtobuf.UnknownStorage) {

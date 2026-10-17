@@ -165,6 +165,8 @@ extension TSInfoMessage {
             return self.endPollDescription(transaction: tx) ?? ""
         case .typePinnedMessage:
             return self.pinnedMessageDescription(transaction: tx) ?? ""
+        case .talerPaymentUpdate:
+            return TalerStatusLine.text(for: self)
         }
 
         owsFailDebug("Unknown info message type")

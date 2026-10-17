@@ -206,6 +206,18 @@ message DataMessage {
     PROFILE_KEY_UPDATE = 4;
   }
 
+  // GNU Taler: strukturierte Taler-Zahlungsdaten,
+  // identisch zu signal-android (DataMessage.TalerPayment, Feld 9000). Nur
+  // Recall-Hilfe beim Rendern, keine Vertrauensquelle: `body` traegt weiter
+  // die rohen URIs plus Legacy-Text fuer Clients ohne dieses Feld.
+  message TalerPayment {
+    repeated string uris = 1;
+    optional uint32 version = 2;
+    optional bool isGroupSplit = 3;
+    optional bool includeSelf = 4;
+    optional string totalAmount = 5;
+  }
+
   message Quote {
     enum Type {
       NORMAL = 0;
@@ -474,6 +486,10 @@ message DataMessage {
   optional PinMessage pinMessage = 27;
   optional UnpinMessage unpinMessage = 28;
   optional AdminDelete adminDelete = 29;
+
+  // GNU Taler: bewusst hohe Feldnummer, um
+  // Kollisionen mit kuenftigen Upstream-Feldern zu vermeiden (wie Android).
+  optional TalerPayment talerPayment = 9000;
   // NEXT ID: 30
 }
 

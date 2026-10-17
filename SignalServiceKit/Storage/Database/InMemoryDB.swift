@@ -114,6 +114,7 @@ public final class InMemoryDB: DB {
         return result!
     }
 
+    @discardableResult
     public func write<T, E>(
         file: String,
         function: String,
