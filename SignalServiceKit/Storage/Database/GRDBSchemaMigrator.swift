@@ -374,6 +374,10 @@ public class GRDBSchemaMigrator {
         case addLastSnapshotAt
         case removeLocalFileBackupLastEnumeratedAttachmentId
         case addLocalKeyAndSizeToInstalledSticker
+        // GNU Taler payments.
+        case addTalerPaymentTables
+        // GNU Taler: timestamp of the last status change.
+        case addTalerPaymentStatusChangedAt
 
         // NOTE: Every time we add a migration id, consider
         // incrementing grdbSchemaVersionLatest.
@@ -5744,6 +5748,21 @@ public class GRDBSchemaMigrator {
                 $0.add(column: "localKey", .blob)
                 $0.add(column: "plaintextLength", .integer)
             }
+            return .success(())
+        }
+
+        // GNU Taler: tables for Taler payments, see TalerPaymentStore.
+        // Do not rename (migration IDs are permanent).
+        migrator.registerMigration(.addTalerPaymentTables) { tx in
+            try TalerPaymentStore.createTables(tx.database)
+            return .success(())
+        }
+
+        // GNU Taler: milliseconds since 1970 of the last actual status
+        // change, see TalerPaymentStore. No backfill, rows from earlier
+        // versions stay NULL.
+        migrator.registerMigration(.addTalerPaymentStatusChangedAt) { tx in
+            try tx.database.execute(sql: "ALTER TABLE TalerPayment ADD COLUMN statusChangedAt INTEGER")
             return .success(())
         }
 

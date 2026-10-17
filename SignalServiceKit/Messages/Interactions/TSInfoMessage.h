@@ -56,6 +56,9 @@ typedef NS_CLOSED_ENUM(NSInteger, TSInfoMessageType) {
     TSInfoMessageTypeRemoteUserEndedSession,
     TSInfoMessageTypeEndPoll,
     TSInfoMessageTypePinnedMessage,
+    /// GNU Taler: local Taler payment status line.
+    /// The explicit value avoids collisions if upstream appends more cases.
+    TSInfoMessageTalerPaymentUpdate = 9000,
 };
 
 typedef NSString *InfoMessageUserInfoKey NS_STRING_ENUM;

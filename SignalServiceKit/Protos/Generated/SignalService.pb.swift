@@ -1208,7 +1208,6 @@ nonisolated struct SignalServiceProtos_DataMessage: @unchecked Sendable {
   /// Clears the value of `unpinMessage`. Subsequent reads from it will return its default value.
   mutating func clearUnpinMessage() {_uniqueStorage()._unpinMessage = nil}
 
-  /// NEXT ID: 30
   var adminDelete: SignalServiceProtos_DataMessage.AdminDelete {
     get {_storage._adminDelete ?? SignalServiceProtos_DataMessage.AdminDelete()}
     set {_uniqueStorage()._adminDelete = newValue}
@@ -1217,6 +1216,17 @@ nonisolated struct SignalServiceProtos_DataMessage: @unchecked Sendable {
   var hasAdminDelete: Bool {_storage._adminDelete != nil}
   /// Clears the value of `adminDelete`. Subsequent reads from it will return its default value.
   mutating func clearAdminDelete() {_uniqueStorage()._adminDelete = nil}
+
+  /// GNU Taler: bewusst hohe Feldnummer, um
+  /// Kollisionen mit kuenftigen Upstream-Feldern zu vermeiden (wie Android).
+  var talerPayment: SignalServiceProtos_DataMessage.TalerPayment {
+    get {_storage._talerPayment ?? SignalServiceProtos_DataMessage.TalerPayment()}
+    set {_uniqueStorage()._talerPayment = newValue}
+  }
+  /// Returns true if `talerPayment` has been explicitly set.
+  var hasTalerPayment: Bool {_storage._talerPayment != nil}
+  /// Clears the value of `talerPayment`. Subsequent reads from it will return its default value.
+  mutating func clearTalerPayment() {_uniqueStorage()._talerPayment = nil}
 
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -1246,6 +1256,63 @@ nonisolated struct SignalServiceProtos_DataMessage: @unchecked Sendable {
       self = .initial
     }
 
+  }
+
+  /// GNU Taler: strukturierte Taler-Zahlungsdaten,
+  /// identisch zu signal-android (DataMessage.TalerPayment, Feld 9000). Nur
+  /// Recall-Hilfe beim Rendern, keine Vertrauensquelle: `body` traegt weiter
+  /// die rohen URIs plus Legacy-Text fuer Clients ohne dieses Feld.
+  nonisolated struct TalerPayment: Sendable {
+    // SwiftProtobuf.Message conformance is added in an extension below. See the
+    // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+    // methods supported on all messages.
+
+    var uris: [String] = []
+
+    var version: UInt32 {
+      get {_version ?? 0}
+      set {_version = newValue}
+    }
+    /// Returns true if `version` has been explicitly set.
+    var hasVersion: Bool {self._version != nil}
+    /// Clears the value of `version`. Subsequent reads from it will return its default value.
+    mutating func clearVersion() {self._version = nil}
+
+    var isGroupSplit: Bool {
+      get {_isGroupSplit ?? false}
+      set {_isGroupSplit = newValue}
+    }
+    /// Returns true if `isGroupSplit` has been explicitly set.
+    var hasIsGroupSplit: Bool {self._isGroupSplit != nil}
+    /// Clears the value of `isGroupSplit`. Subsequent reads from it will return its default value.
+    mutating func clearIsGroupSplit() {self._isGroupSplit = nil}
+
+    var includeSelf: Bool {
+      get {_includeSelf ?? false}
+      set {_includeSelf = newValue}
+    }
+    /// Returns true if `includeSelf` has been explicitly set.
+    var hasIncludeSelf: Bool {self._includeSelf != nil}
+    /// Clears the value of `includeSelf`. Subsequent reads from it will return its default value.
+    mutating func clearIncludeSelf() {self._includeSelf = nil}
+
+    var totalAmount: String {
+      get {_totalAmount ?? String()}
+      set {_totalAmount = newValue}
+    }
+    /// Returns true if `totalAmount` has been explicitly set.
+    var hasTotalAmount: Bool {self._totalAmount != nil}
+    /// Clears the value of `totalAmount`. Subsequent reads from it will return its default value.
+    mutating func clearTotalAmount() {self._totalAmount = nil}
+
+    var unknownFields = SwiftProtobuf.UnknownStorage()
+
+    init() {}
+
+    fileprivate var _version: UInt32? = nil
+    fileprivate var _isGroupSplit: Bool? = nil
+    fileprivate var _includeSelf: Bool? = nil
+    fileprivate var _totalAmount: String? = nil
   }
 
   nonisolated struct Quote: Sendable {
@@ -5977,7 +6044,7 @@ nonisolated extension SignalServiceProtos_CallMessage.Opaque.Urgency: SwiftProto
 
 nonisolated extension SignalServiceProtos_DataMessage: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".DataMessage"
-  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}body\0\u{1}attachments\0\u{2}\u{2}flags\0\u{1}expireTimer\0\u{1}profileKey\0\u{1}timestamp\0\u{1}quote\0\u{1}contact\0\u{1}preview\0\u{1}sticker\0\u{1}requiredProtocolVersion\0\u{2}\u{2}isViewOnce\0\u{1}groupV2\0\u{1}reaction\0\u{1}delete\0\u{1}bodyRanges\0\u{1}groupCallUpdate\0\u{1}payment\0\u{1}storyContext\0\u{1}giftBadge\0\u{1}expireTimerVersion\0\u{1}pollCreate\0\u{1}pollTerminate\0\u{1}pollVote\0\u{1}pinMessage\0\u{1}unpinMessage\0\u{1}adminDelete\0\u{c}\u{3}\u{1}")
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}body\0\u{1}attachments\0\u{2}\u{2}flags\0\u{1}expireTimer\0\u{1}profileKey\0\u{1}timestamp\0\u{1}quote\0\u{1}contact\0\u{1}preview\0\u{1}sticker\0\u{1}requiredProtocolVersion\0\u{2}\u{2}isViewOnce\0\u{1}groupV2\0\u{1}reaction\0\u{1}delete\0\u{1}bodyRanges\0\u{1}groupCallUpdate\0\u{1}payment\0\u{1}storyContext\0\u{1}giftBadge\0\u{1}expireTimerVersion\0\u{1}pollCreate\0\u{1}pollTerminate\0\u{1}pollVote\0\u{1}pinMessage\0\u{1}unpinMessage\0\u{1}adminDelete\0\u{2}KL\u{2}talerPayment\0\u{c}\u{3}\u{1}")
 
   fileprivate class _StorageClass {
     var _body: String? = nil
@@ -6007,6 +6074,7 @@ nonisolated extension SignalServiceProtos_DataMessage: SwiftProtobuf.Message, Sw
     var _pinMessage: SignalServiceProtos_DataMessage.PinMessage? = nil
     var _unpinMessage: SignalServiceProtos_DataMessage.UnpinMessage? = nil
     var _adminDelete: SignalServiceProtos_DataMessage.AdminDelete? = nil
+    var _talerPayment: SignalServiceProtos_DataMessage.TalerPayment? = nil
 
       // This property is used as the initial default value for new instances of the type.
       // The type itself is protecting the reference to its storage via CoW semantics.
@@ -6044,6 +6112,7 @@ nonisolated extension SignalServiceProtos_DataMessage: SwiftProtobuf.Message, Sw
       _pinMessage = source._pinMessage
       _unpinMessage = source._unpinMessage
       _adminDelete = source._adminDelete
+      _talerPayment = source._talerPayment
     }
   }
 
@@ -6089,6 +6158,7 @@ nonisolated extension SignalServiceProtos_DataMessage: SwiftProtobuf.Message, Sw
         case 27: try { try decoder.decodeSingularMessageField(value: &_storage._pinMessage) }()
         case 28: try { try decoder.decodeSingularMessageField(value: &_storage._unpinMessage) }()
         case 29: try { try decoder.decodeSingularMessageField(value: &_storage._adminDelete) }()
+        case 9000: try { try decoder.decodeSingularMessageField(value: &_storage._talerPayment) }()
         default: break
         }
       }
@@ -6182,6 +6252,9 @@ nonisolated extension SignalServiceProtos_DataMessage: SwiftProtobuf.Message, Sw
       try { if let v = _storage._adminDelete {
         try visitor.visitSingularMessageField(value: v, fieldNumber: 29)
       } }()
+      try { if let v = _storage._talerPayment {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 9000)
+      } }()
     }
     try unknownFields.traverse(visitor: &visitor)
   }
@@ -6218,6 +6291,7 @@ nonisolated extension SignalServiceProtos_DataMessage: SwiftProtobuf.Message, Sw
         if _storage._pinMessage != rhs_storage._pinMessage {return false}
         if _storage._unpinMessage != rhs_storage._unpinMessage {return false}
         if _storage._adminDelete != rhs_storage._adminDelete {return false}
+        if _storage._talerPayment != rhs_storage._talerPayment {return false}
         return true
       }
       if !storagesAreEqual {return false}
@@ -6233,6 +6307,60 @@ nonisolated extension SignalServiceProtos_DataMessage.Flags: SwiftProtobuf._Prot
 
 nonisolated extension SignalServiceProtos_DataMessage.ProtocolVersion: SwiftProtobuf._ProtoNameProviding {
   static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{2}\0INITIAL\0\u{1}MESSAGE_TIMERS\0\u{1}VIEW_ONCE\0\u{1}VIEW_ONCE_VIDEO\0\u{1}REACTIONS\0\u{1}CDN_SELECTOR_ATTACHMENTS\0\u{1}MENTIONS\0\u{1}PAYMENTS\0\u{9}POLLS\0\u{1}CURRENT\0")
+}
+
+nonisolated extension SignalServiceProtos_DataMessage.TalerPayment: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = SignalServiceProtos_DataMessage.protoMessageName + ".TalerPayment"
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}uris\0\u{1}version\0\u{1}isGroupSplit\0\u{1}includeSelf\0\u{1}totalAmount\0")
+
+  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeRepeatedStringField(value: &self.uris) }()
+      case 2: try { try decoder.decodeSingularUInt32Field(value: &self._version) }()
+      case 3: try { try decoder.decodeSingularBoolField(value: &self._isGroupSplit) }()
+      case 4: try { try decoder.decodeSingularBoolField(value: &self._includeSelf) }()
+      case 5: try { try decoder.decodeSingularStringField(value: &self._totalAmount) }()
+      default: break
+      }
+    }
+  }
+
+  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    // The use of inline closures is to circumvent an issue where the compiler
+    // allocates stack space for every if/case branch local when no optimizations
+    // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
+    // https://github.com/apple/swift-protobuf/issues/1182
+    if !self.uris.isEmpty {
+      try visitor.visitRepeatedStringField(value: self.uris, fieldNumber: 1)
+    }
+    try { if let v = self._version {
+      try visitor.visitSingularUInt32Field(value: v, fieldNumber: 2)
+    } }()
+    try { if let v = self._isGroupSplit {
+      try visitor.visitSingularBoolField(value: v, fieldNumber: 3)
+    } }()
+    try { if let v = self._includeSelf {
+      try visitor.visitSingularBoolField(value: v, fieldNumber: 4)
+    } }()
+    try { if let v = self._totalAmount {
+      try visitor.visitSingularStringField(value: v, fieldNumber: 5)
+    } }()
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  static func ==(lhs: SignalServiceProtos_DataMessage.TalerPayment, rhs: SignalServiceProtos_DataMessage.TalerPayment) -> Bool {
+    if lhs.uris != rhs.uris {return false}
+    if lhs._version != rhs._version {return false}
+    if lhs._isGroupSplit != rhs._isGroupSplit {return false}
+    if lhs._includeSelf != rhs._includeSelf {return false}
+    if lhs._totalAmount != rhs._totalAmount {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
 }
 
 nonisolated extension SignalServiceProtos_DataMessage.Quote: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {

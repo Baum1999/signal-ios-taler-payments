@@ -714,7 +714,8 @@ open class TSThread: NSObject, SDSCodableModel, InheritableRecord {
                 .unblockedGroup,
                 .acceptedMessageRequest,
                 .typeEndPoll,
-                .typePinnedMessage:
+                .typePinnedMessage,
+                .talerPaymentUpdate:
                 break
             }
         }

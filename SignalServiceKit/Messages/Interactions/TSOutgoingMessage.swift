@@ -406,6 +406,16 @@ extension TSOutgoingMessage {
             builder.setStoryContext(storyContextBuilder.buildInfallibly())
         }
 
+        // GNU Taler: Feld 9000 aus der Seitentabelle
+        // (ersetzt Androids MessageExtras-Roundtrip).
+        if
+            let rowId = self.sqliteRowId,
+            let talerPayment = TalerPaymentStore.paymentMessage(interactionId: rowId, tx: tx),
+            let talerProto = TalerPaymentTracker.buildProto(from: talerPayment.payload)
+        {
+            builder.setTalerPayment(talerProto)
+        }
+
         builder.setExpireTimer(self.expiresInSeconds)
         if let expireTimerVersion {
             owsAssertDebug(expireTimerVersion.uint32Value >= 1)

@@ -72,7 +72,8 @@ final class BackupArchiveSimpleChatUpdateArchiver {
             .sessionSwitchover,
             .learnedProfileName,
             .typeEndPoll,
-            .typePinnedMessage:
+            .typePinnedMessage,
+            .talerPaymentUpdate:
             // Non-simple chat update types
             return .completeFailure(.fatalArchiveError(.developerError(
                 message: "Unexpected info message type: \(infoMessage.messageType)",

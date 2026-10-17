@@ -44,6 +44,9 @@ public enum SentMessageTranscriptType {
 
         public let storyTimestamp: UInt64?
         public let storyAuthorAci: Aci?
+
+        /// GNU Taler: DataMessage.talerPayment (Feld 9000).
+        public var talerPayment: TalerPaymentPayload? = nil
     }
 
     public struct PaymentNotification {

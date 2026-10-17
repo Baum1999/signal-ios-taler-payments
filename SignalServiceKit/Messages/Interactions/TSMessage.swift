@@ -534,7 +534,8 @@ public extension TSMessage {
              let .stickerDescription(text),
              let .giftBadge(text),
              let .infoMessage(text),
-             let .paymentMessage(text):
+             let .paymentMessage(text),
+             let .talerPaymentMessage(text):
             return text
         case .empty:
             return ""
@@ -557,7 +558,8 @@ public extension TSMessage {
              let .stickerDescription(text),
              let .giftBadge(text),
              let .infoMessage(text),
-             let .paymentMessage(text):
+             let .paymentMessage(text),
+             let .talerPaymentMessage(text):
             return HydratedMessageBody.fromPlaintextWithoutRanges(text)
         case .empty:
             return HydratedMessageBody.fromPlaintextWithoutRanges("")
@@ -577,6 +579,7 @@ public extension TSMessage {
              .giftBadge,
              .infoMessage,
              .paymentMessage,
+             .talerPaymentMessage,
              .empty:
             return nil
         }
@@ -592,6 +595,7 @@ public extension TSMessage {
         case giftBadge(String)
         case infoMessage(String)
         case paymentMessage(String)
+        case talerPaymentMessage(String)
         case empty
     }
 
@@ -729,6 +733,19 @@ public extension TSMessage {
             )
 
             pollPrefix = PollMessageManager.pollEmoji + locPollString + " "
+        }
+
+        // Taler-Zahlungsnachricht: kurzes, lokalisiertes Label statt Rohtext mit
+        // voller taler://-URI in Chatliste, Banner und Suchtreffern
+        // (Plan 2026-10-02-taler-preview-chatlist-notification). Taler-Zahlungen
+        // sind immer Text-nur, deshalb vor dem normalen Body-Return und nach allen
+        // Anhang-/Geschenk-Verzweigungen; nutzergeschriebener Text um eine URI
+        // bleibt vollstaendig sichtbar (TalerPreviewText).
+        if
+            let bodyDescription = bodyDescription?.nilIfEmpty,
+            let talerPreviewLabel = TalerPreviewText.previewLabel(body: bodyDescription)
+        {
+            return .talerPaymentMessage(talerPreviewLabel)
         }
 
         if let bodyDescription = bodyDescription?.nilIfEmpty {

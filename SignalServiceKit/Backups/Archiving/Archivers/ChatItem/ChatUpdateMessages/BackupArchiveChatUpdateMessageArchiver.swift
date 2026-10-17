@@ -150,6 +150,10 @@ final class BackupArchiveChatUpdateMessageArchiver {
         case .recipientHidden:
             /// This info message type is handled specially.
             return .skippableInteraction(.contactHiddenInfoMessage)
+        case .talerPaymentUpdate:
+            /// GNU Taler: local-only Taler status lines
+            /// never go into a backup.
+            return .skippableInteraction(.talerStatusLine)
         case
             .verificationStateChange,
             .typeLocalUserEndedSession,

@@ -240,6 +240,15 @@ public class UnpreparedOutgoingMessage {
             throw OWSAssertionError("Failed to insert message!")
         }
 
+        // GNU Taler: eigener Sendepfad = eigene Zahlung.
+        TalerPaymentTracker.track(
+            message: message.message,
+            body: message.message.body,
+            structured: TalerPendingOutgoingPayloads.shared.take(forMessageUniqueId: message.message.uniqueId),
+            isOwnPayment: true,
+            tx: tx,
+        )
+
         if let poll = message.poll {
             try DependenciesBridge.shared.pollMessageManager.processOutgoingPollCreate(
                 interactionId: messageRowId,
