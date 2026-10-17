@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		040277FA303DCFA6009C1468 /* LocalFileBackupAttachmentRestoreProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040277F9303DCF9B009C1468 /* LocalFileBackupAttachmentRestoreProgress.swift */; };
 		040277FE303DE4F2009C1468 /* ChatListViewController+LocalFileBackupRestoreProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040277FD303DE4F2009C1468 /* ChatListViewController+LocalFileBackupRestoreProgressView.swift */; };
+		03DDDB1ED4DD535AE256052B /* TalerCardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACB9B451D96A904109C654EF /* TalerCardModel.swift */; };
 		040506F82F7EEF3B0078B769 /* RemoteReleaseNotesFetchingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040506F72F7EEF290078B769 /* RemoteReleaseNotesFetchingManager.swift */; };
 		040506FA2F7EF4F50078B769 /* RemoteReleaseNotesFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040506F92F7EF4ED0078B769 /* RemoteReleaseNotesFetcher.swift */; };
 		040506FC2F7FE3DB0078B769 /* RemoteAnnouncementModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040506FB2F7FE3D50078B769 /* RemoteAnnouncementModel.swift */; };
@@ -187,9 +188,13 @@
 		05A180362CD1840F00579FA4 /* UIViewPropertyAnimator+SignalUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05A180352CD1840F00579FA4 /* UIViewPropertyAnimator+SignalUI.swift */; };
 		05B411252C62845000A1EDBC /* ChatListInboxFilterSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05B411242C62845000A1EDBC /* ChatListInboxFilterSection.swift */; };
 		05FDBC292CD91B31000C87BC /* ChatListContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05FDBC282CD91B31000C87BC /* ChatListContainerView.swift */; };
+		066860AB0638DE045D65D618 /* TalerLinks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B183AC94A2947D3192D9106 /* TalerLinks.swift */; };
+		07946E2D76C8B42FC956FAB0 /* TalerMessageActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE503443EC12E41FFA00C7F8 /* TalerMessageActions.swift */; };
+		0C4E8699CFC0B0DE00FF15DF /* TalerMessageDetailSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED155977A61C801011927EAE /* TalerMessageDetailSection.swift */; };
 		0CE014267EDFBD2538E940A0 /* Pods_Signal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FF88FB580BC19B240EEB86A /* Pods_Signal.framework */; };
 		1027FFCCCC063C8107CCD1DD /* ContactSharingPickerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1FF7C99B8F2DF3BAF0DC9F /* ContactSharingPickerDelegate.swift */; };
 		13A31CC02277A1C103CAE95B /* AciContactShareNameManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7358C9DE9823FD80FD3F9815 /* AciContactShareNameManagerTests.swift */; };
+		0DFBB772DA1DCEDC8E311508 /* TalerStrings+ThreadSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24D7418E7A659D2885340FC8 /* TalerStrings+ThreadSummary.swift */; };
 		1404D8B3276A353B0068E2F6 /* ChatListViewController+Multiselect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1404D8B2276A353A0068E2F6 /* ChatListViewController+Multiselect.swift */; };
 		1466AB282817F7E7003B3D9F /* PluralAware.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 1466AB262817F7E7003B3D9F /* PluralAware.stringsdict */; };
 		1477630B275E20D700D1067E /* ThreadContextualActionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1477630A275E20D700D1067E /* ThreadContextualActionProvider.swift */; };
@@ -202,8 +207,16 @@
 		1704690C25D4C92B000793D8 /* test-jpg-rotated.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1704690B25D4C92B000793D8 /* test-jpg-rotated.jpg */; };
 		17E6049028A17BD300127680 /* ZkGroupIntegrationTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E6048F28A17BD200127680 /* ZkGroupIntegrationTest.swift */; };
 		17EC850C29133CDB00319C82 /* CancelledGroupRing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EC850B29133CDB00319C82 /* CancelledGroupRing.swift */; };
+		1819B42BE6CAE426813C20CB /* TalerStrings+S6.swift in Sources */ = {isa = PBXBuildFile; fileRef = C381530C8CA6BE80E84315A4 /* TalerStrings+S6.swift */; };
+		1CF09D2D4DFFF2303433CCC2 /* TalerReturn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 147C5D0D1C609EAD83F1A8AB /* TalerReturn.swift */; };
+		1D961FC0C84FCE90501D8EAE /* TalerRefundPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = C26787B041D7280A326A91AA /* TalerRefundPayload.swift */; };
+		1E81D15EBEBB120DC5E528EA /* TalerStatusLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943B80CD686D4C3D7C48927C /* TalerStatusLine.swift */; };
+		A1B2C3D4E5F60718293A4B5C /* TalerPreviewText.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C3D4E5F60718293A4B5C6D /* TalerPreviewText.swift */; };
 		259D4DF2486F14DB112B3999 /* Pods_SignalServiceKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91DA2BE463493965F5BC71C0 /* Pods_SignalServiceKitTests.framework */; };
+		25E2B046960899885378DC81 /* TalerToneColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F81C1C03965B23958415B05 /* TalerToneColors.swift */; };
+		2794648CFD6CC4E9564DF5CA /* TalerGroupSplit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C8BA8AC6F0AD3C2A5184F5E /* TalerGroupSplit.swift */; };
 		2B5914CF7BCE3017430CFD84 /* Pods_SignalTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BADD293DAFC82BF3274F0F6 /* Pods_SignalTests.framework */; };
+		2EFD3B6DA8384BD4F05DAA4F /* TalerContractCryptoTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BCB02B623DCB44593A9413D /* TalerContractCryptoTest.swift */; };
 		3236FCC42592B67B006D33B9 /* NameCollisionReviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3236FCC32592B67B006D33B9 /* NameCollisionReviewCell.swift */; };
 		326DF2612739F4D90017B789 /* FeaturedBadgeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326DF2602739F4D90017B789 /* FeaturedBadgeViewController.swift */; };
 		327CF66825ACE7DD00DA0A6F /* GetStartedBannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 327CF66725ACE7DC00DA0A6F /* GetStartedBannerViewController.swift */; };
@@ -218,6 +231,7 @@
 		32ECD08824BFBF8000EDDED0 /* HelpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32ECD08724BFBF8000EDDED0 /* HelpViewController.swift */; };
 		32ECD08A24BFBF9500EDDED0 /* ContactSupportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32ECD08924BFBF9500EDDED0 /* ContactSupportViewController.swift */; };
 		32FAB92A2727A57100FB76A6 /* PrimaryImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32FAB9292727A57100FB76A6 /* PrimaryImageView.swift */; };
+		3340E915E7E86B486E2CA263 /* TalerThreadHeadlineFormatTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AE8E4ADE88B3767EFFC9B09 /* TalerThreadHeadlineFormatTest.swift */; };
 		3402A9DA271D953B0084CBAE /* SUIEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3402A9D9271D953A0084CBAE /* SUIEnvironment.swift */; };
 		3402A9E8271D97090084CBAE /* UIView+SignalUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3402A9E5271D97090084CBAE /* UIView+SignalUI.swift */; };
 		3402AA02271D9DAF0084CBAE /* GroupViewUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34A95507271B510400B05242 /* GroupViewUtils.swift */; };
@@ -549,6 +563,8 @@
 		3A6C1F0E8B2D4A7C9E5B1D40 /* OWSContactTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B7D2A1F9C3E5B8DAF6C2E51 /* OWSContactTests.swift */; };
 		3F3A3AE8BCD234B622D7217E /* AciContactShareNameStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D88A50F7A21109F53A878CF8 /* AciContactShareNameStoreTests.swift */; };
 		41117D98253D4E33B367812D /* NotificationSettingsWhileMutedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09AF6C1F75C04D3196CCFD38 /* NotificationSettingsWhileMutedViewController.swift */; };
+		3C65CF9F619175D140B1FCEC /* TalerCardActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40B627C7D78E5BF2128FF9E2 /* TalerCardActions.swift */; };
+		444EBDA952C52A2558DAAB08 /* TalerConfirmationSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30C616EC79BF79384124079A /* TalerConfirmationSender.swift */; };
 		4503F1BE20470A5B00CEE724 /* classic-quiet.aifc in Resources */ = {isa = PBXBuildFile; fileRef = 4503F1BB20470A5B00CEE724 /* classic-quiet.aifc */; };
 		4503F1BF20470A5B00CEE724 /* classic.aifc in Resources */ = {isa = PBXBuildFile; fileRef = 4503F1BC20470A5B00CEE724 /* classic.aifc */; };
 		45069FC629D3A7C800D0DD14 /* WideMediaTileViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45069FC529D3A7C800D0DD14 /* WideMediaTileViewLayout.swift */; };
@@ -616,6 +632,7 @@
 		45F32C242057297A00A300D5 /* MessageDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34CA1C261F7156F300E51C51 /* MessageDetailViewController.swift */; };
 		46B99B83D9513F2B8641EAB1 /* Pods_SignalNSE.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F965533D71CA51BE6704CC4 /* Pods_SignalNSE.framework */; };
 		48BD1EA140B397C56029EE17 /* ContactShareViewHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B928D1052C237E4BD2B13718 /* ContactShareViewHelperTests.swift */; };
+		4703F0F5EAEC6C9768EF2420 /* TalerCorrelationStoreTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E46A0BD124373A0D3542F5D0 /* TalerCorrelationStoreTest.swift */; };
 		4C0CF6FA2386295400C9F818 /* tap_to_focus.json in Resources */ = {isa = PBXBuildFile; fileRef = 4C0CF6F92386295400C9F818 /* tap_to_focus.json */; };
 		4C1885D2218F8E1C00B67051 /* PhotoGridViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1885D1218F8E1C00B67051 /* PhotoGridViewCell.swift */; };
 		4C20B2B920CA10DE001BAC90 /* ConversationSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C20B2B820CA10DE001BAC90 /* ConversationSearchViewController.swift */; };
@@ -631,6 +648,7 @@
 		4C5250D221E7BD7D00CE3D95 /* PhoneNumberValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5250D121E7BD7D00CE3D95 /* PhoneNumberValidator.swift */; };
 		4C5250D421E7C51900CE3D95 /* PhoneNumberValidatorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5250D321E7C51900CE3D95 /* PhoneNumberValidatorTest.swift */; };
 		4C6E6C6924241C00009DE948 /* ConversationViewControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C6E6C6824241C00009DE948 /* ConversationViewControllerTest.swift */; };
+		4C73F26CCD14C780518A756B /* TalerPaymentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4CBF7C2C0651F0AC49F373 /* TalerPaymentManager.swift */; };
 		4C751BE523FA0284002A8AF1 /* ContactSupportActionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C751BE423FA0284002A8AF1 /* ContactSupportActionSheet.swift */; };
 		4C83AC4223C55D9C00D4F2E6 /* SignalBaseTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C83AC4123C55D9C00D4F2E6 /* SignalBaseTest.swift */; };
 		4C8A6DFC22E5499300469AE7 /* MediaZoomAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C8A6DFB22E5499300469AE7 /* MediaZoomAnimationController.swift */; };
@@ -966,9 +984,15 @@
 		50FA17123006F244007529C6 /* GroupInviteLinkTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FA17113006F244007529C6 /* GroupInviteLinkTest.swift */; };
 		50FA17143006F635007529C6 /* GroupInviteLinkConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FA17133006F635007529C6 /* GroupInviteLinkConfiguration.swift */; };
 		50FA1B822F2D2935000DDCF9 /* InstalledStickerRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FA1B812F2D2935000DDCF9 /* InstalledStickerRecord.swift */; };
+		51C22D51AFF1D098D1092D5D /* TalerForwardGateTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C5606B10744CCF00E8744A /* TalerForwardGateTest.swift */; };
+		526C833E3611D352F67415AB /* TalerStatusLineTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5A714E5A126AB53D197EB99 /* TalerStatusLineTest.swift */; };
+		C3D4E5F60718293A4B5C6D7E /* TalerPreviewTextTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E5F60718293A4B5C6D7E8F /* TalerPreviewTextTest.swift */; };
+		531E42D897EA61FFDAB39566 /* TalerStrings+S11.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A18847A5CFF3B5F87E589E /* TalerStrings+S11.swift */; };
+		557032CB0F4F9FBE074A7520 /* TalerCardModelTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B03118E392180DE188316789 /* TalerCardModelTest.swift */; };
 		557238D32F2D53FD0033BC9A /* RingrtcVp9Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 557238D22F2D53EF0033BC9A /* RingrtcVp9Config.swift */; };
 		55B753602D97304100CCC91C /* RemoteMuteToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55B7535F2D97303A00CCC91C /* RemoteMuteToast.swift */; };
 		55BD355C2F16DAC0008E989C /* input_video.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 5531BE0E2F15B97F002AF66F /* input_video.mp4 */; };
+		56B48688D210B63AB451E1CA /* TalerCrypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D92C2CB9A5BDCE04940ECDC /* TalerCrypto.swift */; };
 		5AA002E62CA24566002D1CC2 /* SessionStoreTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AA002E52CA2455F002D1CC2 /* SessionStoreTest.swift */; };
 		5F0FCB3F9BC04E7EB4B5A9DA /* ContactSharingRowCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C97A48E040D913B54956AB /* ContactSharingRowCell.swift */; };
 		61475E7AED76A77DD11F9968 /* RegistrationSignalLoginDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CE4F92E120FC707A4CBFF39 /* RegistrationSignalLoginDetailsViewController.swift */; };
@@ -1007,6 +1031,8 @@
 		63DC4565307EA5DA00119464 /* libPhoneNumber in Frameworks */ = {isa = PBXBuildFile; productRef = 63DC4564307EA5DA00119464 /* libPhoneNumber */; };
 		63DC4567307EC00A00119464 /* blurhash in Frameworks */ = {isa = PBXBuildFile; productRef = 63DC4566307EC00A00119464 /* blurhash */; };
 		65D2854846F2127979853B12 /* ContactSharingPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CAE5380475512D4C3083EDC /* ContactSharingPickerViewController.swift */; };
+		6281DB205F3928766E832FF4 /* TalerComposeLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFC5289323D24855AB27B2F /* TalerComposeLauncher.swift */; };
+		6492A12C55CF8710A623BAB3 /* Crockford.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5594361198DECC6F8F0C69C1 /* Crockford.swift */; };
 		6600BB1A2BA3A0930005A035 /* LinkPreviewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6600BB192BA3A0930005A035 /* LinkPreviewManager.swift */; };
 		6600BB212BA3BC540005A035 /* LinkPreviewHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6600BB202BA3BC540005A035 /* LinkPreviewHelper.swift */; };
 		6600F34C298C81CD00B1EDB7 /* UnknownEnumCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6600F34B298C81CD00B1EDB7 /* UnknownEnumCodable.swift */; };
@@ -1022,6 +1048,7 @@
 		6600F38E29918A6100B1EDB7 /* RegistrationCoordinatorImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6600F38D29918A6100B1EDB7 /* RegistrationCoordinatorImpl.swift */; };
 		6600F39029918CBF00B1EDB7 /* RegistrationStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6600F38F29918CBF00B1EDB7 /* RegistrationStep.swift */; };
 		6600F39629919ECC00B1EDB7 /* RegistrationCoodinatorShims.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6600F39529919ECC00B1EDB7 /* RegistrationCoodinatorShims.swift */; };
+		66018EFCA198D9B3385C487C /* TalerStrings+S8.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFFBBB61F0ED153544C1053 /* TalerStrings+S8.swift */; };
 		660248F02BBCD29D009E2956 /* TSMessage+RenderableContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 660248EF2BBCD29D009E2956 /* TSMessage+RenderableContent.swift */; };
 		6603AC2D29C220F30079BC82 /* ChangePhoneNumberPniManagerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6603AC2C29C220F30079BC82 /* ChangePhoneNumberPniManagerMock.swift */; };
 		6605B9802B194A7900E8A68A /* ReactionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6605B97F2B194A7900E8A68A /* ReactionStore.swift */; };
@@ -1437,6 +1464,7 @@
 		66F98DE82DBBF25A009F1A86 /* LineWrappingStackViewTestController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66F98DE72DBBF24F009F1A86 /* LineWrappingStackViewTestController.swift */; };
 		66F98DEA2DC53155009F1A86 /* ChatListViewController+BackupDownloadProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66F98DE92DC5314E009F1A86 /* ChatListViewController+BackupDownloadProgressView.swift */; };
 		66FA2B1D28CB0DE1006845CD /* PaymentsBiometryLockPromptViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FA2B1C28CB0DE1006845CD /* PaymentsBiometryLockPromptViewController.swift */; };
+		66FA57C647901AACF11B9950 /* TalerLocalDeleteTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263A6FF687E083EA1F4CEA5F /* TalerLocalDeleteTest.swift */; };
 		66FBC4E128DA820900BD9E8B /* MyStorySettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FBC4E028DA820900BD9E8B /* MyStorySettingsViewController.swift */; };
 		66FBC4E328DA82AA00BD9E8B /* SelectMyStoryRecipientsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FBC4E228DA82AA00BD9E8B /* SelectMyStoryRecipientsViewController.swift */; };
 		66FC636F29DF797700F00DAC /* MessageBodyRanges.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FC636E29DF797700F00DAC /* MessageBodyRanges.swift */; };
@@ -1451,6 +1479,10 @@
 		66FC638E29EDABAC00F00DAC /* SearchDisplayConfigurations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FC638D29EDABAC00F00DAC /* SearchDisplayConfigurations.swift */; };
 		66FFDADC2C823C270079C0E7 /* BackupArchive+Contexts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FFDADB2C823C270079C0E7 /* BackupArchive+Contexts.swift */; };
 		6AA5EACD302E7D5800E5954E /* RingrtcSvcConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AA5EACC302E7D5800E5954E /* RingrtcSvcConfig.swift */; };
+		69727C76D30FD2487714AF89 /* TalerSettingsRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C41EF75CA48519E2EC3D6E /* TalerSettingsRow.swift */; };
+		6F709447D4D1F40210A15EFF /* TalerStrings+S7a.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99A167796B108E271AA28244 /* TalerStrings+S7a.swift */; };
+		6F797919B1B1EB8CDEEDB019 /* TalerContractCrypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F7CFC005A8479CE3991BC5C /* TalerContractCrypto.swift */; };
+		71B875ADDFA13D86ED352B44 /* TalerUri.swift in Sources */ = {isa = PBXBuildFile; fileRef = A573C875599C902E045FC16F /* TalerUri.swift */; };
 		7203F5332D53B53000639949 /* UInt64+SSK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7203F5322D53B52900639949 /* UInt64+SSK.swift */; };
 		7203F5352D53B83500639949 /* TimeInterval+SSK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7203F5342D53B83000639949 /* TimeInterval+SSK.swift */; };
 		720547F22B9C8F9900E2CF2F /* AvatarModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 883A7FD1269F642F00841DF9 /* AvatarModel.swift */; };
@@ -1651,8 +1683,16 @@
 		76F4B581293ACCD200A7CF2F /* UIKit+Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F4B580293ACCD200A7CF2F /* UIKit+Animations.swift */; };
 		76F958632A09A5AE00B43E63 /* DebugUIDiskUsage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F958622A09A5AE00B43E63 /* DebugUIDiskUsage.swift */; };
 		76FCCDBC27AB8FBE00BAA7F0 /* MediaControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76FCCDBB27AB8FBE00BAA7F0 /* MediaControls.swift */; };
+		797D44AB73C2E4DCCBDF4094 /* TalerUriParserTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D406EE36B2879031DDE38A2 /* TalerUriParserTest.swift */; };
+		7BFA61B16FFEE105DDBFD9ED /* TalerLinksTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF38A6153C5E237A6F6B7C1B /* TalerLinksTest.swift */; };
+		7DF86534462270FF80468F50 /* TalerPaymentDataTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 399EDE78A2C191625DDB23F3 /* TalerPaymentDataTest.swift */; };
+		80615C584AB99C0287AFF1D9 /* TalerQuoteSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C3CE6352419F818BE0ED295 /* TalerQuoteSummary.swift */; };
+		8251AA9A57A79421CB418B70 /* TalerPaymentData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A52931072511894AF8E3D0E /* TalerPaymentData.swift */; };
+		826B0BBB209B4622C05D327A /* TalerReturnHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59608C8FF10D465F51EEC586 /* TalerReturnHandler.swift */; };
+		8296978219C9134DA54EECE8 /* TalerDeliveryStatusUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50940BE5D22B98CF1EC77011 /* TalerDeliveryStatusUI.swift */; };
 		83B9573927C9A1FA00A678FD /* CaptchaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B9573827C9A1FA00A678FD /* CaptchaView.swift */; };
 		848961B553640CEDA15C38D9 /* ContactSharingSystemContactWrapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 691923222A44D263F4F0084D /* ContactSharingSystemContactWrapperTests.swift */; };
+		87B16E99CA6EAF1FBE81F06F /* TalerPaymentStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524C3545B0EC526E5FFC7C6F /* TalerPaymentStore.swift */; };
 		8803FF6628EF89B50023574A /* StorySharingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F5FA9528EF7E02007AA1BF /* StorySharingTests.swift */; };
 		8806EF19248DBD7200E764C7 /* NotificationPermissionReminderMegaphone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8806EF18248DBD7200E764C7 /* NotificationPermissionReminderMegaphone.swift */; };
 		8806EF1B248DBFC100E764C7 /* ContactPermissionReminderMegaphone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8806EF1A248DBFC100E764C7 /* ContactPermissionReminderMegaphone.swift */; };
@@ -1830,18 +1870,37 @@
 		88F5D78C2880ABF900CE4D2D /* NewPrivateStoryConfirmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F5D78B2880ABF900CE4D2D /* NewPrivateStoryConfirmViewController.swift */; };
 		88F5FA9428EBD4CF007AA1BF /* StorySharing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F5FA9228EBD484007AA1BF /* StorySharing.swift */; };
 		88FE237E249C22080041670F /* ConversationViewController+Scroll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88FE237D249C22080041670F /* ConversationViewController+Scroll.swift */; };
+		8C89D433729AA3F2F8BD42AE /* TalerForwardGate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4CEF56832D22E6644AD540C /* TalerForwardGate.swift */; };
+		8CA2C9082A35F776C62252A7 /* TalerMediaTabCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F54A0267F243A73B2A5612F /* TalerMediaTabCoordinator.swift */; };
+		8CD240E573C9E2DE9DC35BB0 /* TalerPaymentStoreTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5BABD3BE425823F17EFA8E /* TalerPaymentStoreTest.swift */; };
+		8D54FEC0A46DD22389033AC0 /* TalerPeerContractResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = C21CECEA3F407F1B1A044548 /* TalerPeerContractResolver.swift */; };
+		9518782EA5CBEB7A873A2B61 /* TalerThreadSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2FF2B83CDC10D210A238E82 /* TalerThreadSummary.swift */; };
 		954AEE6A1DF33E01002E5410 /* ContactsPickerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 954AEE681DF33D32002E5410 /* ContactsPickerTest.swift */; };
+		96CAC14BB8EE20AF6F6F429C /* TalerMenuStateTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12E606587F6F22F986750BFF /* TalerMenuStateTest.swift */; };
+		99263F7CBFFA67087135A0DB /* XSalsa20Poly1305.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC2BD8740B77BFB4E55271AE /* XSalsa20Poly1305.swift */; };
+		9D63E93FC1FCFB87BF958B3C /* TalerSendPayloadTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8A1814D6E701441CE204599 /* TalerSendPayloadTest.swift */; };
 		9FDF89F65C026F8F33FD38C1 /* Pods_SignalShareExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39B85AE8CD37B05A1B144605 /* Pods_SignalShareExtension.framework */; };
+		A0D6A61BB0B63709D7D6B8C0 /* TalerStrings+S3CardWiring.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAEC662084D3C09F63B3E74A /* TalerStrings+S3CardWiring.swift */; };
 		A10FDF79184FB4BB007FF963 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76C87F18181EFCE600C4ACAB /* MediaPlayer.framework */; };
 		A11CD70D17FA230600A2D1B1 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A11CD70C17FA230600A2D1B1 /* QuartzCore.framework */; };
 		A123C14916F902EE000AE905 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A163E8AA16F3F6A90094D68B /* Security.framework */; };
 		A163E8AB16F3F6AA0094D68B /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A163E8AA16F3F6A90094D68B /* Security.framework */; };
+		A19F172E1FE696567758DB5B /* TalerDeliveryStatusTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0164F964D34D028B8C62C57 /* TalerDeliveryStatusTest.swift */; };
 		A1A018521805C5E800A052A6 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A11CD70C17FA230600A2D1B1 /* QuartzCore.framework */; };
 		A1A018531805C60D00A052A6 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D221A091169C9E5E00537ABF /* CoreGraphics.framework */; };
 		A20EC336FE7D969EBAA7B99E /* ContactSharingPickerViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B76A4C51840CBBECD4CA0ECE /* ContactSharingPickerViewModelTests.swift */; };
+		A2D862E56161198A86FDEE38 /* TalerZlib.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9F4A5EDCDC40C9D4CBB7FED /* TalerZlib.swift */; };
+		A4747689AB68EAE72D7D54E5 /* TalerDeliveryStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3844874FEC23C8A39600DC54 /* TalerDeliveryStatus.swift */; };
 		A5E7C675248C5443007C949A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A5E7C673248C5442007C949A /* InfoPlist.strings */; };
 		A8B4B2CDBC78CBC03A4BC247 /* MockAciContactShareNameManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA74775FE55A58CC252DB9AA /* MockAciContactShareNameManager.swift */; };
 		AB0C401C2E5BADCE00A1B2C3 /* NotificationSettingsBadgeCountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0C401B2E5BADCE00A1B2C3 /* NotificationSettingsBadgeCountViewController.swift */; };
+		A6FB70EBAD23590FCC548336 /* TalerAbortPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B332B38C3BCB14696AC9D63 /* TalerAbortPlan.swift */; };
+		A98C3B5A440B72400A6363DB /* TalerStrings+S9.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D10C568B81F6A7A43496981 /* TalerStrings+S9.swift */; };
+		A9E29A05355A87613C296CA2 /* TalerCryptoVectorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5018BC0CE83237F8C2D84C1 /* TalerCryptoVectorTest.swift */; };
+		AA902C0E0A7AA1B67F980DA9 /* TalerKdf.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2B8D1C212FC52A53F2A2529 /* TalerKdf.swift */; };
+		ADF4B4CF7E36B2D3F3593B60 /* TalerSendPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFC9DF15B7DE65BFAA00D644 /* TalerSendPayload.swift */; };
+		B14A6AD75500794ED47B382A /* TalerStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7690260B58B8D9610067B2 /* TalerStrings.swift */; };
+		B49CD116CB296C1AF499D063 /* TalerStrings+S4.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6C05C63090EE1D59E6DDD5B /* TalerStrings+S4.swift */; };
 		B60EDE041A05A01700D73516 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B60EDE031A05A01700D73516 /* AudioToolbox.framework */; };
 		B66DBF4A19D5BBC8006EA940 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B66DBF4919D5BBC8006EA940 /* Images.xcassets */; };
 		B69CD25119773E79005CE69A /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B69CD25019773E79005CE69A /* XCTest.framework */; };
@@ -2070,6 +2129,14 @@
 		C26296B4BDCEDADBDA01DDD2 /* Pods_SignalServiceKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 948B2FC201146EF3BA459226 /* Pods_SignalServiceKit.framework */; };
 		CBCD7499B0A64FE64EAC82E4 /* LowDiskSpaceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A780A90C5DDC028939E97635 /* LowDiskSpaceManager.swift */; };
 		CD00DF277C60D21E1D55B5CA /* AciContactShareNameStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D205E8F7C927C969E2B7D84 /* AciContactShareNameStore.swift */; };
+		C41CE9AFFDD49DDAAEAFC44F /* TalerMenuState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908EAE87B850C0D103893CB7 /* TalerMenuState.swift */; };
+		C52CF181470D7E0B793F855B /* TalerCorrelationStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44C6AAA775BB1A889FDB9943 /* TalerCorrelationStore.swift */; };
+		C6178119E745DD1F71683830 /* TalerDeleteForEveryone.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9D1484A44568D258364B1F2 /* TalerDeleteForEveryone.swift */; };
+		C6C5078823A0906BCF498EFD /* TalerQuoteSummaryTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9B9E47AA8E46C2B61B4472 /* TalerQuoteSummaryTest.swift */; };
+		C7D5D271606207F74D612CF0 /* TalerReturnTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA44DA5EDD0D41A177A213E3 /* TalerReturnTest.swift */; };
+		C7DB03DFAA18393AA6B04ADE /* TalerStrings+S7b.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F443A891962324915A0016B /* TalerStrings+S7b.swift */; };
+		C81D6F040373D68EDDE02532 /* CVTalerCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB834368D65DBB129F5CD9CB /* CVTalerCardView.swift */; };
+		CF627CE98480C84235999109 /* CVComponentTalerConfirmation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB2250BE1C203AA94B0BAB1 /* CVComponentTalerConfirmation.swift */; };
 		D202868116DBE0E7009068E9 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2AEACDB16C426DA00C364C0 /* CFNetwork.framework */; };
 		D202868216DBE0F4009068E9 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2179CFD16BB0B480006F3AB /* SystemConfiguration.framework */; };
 		D202868316DBE0FC009068E9 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2179CFB16BB0B3A0006F3AB /* CoreTelephony.framework */; };
@@ -2083,6 +2150,8 @@
 		D221A0E8169DFFC500537ABF /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D221A0E7169DFFC500537ABF /* AVFoundation.framework */; };
 		D24B5BD5169F568C00681372 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D24B5BD4169F568C00681372 /* AudioToolbox.framework */; };
 		D2AEACDC16C426DA00C364C0 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2AEACDB16C426DA00C364C0 /* CFNetwork.framework */; };
+		D498620F6694101C162B3CAF /* TalerConfirmation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 316EE8AEBCFDC099C927DD21 /* TalerConfirmation.swift */; };
+		D86893B3B22DE2B79B02B033 /* CVComponentTalerPayment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA85A9D110A9980E054091F /* CVComponentTalerPayment.swift */; };
 		D900E6F82DE10499004D01A1 /* DisappearingMessagesTimerSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D900E6F72DE1048A004D01A1 /* DisappearingMessagesTimerSettingsViewController.swift */; };
 		D900E6FF2DE143F9004D01A1 /* DisappearingMessagesCustomTimePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D900E6FE2DE143E9004D01A1 /* DisappearingMessagesCustomTimePickerViewController.swift */; };
 		D90137E0305A687A0008826F /* BackupArchiveOutputStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90137DF305A68740008826F /* BackupArchiveOutputStream.swift */; };
@@ -3564,6 +3633,10 @@
 		D9FF515C2F03A2B40011982F /* DBUInt64.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FF515B2F03A2A10011982F /* DBUInt64.swift */; };
 		D9FF515E2F03A6D30011982F /* DBUInt64Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FF515D2F03A6CD0011982F /* DBUInt64Test.swift */; };
 		E0F3FAC8EA6929CE788DCD6E /* AciContactShareName.swift in Sources */ = {isa = PBXBuildFile; fileRef = B71510D89BF76955AB33D606 /* AciContactShareName.swift */; };
+		DC9A3424D1CD9ED23CADBED7 /* TalerUriParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8830F52A97C8BC8C65F27A1E /* TalerUriParser.swift */; };
+		DD056B8CCD63FBD5D4F0120D /* TalerCardSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BE9A67294FEA1B3E9713C07 /* TalerCardSnapshot.swift */; };
+		DDACE4081CD208C9797474AC /* TalerAbortPlanTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFFCE768E1DFAB81E9975865 /* TalerAbortPlanTest.swift */; };
+		DDD5CAFDE22A7EF0A93D9364 /* TalerRefundPayloadTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E9D7573EE11B900C78E9FB2 /* TalerRefundPayloadTest.swift */; };
 		E1368CBE18A1C36B00109378 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9EB5ABC1884C002007CBB57 /* MessageUI.framework */; };
 		E1447D8F2CCACFFD004D8FA2 /* BackupArchiveCallLinkRecipientArchiver.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1447D8E2CCACFFA004D8FA2 /* BackupArchiveCallLinkRecipientArchiver.swift */; };
 		E14EDF6E2A71AFDF00F0FD7C /* RecipientContextMenuHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14EDF6D2A71AFDF00F0FD7C /* RecipientContextMenuHelper.swift */; };
@@ -3711,9 +3784,13 @@
 		E1C2A54B2A8FCB0D00AEC4DA /* DeleteSystemContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C2A54A2A8FCB0D00AEC4DA /* DeleteSystemContactViewController.swift */; };
 		E1D827DA2BDC1F7B0022C1AF /* ReactionBurstManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1D827D82BDC1F6B0022C1AF /* ReactionBurstManagerTests.swift */; };
 		E44AD4E624E98F440035D7B8 /* PhotoCaptureDismiss.swift in Sources */ = {isa = PBXBuildFile; fileRef = E44AD4E524E98F430035D7B8 /* PhotoCaptureDismiss.swift */; };
+		E59AAF8368E37006170CBC82 /* TalerPaymentTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEBD0669348D2B16B9C8D8EF /* TalerPaymentTracker.swift */; };
 		E75DD3E02810CDBD00E32C36 /* SubscriptionModelsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E75DD3DF2810CDBD00E32C36 /* SubscriptionModelsTest.swift */; };
 		E7D7C93F28B580AC003F043B /* Bundle+OWS.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7D7C93E28B580AC003F043B /* Bundle+OWS.swift */; };
+		E845E8B2892F84AE49011716 /* TalerUriDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E24C7E1B5CCC47E2A68FBD /* TalerUriDetector.swift */; };
+		EB58AB90460875D1DC9410B9 /* TalerInstallation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D8E0717CE3A4E236FFD97B /* TalerInstallation.swift */; };
 		EC7A9D369AF9724FEEE5B653 /* Pods_SignalUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3F39202F831935AAE1C5F54 /* Pods_SignalUITests.framework */; };
+		EDE52CAE2C078F8DC5CC7913 /* TalerThreadPaymentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81999DE164D5F4856C204641 /* TalerThreadPaymentsViewController.swift */; };
 		F02564D8274EDF4600D7B48A /* BadgeIssueSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = F02564D7274EDF4600D7B48A /* BadgeIssueSheet.swift */; };
 		F05F51C926A90D6B00861034 /* ContextMenuActionsAccessory.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05F51C826A90D6B00861034 /* ContextMenuActionsAccessory.swift */; };
 		F090C8202762F2C5005C20FC /* EmojiReactionPickerConfigViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F090C81F2762F2C5005C20FC /* EmojiReactionPickerConfigViewController.swift */; };
@@ -3721,7 +3798,9 @@
 		F0B872B8269D079B00D26481 /* ContextMenuConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0B872B7269D079B00D26481 /* ContextMenuConfiguration.swift */; };
 		F0EE4DB626A7AC18001DE4ED /* ContextMenuReactionBarAccessory.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0EE4DB526A7AC18001DE4ED /* ContextMenuReactionBarAccessory.swift */; };
 		F0FB6B20269E625A00AC2A41 /* ContextMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FB6B1F269E625A00AC2A41 /* ContextMenuController.swift */; };
+		F5184E3526A66CED1D1E2E61 /* TalerLocalDelete.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46A264714061EF055DE53BDA /* TalerLocalDelete.swift */; };
 		F5C80FA22BE3F29F0028F76D /* RTCIceServerFetcherTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5C80FA12BE3F29F0028F76D /* RTCIceServerFetcherTest.swift */; };
+		F703876DC3999B852B24802F /* TalerUriDetectorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 960CC5121074D0AB6FB5D127 /* TalerUriDetectorTest.swift */; };
 		F900F2DD27F25AB400431E09 /* DonationReceiptViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F900F2DC27F25AB300431E09 /* DonationReceiptViewController.swift */; };
 		F903C29B28EC7AE60035B42B /* RegistrationIdGeneratorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F903C29A28EC7AE60035B42B /* RegistrationIdGeneratorTest.swift */; };
 		F905DFEB29A534F200BAD034 /* RegistrationPhoneNumberDiscoverabilityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F905DFEA29A534F200BAD034 /* RegistrationPhoneNumberDiscoverabilityViewController.swift */; };
@@ -4234,7 +4313,11 @@
 		F9F797E1296CCC630025C103 /* DonationViewsUtil+Gifting.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9F797E0296CCC630025C103 /* DonationViewsUtil+Gifting.swift */; };
 		F9FA363629F335E500C13830 /* ProvisioningCipherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9FA363529F335E500C13830 /* ProvisioningCipherTests.swift */; };
 		F9FAABD829DB55940004B383 /* Progress+Signal.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9FAABD729DB55940004B383 /* Progress+Signal.swift */; };
+		FA6644128FBB3BB82E1D6CD5 /* TalerThreadSummaryTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86BA5E065A54E5E4ACB16811 /* TalerThreadSummaryTest.swift */; };
 		FCB11D8C1A129A76002F93FB /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCB11D8B1A129A76002F93FB /* CoreMedia.framework */; };
+		FCC704359F7948209113CF40 /* TalerCorrelation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F79D7709C4996439CC6F3807 /* TalerCorrelation.swift */; };
+		FD2BE95DC24491AC2B571728 /* TalerConfirmationTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2A2243A353DD870A119A3F /* TalerConfirmationTest.swift */; };
+		FE1A5033EE02BD4392BCEFFD /* Curve25519Field.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86BB198491924A6F780EB088 /* Curve25519Field.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -4548,8 +4631,10 @@
 		05EA61442CC943DD00B16D4E /* Project.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Project.xcconfig; sourceTree = "<group>"; };
 		05FDBC282CD91B31000C87BC /* ChatListContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListContainerView.swift; sourceTree = "<group>"; };
 		09AF6C1F75C04D3196CCFD38 /* NotificationSettingsWhileMutedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettingsWhileMutedViewController.swift; sourceTree = "<group>"; };
+		07D8E0717CE3A4E236FFD97B /* TalerInstallation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TalerInstallation.swift; sourceTree = "<group>"; };
 		0BADD293DAFC82BF3274F0F6 /* Pods_SignalTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SignalTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0CAE5380475512D4C3083EDC /* ContactSharingPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactSharingPickerViewController.swift; sourceTree = "<group>"; };
+		12E606587F6F22F986750BFF /* TalerMenuStateTest.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TalerMenuStateTest.swift; sourceTree = "<group>"; };
 		1404D8B2276A353A0068E2F6 /* ChatListViewController+Multiselect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ChatListViewController+Multiselect.swift"; sourceTree = "<group>"; };
 		1466AB272817F7E7003B3D9F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = en; path = translations/en.lproj/PluralAware.stringsdict; sourceTree = "<group>"; };
 		1466AB292817F7F2003B3D9F /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = de; path = translations/de.lproj/PluralAware.stringsdict; sourceTree = "<group>"; };
@@ -4569,6 +4654,7 @@
 		1466AB392817F88A003B3D9F /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = zh_TW; path = translations/zh_TW.lproj/PluralAware.stringsdict; sourceTree = "<group>"; };
 		1466AB3B2817F89D003B3D9F /* zh_HK */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = zh_HK; path = translations/zh_HK.lproj/PluralAware.stringsdict; sourceTree = "<group>"; };
 		1477630A275E20D700D1067E /* ThreadContextualActionProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadContextualActionProvider.swift; sourceTree = "<group>"; };
+		147C5D0D1C609EAD83F1A8AB /* TalerReturn.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TalerReturn.swift; sourceTree = "<group>"; };
 		1489ED0127A3D70200C7043A /* ArchivedConversationsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchivedConversationsCell.swift; sourceTree = "<group>"; };
 		14E4A33F278EE999008408FD /* BlurredToolbarContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurredToolbarContainer.swift; sourceTree = "<group>"; };
 		1700E33828B568200073D949 /* MediaGallerySections.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaGallerySections.swift; sourceTree = "<group>"; };
@@ -4583,7 +4669,15 @@
 		2B0685730953D09782B1F911 /* Pods-SignalShareExtension.profiling.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SignalShareExtension.profiling.xcconfig"; path = "Target Support Files/Pods-SignalShareExtension/Pods-SignalShareExtension.profiling.xcconfig"; sourceTree = "<group>"; };
 		2C1CB05FE7FDA3C1F0138D7F /* Pods-SignalServiceKitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SignalServiceKitTests.debug.xcconfig"; path = "Target Support Files/Pods-SignalServiceKitTests/Pods-SignalServiceKitTests.debug.xcconfig"; sourceTree = "<group>"; };
 		2D205E8F7C927C969E2B7D84 /* AciContactShareNameStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AciContactShareNameStore.swift; sourceTree = "<group>"; };
+		1B183AC94A2947D3192D9106 /* TalerLinks.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TalerLinks.swift; sourceTree = "<group>"; };
+		1DA85A9D110A9980E054091F /* CVComponentTalerPayment.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CVComponentTalerPayment.swift; sourceTree = "<group>"; };
+		24D7418E7A659D2885340FC8 /* TalerStrings+ThreadSummary.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "TalerStrings+ThreadSummary.swift"; sourceTree = "<group>"; };
+		263A6FF687E083EA1F4CEA5F /* TalerLocalDeleteTest.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TalerLocalDeleteTest.swift; sourceTree = "<group>"; };
+		2C7690260B58B8D9610067B2 /* TalerStrings.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TalerStrings.swift; sourceTree = "<group>"; };
 		2E997798B7AF35DBBC0905DF /* Pods-SignalUI.testable release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SignalUI.testable release.xcconfig"; path = "Target Support Files/Pods-SignalUI/Pods-SignalUI.testable release.xcconfig"; sourceTree = "<group>"; };
+		2E9D7573EE11B900C78E9FB2 /* TalerRefundPayloadTest.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TalerRefundPayloadTest.swift; sourceTree = "<group>"; };
+		30C616EC79BF79384124079A /* TalerConfirmationSender.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TalerConfirmationSender.swift; sourceTree = "<group>"; };
+		316EE8AEBCFDC099C927DD21 /* TalerConfirmation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TalerConfirmation.swift; sourceTree = "<group>"; };
 		3236FCC32592B67B006D33B9 /* NameCollisionReviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameCollisionReviewCell.swift; sourceTree = "<group>"; };
 		32525F9427C74B1A0099E801 /* GroupCallManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupCallManager.swift; sourceTree = "<group>"; };
 		326DF2602739F4D90017B789 /* FeaturedBadgeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturedBadgeViewController.swift; sourceTree = "<group>"; };
@@ -4964,9 +5058,19 @@
 		34FB6A5425D2E17200E599B1 /* PaymentModelCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentModelCell.swift; sourceTree = "<group>"; };
 		34FC7EEB265834F30046707A /* AvatarBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarBuilder.swift; sourceTree = "<group>"; };
 		34FCCA03264AEDFE00A63EDE /* CustomColorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomColorViewController.swift; sourceTree = "<group>"; };
+		3844874FEC23C8A39600DC54 /* TalerDeliveryStatus.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TalerDeliveryStatus.swift; sourceTree = "<group>"; };
+		399EDE78A2C191625DDB23F3 /* TalerPaymentDataTest.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TalerPaymentDataTest.swift; sourceTree = "<group>"; };
 		39B85AE8CD37B05A1B144605 /* Pods_SignalShareExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SignalShareExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3CE4F92E120FC707A4CBFF39 /* RegistrationSignalLoginDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationSignalLoginDetailsViewController.swift; sourceTree = "<group>"; };
+		3BE9A67294FEA1B3E9713C07 /* TalerCardSnapshot.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TalerCardSnapshot.swift; sourceTree = "<group>"; };
+		3D406EE36B2879031DDE38A2 /* TalerUriParserTest.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TalerUriParserTest.swift; sourceTree = "<group>"; };
+		3D92C2CB9A5BDCE04940ECDC /* TalerCrypto.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TalerCrypto.swift; sourceTree = "<group>"; };
+		3F4CBF7C2C0651F0AC49F373 /* TalerPaymentManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TalerPaymentManager.swift; sourceTree = "<group>"; };
+		3F54A0267F243A73B2A5612F /* TalerMediaTabCoordinator.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TalerMediaTabCoordinator.swift; sourceTree = "<group>"; };
+		3F7CFC005A8479CE3991BC5C /* TalerContractCrypto.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TalerContractCrypto.swift; sourceTree = "<group>"; };
+		40B627C7D78E5BF2128FF9E2 /* TalerCardActions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TalerCardActions.swift; sourceTree = "<group>"; };
 		44B6CDDFDDD0811DBBC57CD1 /* Pods-SignalTests.profiling.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SignalTests.profiling.xcconfig"; path = "Target Support Files/Pods-SignalTests/Pods-SignalTests.profiling.xcconfig"; sourceTree = "<group>"; };
+		44C6AAA775BB1A889FDB9943 /* TalerCorrelationStore.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TalerCorrelationStore.swift; sourceTree = "<group>"; };
 		4503F1BB20470A5B00CEE724 /* classic-quiet.aifc */ = {isa = PBXFileReference; lastKnownFileType = file; path = "classic-quiet.aifc"; sourceTree = "<group>"; };
 		4503F1BC20470A5B00CEE724 /* classic.aifc */ = {isa = PBXFileReference; lastKnownFileType = file; path = classic.aifc; sourceTree = "<group>"; };
 		45069FC529D3A7C800D0DD14 /* WideMediaTileViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WideMediaTileViewLayout.swift; sourceTree = "<group>"; };
@@ -5039,8 +5143,10 @@
 		45E5A6981F61E6DD001E4A8A /* MarqueeLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarqueeLabel.swift; sourceTree = "<group>"; };
 		45E7A6A61E71CA7E00D44FB5 /* DisplayableTextFilterTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DisplayableTextFilterTest.swift; sourceTree = "<group>"; };
 		45F32C1D205718B000A300D5 /* MediaPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MediaPageViewController.swift; path = Signal/src/ViewControllers/MediaGallery/MediaPageViewController.swift; sourceTree = SOURCE_ROOT; };
+		46A264714061EF055DE53BDA /* TalerLocalDelete.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TalerLocalDelete.swift; sourceTree = "<group>"; };
 		46A35218397D9FD1709A675C /* Pods-SignalUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SignalUITests.debug.xcconfig"; path = "Target Support Files/Pods-SignalUITests/Pods-SignalUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		4B7D2A1F9C3E5B8DAF6C2E51 /* OWSContactTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OWSContactTests.swift; sourceTree = "<group>"; };
+		4AFFBBB61F0ED153544C1053 /* TalerStrings+S8.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "TalerStrings+S8.swift"; sourceTree = "<group>"; };
 		4C090A1A210FD9C7001FD7F9 /* HapticFeedback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticFeedback.swift; sourceTree = "<group>"; };
 		4C0CF6F92386295400C9F818 /* tap_to_focus.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = tap_to_focus.json; sourceTree = "<group>"; };
 		4C1885D1218F8E1C00B67051 /* PhotoGridViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoGridViewCell.swift; sourceTree = "<group>"; };
@@ -5073,6 +5179,7 @@
 		4C83AC4123C55D9C00D4F2E6 /* SignalBaseTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignalBaseTest.swift; sourceTree = "<group>"; };
 		4C8A6DFB22E5499300469AE7 /* MediaZoomAnimationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaZoomAnimationController.swift; sourceTree = "<group>"; };
 		4C8A6DFD22E54AFA00469AE7 /* MediaInteractiveDismiss.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaInteractiveDismiss.swift; sourceTree = "<group>"; };
+		4C8BA8AC6F0AD3C2A5184F5E /* TalerGroupSplit.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TalerGroupSplit.swift; sourceTree = "<group>"; };
 		4C9D347923679C13006A4307 /* ContactStreamTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactStreamTest.swift; sourceTree = "<group>"; };
 		4C9D347E23689E06006A4307 /* IncomingContactSyncJobQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncomingContactSyncJobQueue.swift; sourceTree = "<group>"; };
 		4CA46F4B219CCC630038ABDE /* MediaCaptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaCaptionView.swift; sourceTree = "<group>"; };
@@ -5329,6 +5436,7 @@
 		50925DE92DA86E3A00DAB484 /* GroupMessageProcessorJob.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupMessageProcessorJob.swift; sourceTree = "<group>"; };
 		50925DEB2DA87AEF00DAB484 /* GroupMessageProcessorJobTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupMessageProcessorJobTest.swift; sourceTree = "<group>"; };
 		5093A1B02F0B1C0100A03829 /* TSRequestTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TSRequestTest.swift; sourceTree = "<group>"; };
+		50940BE5D22B98CF1EC77011 /* TalerDeliveryStatusUI.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TalerDeliveryStatusUI.swift; sourceTree = "<group>"; };
 		5094D5042EE3A6780041F402 /* AttachmentLimits.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttachmentLimits.swift; sourceTree = "<group>"; };
 		509527F92E26F02B00A03829 /* ConnectionLockTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionLockTest.swift; sourceTree = "<group>"; };
 		5096BE642AF3514800668F9F /* ContactSyncAttachmentBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactSyncAttachmentBuilder.swift; sourceTree = "<group>"; };
@@ -5439,18 +5547,25 @@
 		50FA17113006F244007529C6 /* GroupInviteLinkTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupInviteLinkTest.swift; sourceTree = "<group>"; };
 		50FA17133006F635007529C6 /* GroupInviteLinkConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupInviteLinkConfiguration.swift; sourceTree = "<group>"; };
 		50FA1B812F2D2935000DDCF9 /* InstalledStickerRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstalledStickerRecord.swift; sourceTree = "<group>"; };
+		524C3545B0EC526E5FFC7C6F /* TalerPaymentStore.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TalerPaymentStore.swift; sourceTree = "<group>"; };
 		538291A33C75754BC577D8C3 /* Pods-SignalShareExtension.testable release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SignalShareExtension.testable release.xcconfig"; path = "Target Support Files/Pods-SignalShareExtension/Pods-SignalShareExtension.testable release.xcconfig"; sourceTree = "<group>"; };
 		5531BE0E2F15B97F002AF66F /* input_video.mp4 */ = {isa = PBXFileReference; lastKnownFileType = text; path = input_video.mp4; sourceTree = "<group>"; };
 		557238D22F2D53EF0033BC9A /* RingrtcVp9Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RingrtcVp9Config.swift; sourceTree = "<group>"; };
+		5594361198DECC6F8F0C69C1 /* Crockford.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Crockford.swift; sourceTree = "<group>"; };
 		55B305CB99EC1478F69D91CF /* Pods-SignalUITests.profiling.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SignalUITests.profiling.xcconfig"; path = "Target Support Files/Pods-SignalUITests/Pods-SignalUITests.profiling.xcconfig"; sourceTree = "<group>"; };
 		55B7535F2D97303A00CCC91C /* RemoteMuteToast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteMuteToast.swift; sourceTree = "<group>"; };
+		55C5606B10744CCF00E8744A /* TalerForwardGateTest.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TalerForwardGateTest.swift; sourceTree = "<group>"; };
+		59608C8FF10D465F51EEC586 /* TalerReturnHandler.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TalerReturnHandler.swift; sourceTree = "<group>"; };
+		5A9B9E47AA8E46C2B61B4472 /* TalerQuoteSummaryTest.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TalerQuoteSummaryTest.swift; sourceTree = "<group>"; };
 		5AA002E52CA2455F002D1CC2 /* SessionStoreTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStoreTest.swift; sourceTree = "<group>"; };
+		5C3CE6352419F818BE0ED295 /* TalerQuoteSummary.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TalerQuoteSummary.swift; sourceTree = "<group>"; };
 		5D6C4583F668E9D733E59B9B /* Pods-SignalServiceKitTests.testable release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SignalServiceKitTests.testable release.xcconfig"; path = "Target Support Files/Pods-SignalServiceKitTests/Pods-SignalServiceKitTests.testable release.xcconfig"; sourceTree = "<group>"; };
 		5F85041386A219C9710EAB41 /* Pods-Signal.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Signal.debug.xcconfig"; path = "Target Support Files/Pods-Signal/Pods-Signal.debug.xcconfig"; sourceTree = "<group>"; };
 		632BFEBF30752A2E005399C0 /* GroupViewHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupViewHelperTests.swift; sourceTree = "<group>"; };
 		63C24D4C306AF7A100D4C167 /* ContactSharingPermissionPromptView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactSharingPermissionPromptView.swift; sourceTree = "<group>"; };
 		63C24D52306C50FD00D4C167 /* ContactShareAvatarFieldTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactShareAvatarFieldTests.swift; sourceTree = "<group>"; };
 		63C24D54306C510200D4C167 /* ContactShareAvatarPickerSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactShareAvatarPickerSheet.swift; sourceTree = "<group>"; };
+		5FFC5289323D24855AB27B2F /* TalerComposeLauncher.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TalerComposeLauncher.swift; sourceTree = "<group>"; };
 		65703441A3D2C7FE670E65ED /* Pods-SignalServiceKit.profiling.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SignalServiceKit.profiling.xcconfig"; path = "Target Support Files/Pods-SignalServiceKit/Pods-SignalServiceKit.profiling.xcconfig"; sourceTree = "<group>"; };
 		6600BB192BA3A0930005A035 /* LinkPreviewManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkPreviewManager.swift; sourceTree = "<group>"; };
 		6600BB202BA3BC540005A035 /* LinkPreviewHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkPreviewHelper.swift; sourceTree = "<group>"; };
@@ -5903,8 +6018,10 @@
 		675486AB8F0612FF2C717BAE /* Pods_SignalUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SignalUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		691923222A44D263F4F0084D /* ContactSharingSystemContactWrapperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactSharingSystemContactWrapperTests.swift; sourceTree = "<group>"; };
 		6AA5EACC302E7D5800E5954E /* RingrtcSvcConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RingrtcSvcConfig.swift; sourceTree = "<group>"; };
+		6A52931072511894AF8E3D0E /* TalerPaymentData.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TalerPaymentData.swift; sourceTree = "<group>"; };
 		6BB92957776B3173894CD3E9 /* Pods-SignalServiceKit.app store release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SignalServiceKit.app store release.xcconfig"; path = "Target Support Files/Pods-SignalServiceKit/Pods-SignalServiceKit.app store release.xcconfig"; sourceTree = "<group>"; };
 		70377AAA1918450100CAF501 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		71C41EF75CA48519E2EC3D6E /* TalerSettingsRow.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TalerSettingsRow.swift; sourceTree = "<group>"; };
 		7203F5322D53B52900639949 /* UInt64+SSK.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UInt64+SSK.swift"; sourceTree = "<group>"; };
 		7203F5342D53B83000639949 /* TimeInterval+SSK.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TimeInterval+SSK.swift"; sourceTree = "<group>"; };
 		7205701F2C8E860300826421 /* StringExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensionTests.swift; sourceTree = "<group>"; };
@@ -6027,9 +6144,14 @@
 		76F4B580293ACCD200A7CF2F /* UIKit+Animations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIKit+Animations.swift"; sourceTree = "<group>"; };
 		76F958622A09A5AE00B43E63 /* DebugUIDiskUsage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DebugUIDiskUsage.swift; sourceTree = "<group>"; };
 		76FCCDBB27AB8FBE00BAA7F0 /* MediaControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaControls.swift; sourceTree = "<group>"; };
+		7BB2250BE1C203AA94B0BAB1 /* CVComponentTalerConfirmation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CVComponentTalerConfirmation.swift; sourceTree = "<group>"; };
+		7F443A891962324915A0016B /* TalerStrings+S7b.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "TalerStrings+S7b.swift"; sourceTree = "<group>"; };
 		7F965533D71CA51BE6704CC4 /* Pods_SignalNSE.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SignalNSE.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7FF88FB580BC19B240EEB86A /* Pods_Signal.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Signal.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		81999DE164D5F4856C204641 /* TalerThreadPaymentsViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TalerThreadPaymentsViewController.swift; sourceTree = "<group>"; };
 		83B9573827C9A1FA00A678FD /* CaptchaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptchaView.swift; sourceTree = "<group>"; };
+		86BA5E065A54E5E4ACB16811 /* TalerThreadSummaryTest.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TalerThreadSummaryTest.swift; sourceTree = "<group>"; };
+		86BB198491924A6F780EB088 /* Curve25519Field.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Curve25519Field.swift; sourceTree = "<group>"; };
 		8806EF18248DBD7200E764C7 /* NotificationPermissionReminderMegaphone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationPermissionReminderMegaphone.swift; sourceTree = "<group>"; };
 		8806EF1A248DBFC100E764C7 /* ContactPermissionReminderMegaphone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactPermissionReminderMegaphone.swift; sourceTree = "<group>"; };
 		8809CE8622F8FE6D00D38867 /* AttachmentKeyboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttachmentKeyboard.swift; sourceTree = "<group>"; };
@@ -6069,6 +6191,7 @@
 		8829883A25B9FD6700DEE1E3 /* MockConversationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockConversationView.swift; sourceTree = "<group>"; };
 		882BDAAD249050F000C14587 /* AddToGroupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddToGroupViewController.swift; sourceTree = "<group>"; };
 		882F8DE5251AB23600AA4359 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		8830F52A97C8BC8C65F27A1E /* TalerUriParser.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TalerUriParser.swift; sourceTree = "<group>"; };
 		8835DDFC230CEE8900DC6B66 /* RecipientPickerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipientPickerDelegate.swift; sourceTree = "<group>"; };
 		8835DE00230DBF7E00DC6B66 /* ComposeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeViewController.swift; sourceTree = "<group>"; };
 		8835DE02230DEC6A00DC6B66 /* AddToBlockListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddToBlockListViewController.swift; sourceTree = "<group>"; };
@@ -6262,21 +6385,44 @@
 		8F23C21CD526C1F69ED4D55F /* ContactSharingPickerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactSharingPickerViewModel.swift; sourceTree = "<group>"; };
 		91DA2BE463493965F5BC71C0 /* Pods_SignalServiceKitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SignalServiceKitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9354BFE890B6D894C3B321E1 /* AciContactShareNameManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AciContactShareNameManager.swift; sourceTree = "<group>"; };
+		8AE8E4ADE88B3767EFFC9B09 /* TalerThreadHeadlineFormatTest.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TalerThreadHeadlineFormatTest.swift; sourceTree = "<group>"; };
+		8B5BABD3BE425823F17EFA8E /* TalerPaymentStoreTest.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TalerPaymentStoreTest.swift; sourceTree = "<group>"; };
+		8BCB02B623DCB44593A9413D /* TalerContractCryptoTest.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TalerContractCryptoTest.swift; sourceTree = "<group>"; };
+		8D10C568B81F6A7A43496981 /* TalerStrings+S9.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "TalerStrings+S9.swift"; sourceTree = "<group>"; };
+		908EAE87B850C0D103893CB7 /* TalerMenuState.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TalerMenuState.swift; sourceTree = "<group>"; };
+		93A18847A5CFF3B5F87E589E /* TalerStrings+S11.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "TalerStrings+S11.swift"; sourceTree = "<group>"; };
+		943B80CD686D4C3D7C48927C /* TalerStatusLine.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TalerStatusLine.swift; sourceTree = "<group>"; };
+		B2C3D4E5F60718293A4B5C6D /* TalerPreviewText.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TalerPreviewText.swift; sourceTree = "<group>"; };
 		948B2FC201146EF3BA459226 /* Pods_SignalServiceKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SignalServiceKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		94A685625E25E6F3EE3CC812 /* Pods-SignalUITests.testable release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SignalUITests.testable release.xcconfig"; path = "Target Support Files/Pods-SignalUITests/Pods-SignalUITests.testable release.xcconfig"; sourceTree = "<group>"; };
 		954AEE681DF33D32002E5410 /* ContactsPickerTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsPickerTest.swift; sourceTree = "<group>"; };
+		960CC5121074D0AB6FB5D127 /* TalerUriDetectorTest.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TalerUriDetectorTest.swift; sourceTree = "<group>"; };
+		99A167796B108E271AA28244 /* TalerStrings+S7a.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "TalerStrings+S7a.swift"; sourceTree = "<group>"; };
+		9B332B38C3BCB14696AC9D63 /* TalerAbortPlan.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TalerAbortPlan.swift; sourceTree = "<group>"; };
+		9F81C1C03965B23958415B05 /* TalerToneColors.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TalerToneColors.swift; sourceTree = "<group>"; };
 		A11CD70C17FA230600A2D1B1 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		A163E8AA16F3F6A90094D68B /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		A1C32D4D17A0652C000A904E /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		A1C32D4F17A06537000A904E /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
 		A1FDCBEE16DAA6C300868894 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		A2FF2B83CDC10D210A238E82 /* TalerThreadSummary.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TalerThreadSummary.swift; sourceTree = "<group>"; };
 		A33E43CA8A572CA70089C4CC /* Pods-SignalServiceKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SignalServiceKit.debug.xcconfig"; path = "Target Support Files/Pods-SignalServiceKit/Pods-SignalServiceKit.debug.xcconfig"; sourceTree = "<group>"; };
+		A4CEF56832D22E6644AD540C /* TalerForwardGate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TalerForwardGate.swift; sourceTree = "<group>"; };
 		A566C0C0B69138202C0367E6 /* Pods-Signal.app store release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Signal.app store release.xcconfig"; path = "Target Support Files/Pods-Signal/Pods-Signal.app store release.xcconfig"; sourceTree = "<group>"; };
+		A573C875599C902E045FC16F /* TalerUri.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TalerUri.swift; sourceTree = "<group>"; };
 		A5E7C674248C5442007C949A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = translations/en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		A780A90C5DDC028939E97635 /* LowDiskSpaceManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LowDiskSpaceManager.swift; sourceTree = "<group>"; };
 		AA74775FE55A58CC252DB9AA /* MockAciContactShareNameManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAciContactShareNameManager.swift; sourceTree = "<group>"; };
 		AB0C401B2E5BADCE00A1B2C3 /* NotificationSettingsBadgeCountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettingsBadgeCountViewController.swift; sourceTree = "<group>"; };
+		A9D1484A44568D258364B1F2 /* TalerDeleteForEveryone.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TalerDeleteForEveryone.swift; sourceTree = "<group>"; };
+		A9F4A5EDCDC40C9D4CBB7FED /* TalerZlib.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TalerZlib.swift; sourceTree = "<group>"; };
+		AB2A2243A353DD870A119A3F /* TalerConfirmationTest.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TalerConfirmationTest.swift; sourceTree = "<group>"; };
+		AC2BD8740B77BFB4E55271AE /* XSalsa20Poly1305.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = XSalsa20Poly1305.swift; sourceTree = "<group>"; };
+		ACB9B451D96A904109C654EF /* TalerCardModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TalerCardModel.swift; sourceTree = "<group>"; };
+		AFC9DF15B7DE65BFAA00D644 /* TalerSendPayload.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TalerSendPayload.swift; sourceTree = "<group>"; };
+		B03118E392180DE188316789 /* TalerCardModelTest.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TalerCardModelTest.swift; sourceTree = "<group>"; };
 		B3F39202F831935AAE1C5F54 /* Pods_SignalUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SignalUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B5018BC0CE83237F8C2D84C1 /* TalerCryptoVectorTest.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TalerCryptoVectorTest.swift; sourceTree = "<group>"; };
 		B60EDE031A05A01700D73516 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		B634CBB31AB10D2300C49B99 /* hr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hr; path = translations/hr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		B634CBB51AB10D5400C49B99 /* ro */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ro; path = translations/ro.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -6299,6 +6445,7 @@
 		B69CD25019773E79005CE69A /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		B6B226961BE4B7D200860F4D /* ContactsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ContactsUI.framework; path = System/Library/Frameworks/ContactsUI.framework; sourceTree = SDKROOT; };
 		B6BC3D0C1AA544B100C2907F /* da */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = da; path = translations/da.lproj/Localizable.strings; sourceTree = "<group>"; };
+		B6C05C63090EE1D59E6DDD5B /* TalerStrings+S4.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "TalerStrings+S4.swift"; sourceTree = "<group>"; };
 		B6F509961AA53F760068F56A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = translations/en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		B6FE7EB61ADD62FA00A6D22F /* PushKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PushKit.framework; path = System/Library/Frameworks/PushKit.framework; sourceTree = SDKROOT; };
 		B71510D89BF76955AB33D606 /* AciContactShareName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AciContactShareName.swift; sourceTree = "<group>"; };
@@ -6396,6 +6543,7 @@
 		B9FF37352B9286C6005ADDB8 /* UsernameLinkScanQRCodeSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsernameLinkScanQRCodeSheet.swift; sourceTree = "<group>"; };
 		BA04179298647E71115FA4C1 /* Pods-SignalNSE.testable release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SignalNSE.testable release.xcconfig"; path = "Target Support Files/Pods-SignalNSE/Pods-SignalNSE.testable release.xcconfig"; sourceTree = "<group>"; };
 		BAD74FE6EBEB10FF3426D809 /* Pods-SignalTests.testable release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SignalTests.testable release.xcconfig"; path = "Target Support Files/Pods-SignalTests/Pods-SignalTests.testable release.xcconfig"; sourceTree = "<group>"; };
+		BFFCE768E1DFAB81E9975865 /* TalerAbortPlanTest.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TalerAbortPlanTest.swift; sourceTree = "<group>"; };
 		C100E6812C33087C000C83B8 /* PaymentsFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentsFormat.swift; sourceTree = "<group>"; };
 		C109A8432FDB62790065225E /* ThroughputMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThroughputMonitor.swift; sourceTree = "<group>"; };
 		C109A8792FDC90630065225E /* WiFiAware.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WiFiAware.framework; path = System/Library/Frameworks/WiFiAware.framework; sourceTree = SDKROOT; };
@@ -6528,7 +6676,13 @@
 		C1FB9B722B16495D00D51A3B /* DonationSubscriptionLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DonationSubscriptionLevel.swift; sourceTree = "<group>"; };
 		C1FB9B742B16498C00D51A3B /* PendingIDEALDonationStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendingIDEALDonationStore.swift; sourceTree = "<group>"; };
 		C1FE1F602C80CDC30031860B /* AttachmentBackupThumbnail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttachmentBackupThumbnail.swift; sourceTree = "<group>"; };
+		C21CECEA3F407F1B1A044548 /* TalerPeerContractResolver.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TalerPeerContractResolver.swift; sourceTree = "<group>"; };
+		C26787B041D7280A326A91AA /* TalerRefundPayload.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TalerRefundPayload.swift; sourceTree = "<group>"; };
+		C2B8D1C212FC52A53F2A2529 /* TalerKdf.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TalerKdf.swift; sourceTree = "<group>"; };
+		C381530C8CA6BE80E84315A4 /* TalerStrings+S6.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "TalerStrings+S6.swift"; sourceTree = "<group>"; };
 		C597942EF64D456BBE9782A2 /* Pods-SignalTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SignalTests.debug.xcconfig"; path = "Target Support Files/Pods-SignalTests/Pods-SignalTests.debug.xcconfig"; sourceTree = "<group>"; };
+		CAEC662084D3C09F63B3E74A /* TalerStrings+S3CardWiring.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "TalerStrings+S3CardWiring.swift"; sourceTree = "<group>"; };
+		CB834368D65DBB129F5CD9CB /* CVTalerCardView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CVTalerCardView.swift; sourceTree = "<group>"; };
 		D2179CFB16BB0B3A0006F3AB /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		D2179CFD16BB0B480006F3AB /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		D221A089169C9E5E00537ABF /* Signal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Signal.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -6542,6 +6696,9 @@
 		D24B5BD4169F568C00681372 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = ../../../../../../System/Library/Frameworks/AudioToolbox.framework; sourceTree = "<group>"; };
 		D2AEACDB16C426DA00C364C0 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		D88A50F7A21109F53A878CF8 /* AciContactShareNameStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AciContactShareNameStoreTests.swift; sourceTree = "<group>"; };
+		D5A714E5A126AB53D197EB99 /* TalerStatusLineTest.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TalerStatusLineTest.swift; sourceTree = "<group>"; };
+		D4E5F60718293A4B5C6D7E8F /* TalerPreviewTextTest.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TalerPreviewTextTest.swift; sourceTree = "<group>"; };
+		D8E24C7E1B5CCC47E2A68FBD /* TalerUriDetector.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TalerUriDetector.swift; sourceTree = "<group>"; };
 		D900E6F72DE1048A004D01A1 /* DisappearingMessagesTimerSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisappearingMessagesTimerSettingsViewController.swift; sourceTree = "<group>"; };
 		D900E6FE2DE143E9004D01A1 /* DisappearingMessagesCustomTimePickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisappearingMessagesCustomTimePickerViewController.swift; sourceTree = "<group>"; };
 		D90137DF305A68740008826F /* BackupArchiveOutputStream.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackupArchiveOutputStream.swift; sourceTree = "<group>"; };
@@ -8042,6 +8199,7 @@
 		D9FF515B2F03A2A10011982F /* DBUInt64.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBUInt64.swift; sourceTree = "<group>"; };
 		D9FF515D2F03A6CD0011982F /* DBUInt64Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBUInt64Test.swift; sourceTree = "<group>"; };
 		DA1FF7C99B8F2DF3BAF0DC9F /* ContactSharingPickerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactSharingPickerDelegate.swift; sourceTree = "<group>"; };
+		E0164F964D34D028B8C62C57 /* TalerDeliveryStatusTest.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TalerDeliveryStatusTest.swift; sourceTree = "<group>"; };
 		E1447D8E2CCACFFA004D8FA2 /* BackupArchiveCallLinkRecipientArchiver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackupArchiveCallLinkRecipientArchiver.swift; sourceTree = "<group>"; };
 		E14EDF6D2A71AFDF00F0FD7C /* RecipientContextMenuHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipientContextMenuHelper.swift; sourceTree = "<group>"; };
 		E15066C22CED498600F6F9AF /* RegistrationQuickRestoreQRCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationQuickRestoreQRCodeViewController.swift; sourceTree = "<group>"; };
@@ -8189,10 +8347,16 @@
 		E1CFAAA22C9DD2B1003145C3 /* LinkPreviewCallLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkPreviewCallLink.swift; sourceTree = "<group>"; };
 		E1D827D82BDC1F6B0022C1AF /* ReactionBurstManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReactionBurstManagerTests.swift; sourceTree = "<group>"; };
 		E44AD4E524E98F430035D7B8 /* PhotoCaptureDismiss.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCaptureDismiss.swift; sourceTree = "<group>"; };
+		E46A0BD124373A0D3542F5D0 /* TalerCorrelationStoreTest.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TalerCorrelationStoreTest.swift; sourceTree = "<group>"; };
 		E75DD3DF2810CDBD00E32C36 /* SubscriptionModelsTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubscriptionModelsTest.swift; sourceTree = "<group>"; };
 		E7D7C93E28B580AC003F043B /* Bundle+OWS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+OWS.swift"; sourceTree = "<group>"; };
+		E8A1814D6E701441CE204599 /* TalerSendPayloadTest.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TalerSendPayloadTest.swift; sourceTree = "<group>"; };
 		EA03B20E7D8DBBE1B07BA967 /* Pods-SignalNSE.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SignalNSE.debug.xcconfig"; path = "Target Support Files/Pods-SignalNSE/Pods-SignalNSE.debug.xcconfig"; sourceTree = "<group>"; };
 		EC7FF00AFA51D97689DC9C2E /* Pods-SignalUI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SignalUI.debug.xcconfig"; path = "Target Support Files/Pods-SignalUI/Pods-SignalUI.debug.xcconfig"; sourceTree = "<group>"; };
+		ED155977A61C801011927EAE /* TalerMessageDetailSection.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TalerMessageDetailSection.swift; sourceTree = "<group>"; };
+		EE503443EC12E41FFA00C7F8 /* TalerMessageActions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TalerMessageActions.swift; sourceTree = "<group>"; };
+		EEBD0669348D2B16B9C8D8EF /* TalerPaymentTracker.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TalerPaymentTracker.swift; sourceTree = "<group>"; };
+		EF38A6153C5E237A6F6B7C1B /* TalerLinksTest.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TalerLinksTest.swift; sourceTree = "<group>"; };
 		F00385FD273F6388000B5ABD /* DonationUtilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DonationUtilities.swift; sourceTree = "<group>"; };
 		F00385FE273F6388000B5ABD /* Stripe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stripe.swift; sourceTree = "<group>"; };
 		F02564D7274EDF4600D7B48A /* BadgeIssueSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeIssueSheet.swift; sourceTree = "<group>"; };
@@ -8206,6 +8370,7 @@
 		F588CA982FA088B700693838 /* CallingAssetsFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallingAssetsFetcher.swift; sourceTree = "<group>"; };
 		F5C80FA12BE3F29F0028F76D /* RTCIceServerFetcherTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RTCIceServerFetcherTest.swift; sourceTree = "<group>"; };
 		F70CAD4E12CCE311EC60A2C9 /* Pods-SignalServiceKitTests.profiling.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SignalServiceKitTests.profiling.xcconfig"; path = "Target Support Files/Pods-SignalServiceKitTests/Pods-SignalServiceKitTests.profiling.xcconfig"; sourceTree = "<group>"; };
+		F79D7709C4996439CC6F3807 /* TalerCorrelation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TalerCorrelation.swift; sourceTree = "<group>"; };
 		F900F2DC27F25AB300431E09 /* DonationReceiptViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DonationReceiptViewController.swift; sourceTree = "<group>"; };
 		F903C29A28EC7AE60035B42B /* RegistrationIdGeneratorTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationIdGeneratorTest.swift; sourceTree = "<group>"; };
 		F905DFEA29A534F200BAD034 /* RegistrationPhoneNumberDiscoverabilityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationPhoneNumberDiscoverabilityViewController.swift; sourceTree = "<group>"; };
@@ -8735,6 +8900,7 @@
 		F9FA363529F335E500C13830 /* ProvisioningCipherTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProvisioningCipherTests.swift; sourceTree = "<group>"; };
 		F9FAABD729DB55940004B383 /* Progress+Signal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Progress+Signal.swift"; sourceTree = "<group>"; };
 		FA0F334C71C5504ED07AC74C /* Pods-SignalUI.profiling.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SignalUI.profiling.xcconfig"; path = "Target Support Files/Pods-SignalUI/Pods-SignalUI.profiling.xcconfig"; sourceTree = "<group>"; };
+		FA44DA5EDD0D41A177A213E3 /* TalerReturnTest.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TalerReturnTest.swift; sourceTree = "<group>"; };
 		FC3BD9871A30A790005B96BB /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		FCB11D8B1A129A76002F93FB /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		FEFD8A174F57F4C221747D51 /* Pods-SignalServiceKitTests.app store release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SignalServiceKitTests.app store release.xcconfig"; path = "Target Support Files/Pods-SignalServiceKitTests/Pods-SignalServiceKitTests.app store release.xcconfig"; sourceTree = "<group>"; };
@@ -9385,6 +9551,7 @@
 				347C384A252D085900F3D941 /* CVComponentUnreadIndicator.swift */,
 				348815BF2553291200D4F4C4 /* CVComponentViewOnce.swift */,
 				667AF9DD2B4C5824008AEE5D /* PersistableGroupUpdateItem+CVComponentSystemMessageAction.swift */,
+				7609B97AB576738A8D6B96AB /* Taler */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -10527,6 +10694,37 @@
 			path = ContactShare;
 			sourceTree = "<group>";
 		};
+		62C404A8ECA165B2558AEC24 /* Taler */ = {
+			isa = PBXGroup;
+			children = (
+				3D406EE36B2879031DDE38A2 /* TalerUriParserTest.swift */,
+				960CC5121074D0AB6FB5D127 /* TalerUriDetectorTest.swift */,
+				399EDE78A2C191625DDB23F3 /* TalerPaymentDataTest.swift */,
+				B5018BC0CE83237F8C2D84C1 /* TalerCryptoVectorTest.swift */,
+				8BCB02B623DCB44593A9413D /* TalerContractCryptoTest.swift */,
+				8B5BABD3BE425823F17EFA8E /* TalerPaymentStoreTest.swift */,
+				EF38A6153C5E237A6F6B7C1B /* TalerLinksTest.swift */,
+				E46A0BD124373A0D3542F5D0 /* TalerCorrelationStoreTest.swift */,
+				FA44DA5EDD0D41A177A213E3 /* TalerReturnTest.swift */,
+				86BA5E065A54E5E4ACB16811 /* TalerThreadSummaryTest.swift */,
+				E8A1814D6E701441CE204599 /* TalerSendPayloadTest.swift */,
+				B03118E392180DE188316789 /* TalerCardModelTest.swift */,
+				8AE8E4ADE88B3767EFFC9B09 /* TalerThreadHeadlineFormatTest.swift */,
+				263A6FF687E083EA1F4CEA5F /* TalerLocalDeleteTest.swift */,
+				12E606587F6F22F986750BFF /* TalerMenuStateTest.swift */,
+				D5A714E5A126AB53D197EB99 /* TalerStatusLineTest.swift */,
+				D4E5F60718293A4B5C6D7E8F /* TalerPreviewTextTest.swift */,
+				2E9D7573EE11B900C78E9FB2 /* TalerRefundPayloadTest.swift */,
+				BFFCE768E1DFAB81E9975865 /* TalerAbortPlanTest.swift */,
+				AB2A2243A353DD870A119A3F /* TalerConfirmationTest.swift */,
+				55C5606B10744CCF00E8744A /* TalerForwardGateTest.swift */,
+				E0164F964D34D028B8C62C57 /* TalerDeliveryStatusTest.swift */,
+				5A9B9E47AA8E46C2B61B4472 /* TalerQuoteSummaryTest.swift */,
+			);
+			name = Taler;
+			path = Taler;
+			sourceTree = "<group>";
+		};
 		6600BB1B2BA3ABCC0005A035 /* Manager */ = {
 			isa = PBXGroup;
 			children = (
@@ -11592,6 +11790,17 @@
 			path = Environment;
 			sourceTree = "<group>";
 		};
+		7609B97AB576738A8D6B96AB /* Taler */ = {
+			isa = PBXGroup;
+			children = (
+				1DA85A9D110A9980E054091F /* CVComponentTalerPayment.swift */,
+				CB834368D65DBB129F5CD9CB /* CVTalerCardView.swift */,
+				7BB2250BE1C203AA94B0BAB1 /* CVComponentTalerConfirmation.swift */,
+			);
+			name = Taler;
+			path = Taler;
+			sourceTree = "<group>";
+		};
 		765E22D92A44AF33002CCA3B /* Cells */ = {
 			isa = PBXGroup;
 			children = (
@@ -11680,6 +11889,21 @@
 			);
 			name = Views;
 			path = views;
+			sourceTree = "<group>";
+		};
+		80C9F2618204FE1055623B68 /* Crypto */ = {
+			isa = PBXGroup;
+			children = (
+				5594361198DECC6F8F0C69C1 /* Crockford.swift */,
+				C2B8D1C212FC52A53F2A2529 /* TalerKdf.swift */,
+				86BB198491924A6F780EB088 /* Curve25519Field.swift */,
+				AC2BD8740B77BFB4E55271AE /* XSalsa20Poly1305.swift */,
+				3D92C2CB9A5BDCE04940ECDC /* TalerCrypto.swift */,
+				A9F4A5EDCDC40C9D4CBB7FED /* TalerZlib.swift */,
+				3F7CFC005A8479CE3991BC5C /* TalerContractCrypto.swift */,
+			);
+			name = Crypto;
+			path = Crypto;
 			sourceTree = "<group>";
 		};
 		8809CE8822F93C0D00D38867 /* Attachment Keyboard */ = {
@@ -12155,6 +12379,73 @@
 				D927372C2CD2DD0D00E15D95 /* StorageServiceRecordIkmMigrator.swift */,
 			);
 			path = StorageService;
+			sourceTree = "<group>";
+		};
+		8F6D7D312C76712DEB9C209D /* Taler */ = {
+			isa = PBXGroup;
+			children = (
+				A573C875599C902E045FC16F /* TalerUri.swift */,
+				8830F52A97C8BC8C65F27A1E /* TalerUriParser.swift */,
+				D8E24C7E1B5CCC47E2A68FBD /* TalerUriDetector.swift */,
+				6A52931072511894AF8E3D0E /* TalerPaymentData.swift */,
+				F79D7709C4996439CC6F3807 /* TalerCorrelation.swift */,
+				80C9F2618204FE1055623B68 /* Crypto */,
+				C21CECEA3F407F1B1A044548 /* TalerPeerContractResolver.swift */,
+				524C3545B0EC526E5FFC7C6F /* TalerPaymentStore.swift */,
+				EEBD0669348D2B16B9C8D8EF /* TalerPaymentTracker.swift */,
+				3F4CBF7C2C0651F0AC49F373 /* TalerPaymentManager.swift */,
+				1B183AC94A2947D3192D9106 /* TalerLinks.swift */,
+				44C6AAA775BB1A889FDB9943 /* TalerCorrelationStore.swift */,
+				147C5D0D1C609EAD83F1A8AB /* TalerReturn.swift */,
+				A2FF2B83CDC10D210A238E82 /* TalerThreadSummary.swift */,
+				24D7418E7A659D2885340FC8 /* TalerStrings+ThreadSummary.swift */,
+				AFC9DF15B7DE65BFAA00D644 /* TalerSendPayload.swift */,
+				B6C05C63090EE1D59E6DDD5B /* TalerStrings+S4.swift */,
+				2C7690260B58B8D9610067B2 /* TalerStrings.swift */,
+				ACB9B451D96A904109C654EF /* TalerCardModel.swift */,
+				4C8BA8AC6F0AD3C2A5184F5E /* TalerGroupSplit.swift */,
+				CAEC662084D3C09F63B3E74A /* TalerStrings+S3CardWiring.swift */,
+				4AFFBBB61F0ED153544C1053 /* TalerStrings+S8.swift */,
+				46A264714061EF055DE53BDA /* TalerLocalDelete.swift */,
+				908EAE87B850C0D103893CB7 /* TalerMenuState.swift */,
+				943B80CD686D4C3D7C48927C /* TalerStatusLine.swift */,
+				B2C3D4E5F60718293A4B5C6D /* TalerPreviewText.swift */,
+				C381530C8CA6BE80E84315A4 /* TalerStrings+S6.swift */,
+				C26787B041D7280A326A91AA /* TalerRefundPayload.swift */,
+				8D10C568B81F6A7A43496981 /* TalerStrings+S9.swift */,
+				9B332B38C3BCB14696AC9D63 /* TalerAbortPlan.swift */,
+				316EE8AEBCFDC099C927DD21 /* TalerConfirmation.swift */,
+				99A167796B108E271AA28244 /* TalerStrings+S7a.swift */,
+				A4CEF56832D22E6644AD540C /* TalerForwardGate.swift */,
+				93A18847A5CFF3B5F87E589E /* TalerStrings+S11.swift */,
+				3844874FEC23C8A39600DC54 /* TalerDeliveryStatus.swift */,
+				5C3CE6352419F818BE0ED295 /* TalerQuoteSummary.swift */,
+				7F443A891962324915A0016B /* TalerStrings+S7b.swift */,
+			);
+			name = Taler;
+			path = Taler;
+			sourceTree = "<group>";
+		};
+		93BE52F2C427E534B5A59786 /* Taler */ = {
+			isa = PBXGroup;
+			children = (
+				5FFC5289323D24855AB27B2F /* TalerComposeLauncher.swift */,
+				59608C8FF10D465F51EEC586 /* TalerReturnHandler.swift */,
+				40B627C7D78E5BF2128FF9E2 /* TalerCardActions.swift */,
+				3F54A0267F243A73B2A5612F /* TalerMediaTabCoordinator.swift */,
+				81999DE164D5F4856C204641 /* TalerThreadPaymentsViewController.swift */,
+				9F81C1C03965B23958415B05 /* TalerToneColors.swift */,
+				EE503443EC12E41FFA00C7F8 /* TalerMessageActions.swift */,
+				A9D1484A44568D258364B1F2 /* TalerDeleteForEveryone.swift */,
+				30C616EC79BF79384124079A /* TalerConfirmationSender.swift */,
+				3BE9A67294FEA1B3E9713C07 /* TalerCardSnapshot.swift */,
+				07D8E0717CE3A4E236FFD97B /* TalerInstallation.swift */,
+				71C41EF75CA48519E2EC3D6E /* TalerSettingsRow.swift */,
+				50940BE5D22B98CF1EC77011 /* TalerDeliveryStatusUI.swift */,
+				ED155977A61C801011927EAE /* TalerMessageDetailSection.swift */,
+			);
+			name = Taler;
+			path = Taler;
 			sourceTree = "<group>";
 		};
 		B660F66C1C29867F00687D6E /* test */ = {
@@ -12655,6 +12946,7 @@
 				881FF30623B5B1520023B620 /* Signal-AppStore.entitlements */,
 				B657DDC91911A40500F45B0C /* Signal.entitlements */,
 				7665BC9C2A3A72910060279B /* Symbols.xcassets */,
+				93BE52F2C427E534B5A59786 /* Taler */,
 			);
 			path = Signal;
 			sourceTree = "<group>";
@@ -15389,6 +15681,7 @@
 				5013365D2B2BC2CD004119F1 /* ZeroKnowledge */,
 				F9C985D2289459860029F9AD /* SignalServiceKit-Prefix.pch */,
 				F9C5C899289451B900548EEE /* SignalServiceKit.h */,
+				8F6D7D312C76712DEB9C209D /* Taler */,
 			);
 			path = SignalServiceKit;
 			sourceTree = "<group>";
@@ -15437,6 +15730,7 @@
 				724D47B12B97BE73001BE973 /* ZkParams */,
 				F942623A289B1B5500460798 /* SSKBaseTest.swift */,
 				D9C964072BE44D510058F143 /* XCTest+Thenable.swift */,
+				62C404A8ECA165B2558AEC24 /* Taler */,
 			);
 			path = tests;
 			sourceTree = "<group>";
@@ -19638,6 +19932,23 @@
 				45906C6B29D238560025906D /* WidePhotoCell.swift in Sources */,
 				C1CDD49E2F604F4200F5C3D5 /* WiFiAware+Extensions.swift in Sources */,
 				76616C9D2A266A05005F7001 /* WindowManager.swift in Sources */,
+				6281DB205F3928766E832FF4 /* TalerComposeLauncher.swift in Sources */,
+				826B0BBB209B4622C05D327A /* TalerReturnHandler.swift in Sources */,
+				D86893B3B22DE2B79B02B033 /* CVComponentTalerPayment.swift in Sources */,
+				C81D6F040373D68EDDE02532 /* CVTalerCardView.swift in Sources */,
+				3C65CF9F619175D140B1FCEC /* TalerCardActions.swift in Sources */,
+				8CA2C9082A35F776C62252A7 /* TalerMediaTabCoordinator.swift in Sources */,
+				EDE52CAE2C078F8DC5CC7913 /* TalerThreadPaymentsViewController.swift in Sources */,
+				25E2B046960899885378DC81 /* TalerToneColors.swift in Sources */,
+				07946E2D76C8B42FC956FAB0 /* TalerMessageActions.swift in Sources */,
+				C6178119E745DD1F71683830 /* TalerDeleteForEveryone.swift in Sources */,
+				CF627CE98480C84235999109 /* CVComponentTalerConfirmation.swift in Sources */,
+				444EBDA952C52A2558DAAB08 /* TalerConfirmationSender.swift in Sources */,
+				DD056B8CCD63FBD5D4F0120D /* TalerCardSnapshot.swift in Sources */,
+				EB58AB90460875D1DC9410B9 /* TalerInstallation.swift in Sources */,
+				69727C76D30FD2487714AF89 /* TalerSettingsRow.swift in Sources */,
+				8296978219C9134DA54EECE8 /* TalerDeliveryStatusUI.swift in Sources */,
+				0C4E8699CFC0B0DE00FF15DF /* TalerMessageDetailSection.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -20971,6 +21282,49 @@
 				66533E3729B7B56000E8D928 /* WhoAmIManager.swift in Sources */,
 				72454E802C9BCEA80084B483 /* YDBStorage.swift in Sources */,
 				724D47B02B97BE13001BE973 /* ZkParamsMigrator.swift in Sources */,
+				71B875ADDFA13D86ED352B44 /* TalerUri.swift in Sources */,
+				DC9A3424D1CD9ED23CADBED7 /* TalerUriParser.swift in Sources */,
+				E845E8B2892F84AE49011716 /* TalerUriDetector.swift in Sources */,
+				8251AA9A57A79421CB418B70 /* TalerPaymentData.swift in Sources */,
+				FCC704359F7948209113CF40 /* TalerCorrelation.swift in Sources */,
+				6492A12C55CF8710A623BAB3 /* Crockford.swift in Sources */,
+				AA902C0E0A7AA1B67F980DA9 /* TalerKdf.swift in Sources */,
+				FE1A5033EE02BD4392BCEFFD /* Curve25519Field.swift in Sources */,
+				99263F7CBFFA67087135A0DB /* XSalsa20Poly1305.swift in Sources */,
+				56B48688D210B63AB451E1CA /* TalerCrypto.swift in Sources */,
+				A2D862E56161198A86FDEE38 /* TalerZlib.swift in Sources */,
+				6F797919B1B1EB8CDEEDB019 /* TalerContractCrypto.swift in Sources */,
+				8D54FEC0A46DD22389033AC0 /* TalerPeerContractResolver.swift in Sources */,
+				87B16E99CA6EAF1FBE81F06F /* TalerPaymentStore.swift in Sources */,
+				E59AAF8368E37006170CBC82 /* TalerPaymentTracker.swift in Sources */,
+				4C73F26CCD14C780518A756B /* TalerPaymentManager.swift in Sources */,
+				066860AB0638DE045D65D618 /* TalerLinks.swift in Sources */,
+				C52CF181470D7E0B793F855B /* TalerCorrelationStore.swift in Sources */,
+				1CF09D2D4DFFF2303433CCC2 /* TalerReturn.swift in Sources */,
+				9518782EA5CBEB7A873A2B61 /* TalerThreadSummary.swift in Sources */,
+				0DFBB772DA1DCEDC8E311508 /* TalerStrings+ThreadSummary.swift in Sources */,
+				ADF4B4CF7E36B2D3F3593B60 /* TalerSendPayload.swift in Sources */,
+				B49CD116CB296C1AF499D063 /* TalerStrings+S4.swift in Sources */,
+				B14A6AD75500794ED47B382A /* TalerStrings.swift in Sources */,
+				03DDDB1ED4DD535AE256052B /* TalerCardModel.swift in Sources */,
+				2794648CFD6CC4E9564DF5CA /* TalerGroupSplit.swift in Sources */,
+				A0D6A61BB0B63709D7D6B8C0 /* TalerStrings+S3CardWiring.swift in Sources */,
+				66018EFCA198D9B3385C487C /* TalerStrings+S8.swift in Sources */,
+				F5184E3526A66CED1D1E2E61 /* TalerLocalDelete.swift in Sources */,
+				C41CE9AFFDD49DDAAEAFC44F /* TalerMenuState.swift in Sources */,
+				1E81D15EBEBB120DC5E528EA /* TalerStatusLine.swift in Sources */,
+				A1B2C3D4E5F60718293A4B5C /* TalerPreviewText.swift in Sources */,
+				1819B42BE6CAE426813C20CB /* TalerStrings+S6.swift in Sources */,
+				1D961FC0C84FCE90501D8EAE /* TalerRefundPayload.swift in Sources */,
+				A98C3B5A440B72400A6363DB /* TalerStrings+S9.swift in Sources */,
+				A6FB70EBAD23590FCC548336 /* TalerAbortPlan.swift in Sources */,
+				D498620F6694101C162B3CAF /* TalerConfirmation.swift in Sources */,
+				6F709447D4D1F40210A15EFF /* TalerStrings+S7a.swift in Sources */,
+				8C89D433729AA3F2F8BD42AE /* TalerForwardGate.swift in Sources */,
+				531E42D897EA61FFDAB39566 /* TalerStrings+S11.swift in Sources */,
+				A4747689AB68EAE72D7D54E5 /* TalerDeliveryStatus.swift in Sources */,
+				80615C584AB99C0287AFF1D9 /* TalerQuoteSummary.swift in Sources */,
+				C7DB03DFAA18393AA6B04ADE /* TalerStrings+S7b.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -21245,6 +21599,29 @@
 				F942626A289B1B5500460798 /* ViewOnceMessagesTest.swift in Sources */,
 				D9C964092BE44D700058F143 /* XCTest+Thenable.swift in Sources */,
 				724D47B22B97BE96001BE973 /* ZkParamsMigratorTest.swift in Sources */,
+				797D44AB73C2E4DCCBDF4094 /* TalerUriParserTest.swift in Sources */,
+				F703876DC3999B852B24802F /* TalerUriDetectorTest.swift in Sources */,
+				7DF86534462270FF80468F50 /* TalerPaymentDataTest.swift in Sources */,
+				A9E29A05355A87613C296CA2 /* TalerCryptoVectorTest.swift in Sources */,
+				2EFD3B6DA8384BD4F05DAA4F /* TalerContractCryptoTest.swift in Sources */,
+				8CD240E573C9E2DE9DC35BB0 /* TalerPaymentStoreTest.swift in Sources */,
+				7BFA61B16FFEE105DDBFD9ED /* TalerLinksTest.swift in Sources */,
+				4703F0F5EAEC6C9768EF2420 /* TalerCorrelationStoreTest.swift in Sources */,
+				C7D5D271606207F74D612CF0 /* TalerReturnTest.swift in Sources */,
+				FA6644128FBB3BB82E1D6CD5 /* TalerThreadSummaryTest.swift in Sources */,
+				9D63E93FC1FCFB87BF958B3C /* TalerSendPayloadTest.swift in Sources */,
+				557032CB0F4F9FBE074A7520 /* TalerCardModelTest.swift in Sources */,
+				3340E915E7E86B486E2CA263 /* TalerThreadHeadlineFormatTest.swift in Sources */,
+				66FA57C647901AACF11B9950 /* TalerLocalDeleteTest.swift in Sources */,
+				96CAC14BB8EE20AF6F6F429C /* TalerMenuStateTest.swift in Sources */,
+				526C833E3611D352F67415AB /* TalerStatusLineTest.swift in Sources */,
+				C3D4E5F60718293A4B5C6D7E /* TalerPreviewTextTest.swift in Sources */,
+				DDD5CAFDE22A7EF0A93D9364 /* TalerRefundPayloadTest.swift in Sources */,
+				DDACE4081CD208C9797474AC /* TalerAbortPlanTest.swift in Sources */,
+				FD2BE95DC24491AC2B571728 /* TalerConfirmationTest.swift in Sources */,
+				51C22D51AFF1D098D1092D5D /* TalerForwardGateTest.swift in Sources */,
+				A19F172E1FE696567758DB5B /* TalerDeliveryStatusTest.swift in Sources */,
+				C6C5078823A0906BCF498EFD /* TalerQuoteSummaryTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

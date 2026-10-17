@@ -398,6 +398,9 @@ class AppSettingsViewController: OWSTableViewController2 {
                 self?.showInviteFlow()
             },
         ))
+        // GNU Taler: Zeile "GNU Taler Wallet:
+        // installiert / nicht installiert".
+        section3.add(TalerSettingsRow.tableItem())
         contents.add(section3)
 
         if DebugFlags.internalSettings {
