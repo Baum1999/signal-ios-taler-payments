@@ -1,3 +1,109 @@
+# Signal-iOS with GNU Taler payments
+
+This repository is a fork of [Signal-iOS](https://github.com/signalapp/Signal-iOS)
+that adds peer-to-peer payments with [GNU Taler](https://taler.net). It is a
+development fork and is not affiliated with Signal Messenger LLC or the GNU Taler
+team. The original upstream README follows further down.
+
+Signal never holds money or wallet keys. All money movement happens in the
+companion GNU Taler wallet (see the matching fork of taler-ios:
+https://github.com/Baum1999/taler-ios-signal-integration). The two apps talk
+**only through URL links**. There is no IPC and no server of our own.
+
+## Branches
+
+| Branch | Content |
+|---|---|
+| `main` | Upstream Signal-iOS plus the Taler feature, regularly rebased onto upstream `main` |
+
+## What the fork adds
+
+- **URI detection.** Recognises `taler://` URIs in messages and classifies them
+  (`pay-push`, `pay-pull`, `pay`, `withdraw`, `refund`, …).
+- **Local contract decryption.** For `pay-push`/`pay-pull` the URI carries a
+  one-time key. Signal fetches the encrypted contract straight from the exchange
+  (`GET <exchange>/contracts/<pub>`) and decrypts it on the device. This shows
+  amount, purpose and direction without the wallet app. It uses CryptoKit plus
+  small in-house parts (XSalsa20-Poly1305, Taler KDF, Crockford Base32, zlib).
+  wallet-core is not embedded in Signal.
+- **Payment card in the conversation.** Shows amount, direction and status,
+  with an "Accept" button. Status is polled from the exchange.
+- **Message transport.** The payment travels in a new protobuf field
+  `DataMessage.talerPayment` (field 9000). The message text also carries a
+  readable line plus the plain URI, so ordinary Signal clients see a normal link.
+- **Send / request.** An entry in the attachment keyboard opens
+  `talerlink://compose-send`. The wallet returns the created URI via
+  `sgnl://taler-return`, and Signal sends the message. Group payments
+  can be split per member.
+- **Refund** via `compose-refund`, prepared as a quoted reply draft and never
+  sent automatically.
+- **Real abort on "Delete for everyone".** Own open payments are aborted in
+  the wallet via `compose-abort`.
+- **Status and history.**
+  - Local status lines in the chat and a long-press menu.
+  - A confirmation message after acceptance, a "paid" delivery status and a
+    payment section in message details.
+  - Quote summaries.
+  - A Taler tab in the media overview.
+  - A preview label instead of the raw URI in the chat list and notifications.
+  - Forwarding or copying a payment as an image or as text.
+
+## Where the code is
+
+| Path | Content |
+|---|---|
+| `SignalServiceKit/Taler/` | Model, store, tracker/polling, link builder, return parser, URI parser |
+| `SignalServiceKit/Taler/Crypto/` | Contract decryption (`TalerContractCrypto`, `TalerKdf`, `XSalsa20Poly1305`, …) |
+| `SignalServiceKit/tests/Taler/` | Unit tests, including crypto test vectors |
+| `Signal/Taler/` | UI glue: compose launcher, return handler, card actions, Taler tab, settings row |
+| `Signal/ConversationView/Components/Taler/` | Card and confirmation components (CVComponent) |
+| `SignalServiceKit/Protos/Specifications/SignalService.proto` | Field 9000 |
+| `SignalServiceKit/Storage/Database/GRDBSchemaMigrator.swift` | Tables for payments (side table, no change to existing records) |
+| `Signal/URLs/UrlOpener.swift`, `Signal/AppLaunch/AppLifecycleManager.swift` | Entry point for `sgnl://taler-return` (`TalerLinks.returnUri`) |
+
+Interface contracts between the apps (links, parameters, data model, decision
+log): [`docs/taler-signal/`](docs/taler-signal/README.md).
+
+## Building
+
+Build as described in the upstream [BUILDING.md](BUILDING.md). Taler unit tests
+(simulator), e.g.:
+
+```
+xcodebuild test -workspace Signal.xcworkspace -scheme Signal \
+  -destination "platform=iOS Simulator,name=iPhone 16" \
+  CODE_SIGN_IDENTITY=- CODE_SIGNING_REQUIRED=NO DEVELOPMENT_TEAM= \
+  -only-testing:SignalServiceKitTests/TalerLinksTest \
+  -only-testing:SignalServiceKitTests/TalerContractCryptoTest
+```
+
+All Taler test classes are in `SignalServiceKit/tests/Taler/`. The payment
+features need the GNU Taler wallet with Signal integration installed on the
+same device. Without it, the send/request entry is hidden.
+
+## Known limitations
+
+- **Return link trust.** iOS cannot check which app registered a URL scheme.
+  Returns therefore only finish a pending `correlationId` and trigger a
+  re-check; they never deliver amounts or status (decisions E8/E9).
+- **Payment without a message.** On send and refund, the wallet commits the
+  payment *before* it jumps back. If the return gets lost (app killed, more than
+  15 minutes), the payment exists but Signal sends no message. Android has the
+  same limitation.
+- **Draft only.** The multi-URI link (`docs/taler-signal/spec-multi-uri-link.md`)
+  is a draft and not implemented.
+- The contract documents are mostly in German.
+
+## Related repositories
+
+- GNU Taler wallet with Signal integration, iOS: https://github.com/Baum1999/taler-ios-signal-integration
+- Signal Android with GNU Taler payments: https://github.com/Baum1999/signal-taler-payments
+- GNU Taler wallet with Signal integration, Android: https://github.com/Baum1999/taler-signal-integration
+
+---
+
+_Original upstream README:_
+
 # Signal iOS
 
 Signal is a free and open source messaging app for simple private communication with friends.
