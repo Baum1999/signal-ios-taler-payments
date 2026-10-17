@@ -376,7 +376,17 @@ public extension ConversationViewController {
         guard let inputToolbar = self.inputToolbar else {
             return
         }
+        // GNU Taler (S9): Zitat-Entwurf mitladen, sonst
+        // fehlt bei bereits offenem Chat das Zitat und das naechste saveDraft
+        // wuerde den gespeicherten Reply-Bezug ueberschreiben.
+        let replyInfo = SSKEnvironment.shared.databaseStorageRef.read { tx in
+            DependenciesBridge.shared.threadReplyInfoStore.fetch(for: self.thread.uniqueId, tx: tx)
+        }
+        if inputToolbar.editTarget != nil {
+            inputToolbar.editTarget = nil
+        }
         inputToolbar.setMessageBody(messageDraft, animated: false)
+        inputToolbar.quotedReplyDraft = replyInfo.flatMap { buildDraftQuotedReply($0) }
     }
 
     // MARK: - Message Request

@@ -17,6 +17,8 @@ private enum OpenableUrl {
     case completeIDEALDonation(Stripe.IDEALCallbackType)
     case callLink(CallLink)
     case quickRestore(URL)
+    // GNU Taler: Ruecksprung von GNU Taler (S4).
+    case talerReturn(URL)
 }
 
 class UrlOpener {
@@ -90,8 +92,25 @@ class UrlOpener {
         if let callLink = CallLink(url: url) {
             return .callLink(callLink)
         }
+        // GNU Taler: Ruecksprung von GNU Taler (S4).
+        // Erkennung nur anhand von Scheme/Host; alle Pruefungen und Aktionen
+        // macht TalerReturnHandler (konservativ: unbekannte correlationId,
+        // abgelaufene oder replayte IDs werden dort still verworfen).
+        if isTalerReturnUrl(url) {
+            return .talerReturn(url)
+        }
         owsFailDebug("Couldn't parse URL")
         return nil
+    }
+
+    /// GNU Taler: `TalerLinks.returnUri`
+    /// (link-protokoll.md 8), Gross-/Kleinschreibung egal.
+    private static func isTalerReturnUrl(_ url: URL) -> Bool {
+        guard let components = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
+            return false
+        }
+        return components.scheme?.lowercased() == TalerLinks.returnScheme
+            && components.host?.lowercased() == "taler-return"
     }
 
     private static func parseSgnlAddStickersUrl(_ url: URL) -> StickerPackInfo? {
@@ -144,7 +163,7 @@ class UrlOpener {
 
     private func shouldDismiss(for url: OpenableUrl) -> Bool {
         switch url {
-        case .completeIDEALDonation: return false
+        case .completeIDEALDonation, .talerReturn: return false
         case .groupInvite, .linkDevice, .phoneNumberLink, .signalProxy, .stickerPack, .usernameLink, .callLink, .quickRestore: return true
         }
     }
@@ -292,6 +311,13 @@ class UrlOpener {
         case .callLink(let callLink):
             _ = try tsAccountManager.registeredStateWithMaybeSneakyTransaction()
             GroupCallViewController.presentLobby(for: callLink)
+
+        // GNU Taler: Ruecksprung von GNU Taler (S4). Der
+        // Handler entscheidet anhand des Correlation-Stores; er bestaetigt
+        // keine Zahlung, zeigt keinen status und loggt keine URI.
+        case .talerReturn(let url):
+            _ = try tsAccountManager.registeredStateWithMaybeSneakyTransaction()
+            _ = TalerReturnHandler.handle(url)
         }
     }
 }

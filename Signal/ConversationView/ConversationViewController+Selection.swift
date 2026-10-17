@@ -437,6 +437,11 @@ extension ConversationViewController {
             )
         }
 
+        // GNU Taler: eigene offene Zahlungen in den
+        // geloeschten Nachrichten rein lokal abbrechen, bevor die
+        // Nachrichten (und damit ihre URIs) weg sind.
+        TalerLocalDelete.cancelOpenOwnPayments(in: interactionsToDelete, tx: tx)
+
         interactionDeleteManager.delete(
             interactions: interactionsToDelete,
             sideEffects: .custom(
@@ -461,6 +466,15 @@ extension ConversationViewController {
         guard let localIdentifiers = DependenciesBridge.shared.tsAccountManager.localIdentifiers(tx: tx) else {
             return owsFailDebug("LocalIdentifiers missing during message deletion.")
         }
+
+        // GNU Taler: echte Taler-Abbrueche eigener offener
+        // Zahlungen der geloeschten Nachrichten anstossen (S10, Gap A). Muss
+        // vor dem Loeschen laufen, danach sind die Nachrichtenkoerper weg.
+        TalerDeleteForEveryone.abortOwnOpenPayments(
+            in: selectionItems.compactMap { TSInteraction.fetchViaCache(uniqueId: $0.interactionId, transaction: tx) },
+            threadUniqueId: latestThread.uniqueId,
+            tx: tx
+        )
 
         selectionItems.forEach {
             guard

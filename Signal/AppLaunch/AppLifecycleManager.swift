@@ -83,6 +83,10 @@ final class AppLifecycleManager: NSObject, UNUserNotificationCenterDelegate {
             return
         }
 
+        // GNU Taler: refresh whether the wallet is installed (app launch and
+        // every activation; main thread).
+        TalerInstallation.refresh()
+
         appReadiness.runNowOrWhenAppDidBecomeReadySync { self.handleActivation() }
 
         // Clear all notifications whenever we become active.
@@ -797,6 +801,11 @@ final class AppLifecycleManager: NSObject, UNUserNotificationCenterDelegate {
 
         appReadiness.runNowOrWhenMainAppDidBecomeReadyAsync {
             AttachmentDownloadRetryRunner.shared.beginObserving()
+        }
+
+        // GNU Taler: delegate for the 1:1 confirmation message.
+        appReadiness.runNowOrWhenMainAppDidBecomeReadyAsync {
+            TalerPaymentManager.shared.delegate = TalerConfirmationSender.shared
         }
 
         appReadiness.runNowOrWhenMainAppDidBecomeReadyAsync {

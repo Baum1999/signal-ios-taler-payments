@@ -14,6 +14,9 @@ protocol AttachmentFormatPickerDelegate: AnyObject {
     func didTapContact()
     func didTapLocation()
     func didTapPayment()
+    /// GNU Taler: entry point for composing a new
+    /// Taler payment, separate from Signal's own MobileCoin payments.
+    func didTapTalerPayment()
     func didTapPoll()
 }
 
@@ -68,6 +71,8 @@ class AttachmentFormatPickerView: UIView {
                 delegate.didTapFile()
             case .payment:
                 delegate.didTapPayment()
+            case .talerPayment:
+                delegate.didTapTalerPayment()
             case .contact:
                 delegate.didTapContact()
             case .location:
@@ -182,6 +187,11 @@ class AttachmentFormatPickerView: UIView {
         case contact
         case location
         case payment
+        /// GNU Taler. Unlike `.payment` (MobileCoin),
+        /// Taler payments are available in group chats too (see
+        /// docs/API.md's group-split feature) — not excluded in
+        /// `groupCases` below.
+        case talerPayment
 
         private static var contactCases: [AttachmentType] {
             var casesToExclude: [AttachmentType] = []
@@ -340,6 +350,11 @@ class AttachmentFormatPickerView: UIView {
                 imageName = "location-28"
             case .payment:
                 text = OWSLocalizedString("ATTACHMENT_KEYBOARD_PAYMENT", comment: "A button to select a payment from the Attachment Keyboard")
+                imageName = "payment-28"
+            case .talerPayment:
+                text = OWSLocalizedString("ATTACHMENT_KEYBOARD_TALER_PAYMENT", comment: "A button to compose a Taler payment from the Attachment Keyboard")
+                // TODO: placeholder icon — reuses the MobileCoin payment glyph
+                // until a dedicated Taler icon asset exists.
                 imageName = "payment-28"
             case .poll:
                 text = OWSLocalizedString("ATTACHMENT_KEYBOARD_POLL", comment: "A button to select a poll from the Attachment Keyboard")

@@ -59,6 +59,11 @@ protocol ConversationInputToolbarDelegate: AnyObject {
 
     func paymentButtonPressed()
 
+    /// GNU Taler: entry point for composing a new
+    /// Taler payment. Real behavior pending the Android reference
+    /// implementation, see docs/API-ios.md §2.
+    func talerPaymentButtonPressed()
+
     func pollButtonPressed()
 
     func didSelectRecentPhoto(asset: PHAsset, attachment: PreviewableAttachment, attachmentLimits: OutgoingAttachmentLimits)
@@ -3410,6 +3415,10 @@ extension ConversationInputToolbar: AttachmentKeyboardDelegate {
 
     func didTapPayment() {
         inputToolbarDelegate?.paymentButtonPressed()
+    }
+
+    func didTapTalerPayment() {
+        inputToolbarDelegate?.talerPaymentButtonPressed()
     }
 
     func didTapPoll() {
