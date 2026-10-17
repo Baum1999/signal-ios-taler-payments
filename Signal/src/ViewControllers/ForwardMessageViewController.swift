@@ -188,6 +188,25 @@ class ForwardMessageViewController: OWSNavigationController {
         )
     }
 
+    // GNU Taler: "Als Bild weiterleiten" einer
+    // Taler-Zahlungskarte (S11). Das PNG selbst (und damit die Regel, dass
+    // es keine URI enthaelt) entsteht in TalerCardSnapshot; hier wird nur
+    // der fertige Bild-Anhang durch den normalen Weiterleiten-Dialog
+    // geschickt. `ForwardMessageContent` ist private, deshalb liegt dieser
+    // duenne Einstieg hier und nicht im Aufrufer.
+    class func present(
+        forTalerCardImage attachment: PreviewableAttachment,
+        from fromViewController: UIViewController,
+        delegate: ForwardMessageDelegate,
+    ) {
+        present(
+            content: ForwardMessageContent(allItems: [ForwardMessageItem(attachments: [attachment])]),
+            from: fromViewController,
+            attachmentLimits: .currentLimits(),
+            delegate: delegate,
+        )
+    }
+
     private class func present(
         content: Content,
         from fromViewController: UIViewController,

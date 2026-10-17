@@ -31,6 +31,16 @@ public class MessageAction: NSObject {
         case pin
         case unpin
         case viewStickerPack
+        // GNU Taler long-press actions.
+        case talerReject
+        case talerCancel
+        case talerRefresh
+        case talerCopyTranscript
+        case talerRefund
+        // GNU Taler: forward/copy as image or text.
+        case talerForwardImage
+        case talerForwardText
+        case talerCopyImage
 
         /// Lower priority numbers indicate an action should be shown earlier.
         var priority: Int {
@@ -50,7 +60,17 @@ public class MessageAction: NSObject {
             case .info: 12
             case .pin: 13
             case .unpin: 14
-            case .delete: 15
+            // GNU Taler actions before delete: forward image, forward text,
+            // copy image, copy transcript, then the conditional actions.
+            case .talerForwardImage: 15
+            case .talerForwardText: 16
+            case .talerCopyImage: 17
+            case .talerCopyTranscript: 18
+            case .talerRefresh: 19
+            case .talerCancel: 20
+            case .talerReject: 21
+            case .talerRefund: 22
+            case .delete: 23
             }
         }
     }
@@ -109,6 +129,23 @@ public class MessageAction: NSObject {
                 return .unpin
             case .viewStickerPack:
                 return .stickerPack
+            // GNU Taler: existing icons only, no new assets.
+            case .talerReject:
+                return .contextMenuDelete
+            case .talerCancel:
+                return .contextMenuXCircle
+            case .talerRefresh:
+                return .refresh
+            case .talerCopyTranscript:
+                return .contextMenuCopy
+            case .talerRefund:
+                return .settingsPayments
+            case .talerForwardImage:
+                return .contextMenuShare
+            case .talerForwardText:
+                return .contextMenuForward
+            case .talerCopyImage:
+                return .contextMenuCopy
             }
         }()
         return Theme.iconImage(icon)

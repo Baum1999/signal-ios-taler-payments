@@ -645,6 +645,18 @@ class ChatListCell: UITableViewCell, ReusableTableViewCell {
             statusIndicatorImage = UIImage(named: "error-circle-extra-small")
             messageStatusViewTintColor = .ows_gray60
         }
+
+        // GNU Taler: eigenstaendiges "bezahlt"-Icon in
+        // der Chatliste, wenn alle Taler-URIs der letzten ausgehenden
+        // Nachricht angenommen sind (S7b).
+        if let talerPaidImage = TalerDeliveryStatusUI.chatListPaidImage(
+            status: messageStatus,
+            isPaid: threadViewModel.chatListInfo?.lastMessageTalerPaid ?? false
+        ) {
+            statusIndicatorImage = talerPaidImage
+            shouldAnimateStatusIcon = false
+        }
+
         if statusIndicatorImage == nil {
             return nil
         }
