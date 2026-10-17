@@ -52,6 +52,10 @@ public class CVComponentMessage: CVComponentBase, CVRootComponent {
 
     private var giftBadge: CVComponent?
 
+    // GNU Taler: Zahlungskarte (S3-card-wiring).
+    private var talerPayment: CVComponent?
+    private var talerConfirmation: CVComponent?
+
     private var reactions: CVComponent?
 
     private var audioAttachment: CVComponent?
@@ -142,6 +146,10 @@ public class CVComponentMessage: CVComponentBase, CVRootComponent {
             return self.linkPreview
         case .giftBadge:
             return self.giftBadge
+        case .talerPayment:
+            return self.talerPayment
+        case .talerConfirmation:
+            return self.talerConfirmation
         case .reactions:
             return self.reactions
         case .contactShare:
@@ -244,7 +252,9 @@ public class CVComponentMessage: CVComponentBase, CVRootComponent {
         }
         // Payments can have body text too; only render a vanilla body text if a payment
         // isn't present.
-        if let bodyTextState = itemViewState.bodyTextState, componentState.paymentAttachment == nil {
+        // GNU Taler: Rohtext unterdruecken, wenn eine
+        // Taler-Karte da ist (S3) - die Karte ersetzt den Text.
+        if let bodyTextState = itemViewState.bodyTextState, componentState.paymentAttachment == nil, componentState.talerPayment == nil, componentState.talerConfirmation == nil {
             bodyText = CVComponentBodyText(itemModel: itemModel, bodyTextState: bodyTextState)
         }
         if let contactShareState = componentState.contactShare {
@@ -401,6 +411,16 @@ public class CVComponentMessage: CVComponentBase, CVRootComponent {
 
         if let giftBadge = componentState.giftBadge, let viewState = itemViewState.giftBadgeState {
             self.giftBadge = CVComponentGiftBadge(itemModel: itemModel, giftBadge: giftBadge, viewState: viewState)
+        }
+
+        // GNU Taler: Zahlungskarte (S3).
+        if let talerPaymentState = componentState.talerPayment {
+            self.talerPayment = CVComponentTalerPayment(itemModel: itemModel, talerPayment: talerPaymentState)
+        }
+
+        // GNU Taler: erkannte Bestaetigungsnachricht (S7a).
+        if let talerConfirmationState = componentState.talerConfirmation {
+            self.talerConfirmation = CVComponentTalerConfirmation(itemModel: itemModel, talerConfirmation: talerConfirmationState)
         }
 
         if let reactionsState = componentState.reactions {
@@ -1037,7 +1057,9 @@ public class CVComponentMessage: CVComponentBase, CVRootComponent {
         .giftBadge,
         .poll,
     ] }
-    private static var bottomNestedTextCVComponentKeys: [CVComponentKey] { [.bodyText, .footer, .undownloadableAttachment] }
+    // GNU Taler: Die Taler-Karte steht im Textabschnitt
+    // an erster Stelle - dort, wo sonst der Nachrichtentext stuende (S3).
+    private static var bottomNestedTextCVComponentKeys: [CVComponentKey] { [.talerConfirmation, .talerPayment, .bodyText, .footer, .undownloadableAttachment] }
 
     // The "message" contents of this component for most messages are vertically
     // stacked in four sections.
@@ -1317,6 +1339,13 @@ public class CVComponentMessage: CVComponentBase, CVRootComponent {
         func isLargeComponent(_ componentKey: CVComponentKey) -> Bool {
             switch componentKey {
             case .bodyText:
+                return false
+            // GNU Taler: Karte liegt im Textabschnitt,
+            // Abstandsregulierung wie beim Text (S3).
+            case .talerPayment:
+                return false
+            // GNU Taler: Bestaetigungszeile ebenfalls (S7a).
+            case .talerConfirmation:
                 return false
             case .bodyMedia, .sticker, .quotedReply, .linkPreview, .viewOnce, .audioAttachment, .genericAttachment, .paymentAttachment, .archivedPaymentAttachment, .contactShare:
                 return true
@@ -2303,6 +2332,8 @@ public class CVComponentMessage: CVComponentBase, CVRootComponent {
         var quotedReplyView: CVComponentView?
         var linkPreviewView: CVComponentView?
         var giftBadgeView: CVComponentView?
+        var talerPaymentView: CVComponentView?
+        var talerConfirmationView: CVComponentView?
         var reactionsView: CVComponentView?
         var audioAttachmentView: CVComponentView?
         var genericAttachmentView: CVComponentView?
@@ -2325,6 +2356,8 @@ public class CVComponentMessage: CVComponentBase, CVRootComponent {
                 quotedReplyView,
                 linkPreviewView,
                 giftBadgeView,
+                talerPaymentView,
+                talerConfirmationView,
                 reactionsView,
                 audioAttachmentView,
                 genericAttachmentView,
@@ -2358,6 +2391,10 @@ public class CVComponentMessage: CVComponentBase, CVRootComponent {
                 return linkPreviewView
             case .giftBadge:
                 return giftBadgeView
+            case .talerPayment:
+                return talerPaymentView
+            case .talerConfirmation:
+                return talerConfirmationView
             case .reactions:
                 return reactionsView
             case .audioAttachment:
@@ -2408,6 +2445,10 @@ public class CVComponentMessage: CVComponentBase, CVRootComponent {
                 linkPreviewView = subcomponentView
             case .giftBadge:
                 giftBadgeView = subcomponentView
+            case .talerPayment:
+                talerPaymentView = subcomponentView
+            case .talerConfirmation:
+                talerConfirmationView = subcomponentView
             case .reactions:
                 reactionsView = subcomponentView
             case .audioAttachment:

@@ -460,6 +460,42 @@
 /* A button to select a payment from the Attachment Keyboard */
 "ATTACHMENT_KEYBOARD_PAYMENT" = "Zahlung";
 
+/* A button to compose a Taler payment from the Attachment Keyboard */
+"ATTACHMENT_KEYBOARD_TALER_PAYMENT" = "Taler-Zahlung";
+
+/* Shown for a detected Taler payment link before it has been verified. No amount is shown here — it is never taken from the message text. */
+"TALER_PAYMENT_CARD_PLACEHOLDER_TITLE" = "Taler-Zahlungslink";
+
+/* Shown while Signal is verifying/decrypting a Taler payment link. */
+"TALER_PAYMENT_CARD_PREVIEWING_TITLE" = "Zahlung wird geprüft…";
+
+/* Title for a confirmed outgoing Taler payment card. */
+"TALER_PAYMENT_CARD_SENT_TITLE" = "Du hast gesendet";
+
+/* Title for a confirmed incoming Taler payment card. */
+"TALER_PAYMENT_CARD_RECEIVED_TITLE" = "An dich gesendet";
+
+/* Title shown when a Taler payment link could not be verified. */
+"TALER_PAYMENT_CARD_FAILED_TITLE" = "Zahlung konnte nicht geprüft werden";
+
+/* Tombstone title for a Taler payment link that is no longer actionable. */
+"TALER_PAYMENT_CARD_EXPIRED_TITLE" = "Zahlung abgelaufen";
+
+/* Primary action button on a Taler payment card (pay/accept). */
+"TALER_PAYMENT_CARD_PRIMARY_ACTION" = "In Taler öffnen";
+
+/* Reject action button on a Taler payment card. */
+"TALER_PAYMENT_CARD_REJECT_ACTION" = "Ablehnen";
+
+/* Refund action button on a Taler payment card. */
+"TALER_PAYMENT_CARD_REFUND_ACTION" = "Erstatten";
+
+/* Placeholder title shown when composing a Taler payment is tapped before the feature is implemented. */
+"TALER_PAYMENT_NOT_YET_AVAILABLE_TITLE" = "Noch nicht verfügbar";
+
+/* Placeholder message shown when composing a Taler payment is tapped before the feature is implemented. */
+"TALER_PAYMENT_NOT_YET_AVAILABLE_MESSAGE" = "Das Senden von Taler-Zahlungen aus Signal wird noch gebaut.";
+
 /* A button to open the photo picker from the Attachment Keyboard */
 "ATTACHMENT_KEYBOARD_PHOTOS" = "Fotos";
 
@@ -11257,3 +11293,107 @@
 
 /* Info Message when you update disappearing messages duration. Embeds a {{time amount}} before messages disappear. see the *_TIME_AMOUNT strings for context. */
 "YOU_UPDATED_DISAPPEARING_MESSAGES_CONFIGURATION" = "Du hast die Zeit für verschwindende Nachrichten auf %1$@ festgelegt.";
+
+/* Title of an alert explaining that the GNU Taler app is not installed. */
+"TALER_NOT_INSTALLED_TITLE" = "GNU Taler nicht installiert";
+
+/* Message of an alert explaining that the GNU Taler app must be installed to compose a Taler payment. */
+"TALER_NOT_INSTALLED_MESSAGE" = "Installiere die GNU-Taler-App, um eine Taler-Zahlung zu senden.";
+
+/* Title of an alert explaining that Taler payments cannot be composed in Note to Self. */
+"TALER_NOTE_TO_SELF_TITLE" = "Taler-Zahlungen nicht verfügbar";
+
+/* Message of an alert explaining that Taler payments cannot be composed in Note to Self. */
+"TALER_NOTE_TO_SELF_MESSAGE" = "Taler-Zahlungen können nicht an dich selbst gesendet werden.";
+
+/* Title of the Taler tab in the chat's media overview */
+"TALER_MEDIA_TAB_TITLE" = "Taler";
+
+/* Filter chip in the Taler tab: show all payments */
+"TALER_THREAD_FILTER_ALL" = "Alle";
+
+/* Filter chip in the Taler tab: show only open payments */
+"TALER_THREAD_FILTER_OPEN" = "Offen";
+
+/* Filter chip in the Taler tab: show only payments received from the other side */
+"TALER_THREAD_FILTER_RECEIVED" = "Erhalten";
+
+/* Filter chip in the Taler tab: show only payments sent by the viewer */
+"TALER_THREAD_FILTER_SENT" = "Gesendet";
+
+/* Direction label for the latest payment in the Taler tab header: received */
+"TALER_THREAD_LATEST_RECEIVED" = "erhalten";
+
+/* Direction label for the latest payment in the Taler tab header: sent */
+"TALER_THREAD_LATEST_SENT" = "gesendet";
+
+/* Prefix of the 'latest activity' line in the Taler tab header */
+"TALER_THREAD_LATEST_PREFIX" = "Zuletzt: ";
+
+/* Prefix of the balance line in the Taler tab header */
+"TALER_THREAD_BALANCE_PREFIX" = "Saldo ";
+
+/* Hint in the Taler tab when the selected filter matches no payments */
+"TALER_THREAD_EMPTY_FILTER" = "Keine Zahlungen passen zu diesem Filter.";
+
+/* Taler tab headline: one payment is waiting for the viewer to act */
+"TALER_HEADLINE_WAITING_FOR_ME" = "Eine Zahlung wartet auf dich";
+
+/* Taler tab headline: number of payments waiting for the viewer. Embeds {{ count }}. */
+"TALER_HEADLINE_WAITING_FOR_ME_FORMAT" = "%d Zahlungen warten auf dich";
+
+/* Taler tab headline: payments waiting for the other side, named by chat partner. Embeds {{ name }}. */
+"TALER_HEADLINE_WAITING_FOR_OTHER_NAME_FORMAT" = "Wartet auf %@";
+
+/* Taler tab headline: one payment is waiting for the other side (unnamed, e.g. in groups) */
+"TALER_HEADLINE_WAITING_FOR_OTHER" = "Wartet auf die Gegenseite";
+
+/* Taler tab headline: number of payments waiting for the other side. Embeds {{ count }}. */
+"TALER_HEADLINE_WAITING_FOR_OTHER_FORMAT" = "%d Zahlungen warten auf die Gegenseite";
+
+/* Taler tab headline: payments open on both sides. Embeds {{ count waiting for viewer }}, {{ count waiting for other side }}. */
+"TALER_HEADLINE_WAITING_FOR_BOTH_FORMAT" = "%1$d Zahlungen warten auf dich, %2$d auf die Gegenseite";
+
+/* Taler tab headline: one payment could not be verified */
+"TALER_HEADLINE_UNVERIFIABLE" = "Eine Zahlung konnte nicht überprüft werden";
+
+/* Taler tab headline: number of payments that could not be verified. Embeds {{ count }}. */
+"TALER_HEADLINE_UNVERIFIABLE_FORMAT" = "%d Zahlungen konnten nicht überprüft werden";
+
+/* Taler tab headline: nothing open, all payments are settled */
+"TALER_HEADLINE_ALL_SETTLED" = "Keine offenen Zahlungen";
+/* Local status line in the chat: a Taler payment was accepted */
+"TALER_STATUS_LINE_ACCEPTED" = "Taler-Zahlung angenommen";
+
+/* Local status line in the chat: a Taler payment link expired */
+"TALER_STATUS_LINE_EXPIRED" = "Taler-Zahlungslink abgelaufen";
+
+/* Vorschau-Label in Chatliste und Benachrichtigungs-Banner für eine Gruppen-Split-Taler-Zahlung (mehrere Taler-URIs). Ersetzt den Rohtext inkl. der URIs; Details liefert die Karte im Chat */
+"TALER_PREVIEW_GROUP_SPLIT" = "Taler-Gruppenzahlung";
+
+/* Local status line in the chat: a Taler payment was declined on this device */
+"TALER_STATUS_LINE_DECLINED" = "Taler-Zahlung auf diesem Gerät abgelehnt";
+
+/* Local status line in the chat: a Taler payment was cancelled by deleting the message */
+"TALER_STATUS_LINE_CANCELLED" = "Taler-Zahlung durch Löschen der Nachricht abgebrochen";
+
+/* Long-press menu action on a Taler message: decline the payment on this device */
+"TALER_MENU_REJECT" = "Ablehnen";
+
+/* Long-press menu action on a Taler message: cancel an own open payment */
+"TALER_MENU_CANCEL" = "Abbrechen";
+
+/* Long-press menu action on a Taler message: refresh the payment status */
+"TALER_MENU_REFRESH" = "Aktualisieren";
+
+/* Long-press menu action on a Taler message: copy the message body */
+"TALER_MENU_COPY_TRANSCRIPT" = "Als Transkript kopieren";
+
+/* Title of the confirmation dialog when declining a Taler payment */
+"TALER_REJECT_DIALOG_TITLE" = "Diese Zahlung ablehnen?";
+
+/* Message of the confirmation dialog when declining a Taler payment */
+"TALER_REJECT_DIALOG_MESSAGE" = "Dies bewirkt nur, dass dieses Gerät die Zahlung nicht mehr verfolgt. Der Absender wird nicht benachrichtigt und es fließt kein Geld zurück.";
+
+/* Confirm button of the decline dialog for a Taler payment */
+"TALER_REJECT_DIALOG_CONFIRM" = "Ablehnen";

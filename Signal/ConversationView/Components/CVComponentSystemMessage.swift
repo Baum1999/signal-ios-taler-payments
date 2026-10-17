@@ -967,6 +967,9 @@ extension CVComponentSystemMessage {
                 return .poll
             case .typePinnedMessage:
                 return .pin
+            // GNU Taler: Taler payment status line.
+            case .talerPaymentUpdate:
+                return .creditcard
             }
         }
         if let call = interaction as? TSCall {
@@ -1493,6 +1496,10 @@ extension CVComponentSystemMessage {
                 accessibilityIdentifier: "options",
                 action: .didTapMessageRequestAcceptedOptions,
             )
+        // GNU Taler: Taler payment status line,
+        // purely informational - no action.
+        case .talerPaymentUpdate:
+            return nil
         }
     }
 

@@ -402,6 +402,12 @@ public struct CVComponentState: Equatable {
 
     let giftBadge: GiftBadge?
 
+    // GNU Taler: Zahlungskarte (S3-card-wiring).
+    let talerPayment: TalerPayment?
+
+    // GNU Taler: erkannte Bestaetigungsnachricht (S7a).
+    let talerConfirmation: TalerConfirmation?
+
     struct Poll: Equatable {
         let state: CVPollView.State
         let prevPollState: CVPollView.State?
@@ -585,6 +591,8 @@ public struct CVComponentState: Equatable {
         contactShare: ContactShare?,
         linkPreview: LinkPreview?,
         giftBadge: GiftBadge?,
+        talerPayment: TalerPayment?,
+        talerConfirmation: TalerConfirmation?,
         systemMessage: SystemMessage?,
         dateHeader: DateHeader?,
         unreadIndicator: UnreadIndicator?,
@@ -618,6 +626,8 @@ public struct CVComponentState: Equatable {
         self.contactShare = contactShare
         self.linkPreview = linkPreview
         self.giftBadge = giftBadge
+        self.talerPayment = talerPayment
+        self.talerConfirmation = talerConfirmation
         self.systemMessage = systemMessage
         self.dateHeader = dateHeader
         self.unreadIndicator = unreadIndicator
@@ -655,6 +665,8 @@ public struct CVComponentState: Equatable {
             lhs.contactShare == rhs.contactShare &&
             lhs.linkPreview == rhs.linkPreview &&
             lhs.giftBadge == rhs.giftBadge &&
+            lhs.talerPayment == rhs.talerPayment &&
+            lhs.talerConfirmation == rhs.talerConfirmation &&
             lhs.systemMessage == rhs.systemMessage &&
             lhs.dateHeader == rhs.dateHeader &&
             lhs.unreadIndicator == rhs.unreadIndicator &&
@@ -690,6 +702,8 @@ public struct CVComponentState: Equatable {
         typealias Reactions = CVComponentState.Reactions
         typealias LinkPreview = CVComponentState.LinkPreview
         typealias GiftBadge = CVComponentState.GiftBadge
+        typealias TalerPayment = CVComponentState.TalerPayment
+        typealias TalerConfirmation = CVComponentState.TalerConfirmation
         typealias DateHeader = CVComponentState.DateHeader
         typealias UnreadIndicator = CVComponentState.UnreadIndicator
         typealias TypingIndicator = CVComponentState.TypingIndicator
@@ -724,6 +738,8 @@ public struct CVComponentState: Equatable {
         var contactShare: ContactShare?
         var linkPreview: LinkPreview?
         var giftBadge: GiftBadge?
+        var talerPayment: TalerPayment?
+        var talerConfirmation: TalerConfirmation?
         var dateHeader: DateHeader?
         var unreadIndicator: UnreadIndicator?
         var typingIndicator: TypingIndicator?
@@ -771,6 +787,8 @@ public struct CVComponentState: Equatable {
                 contactShare: contactShare,
                 linkPreview: linkPreview,
                 giftBadge: giftBadge,
+                talerPayment: talerPayment,
+                talerConfirmation: talerConfirmation,
                 systemMessage: systemMessage,
                 dateHeader: dateHeader,
                 unreadIndicator: unreadIndicator,
@@ -924,6 +942,12 @@ public struct CVComponentState: Equatable {
         if giftBadge != nil {
             result.insert(.giftBadge)
         }
+        if talerPayment != nil {
+            result.insert(.talerPayment)
+        }
+        if talerConfirmation != nil {
+            result.insert(.talerConfirmation)
+        }
         if systemMessage != nil {
             result.insert(.systemMessage)
         }
@@ -1042,6 +1066,14 @@ public struct CVComponentState: Equatable {
                 break
             case .giftBadge:
                 // Gift badges can't be forwarded.
+                break
+            case .talerPayment:
+                // GNU Taler: Zahlungs-URIs sind
+                // Inhaberpapiere, die Karte ist nicht forwards-Primärinhalt.
+                break
+            case .talerConfirmation:
+                // GNU Taler: Bestaetigungszeile ist
+                // kein forwards-Primärinhalt (S7a).
                 break
             case .viewOnce:
                 // We should never forward view-once messages.
@@ -1280,6 +1312,14 @@ private extension CVComponentState.Builder {
         }
 
         try buildBodyText(message: message)
+
+        // GNU Taler: erkannte Bestaetigungsnachricht
+        // kompakt anzeigen (S7a). Vor der Karte, weil sie die Karte fuer
+        // dieselbe Nachricht unterdrueckt (der Body traegt die URI).
+        buildTalerConfirmation(message: message)
+
+        // GNU Taler: Zahlungskarte statt Rohtext (S3).
+        buildTalerPayment(message: message)
 
         if let outgoingMessage = message as? TSOutgoingMessage {
             let messageStatus: MessageReceiptStatus
@@ -1748,13 +1788,27 @@ private extension CVComponentState.Builder {
         }
         var displayableQuotedText: DisplayableText?
         if let quotedBody = quotedReplyModel.originalMessageBody, !quotedBody.text.isEmpty {
-            displayableQuotedText = CVComponentState.displayableQuotedText(
-                text: quotedBody.text,
-                ranges: quotedBody.ranges,
-                interaction: message,
-                revealedSpoilerIdsSnapshot: revealedSpoilerIdsSnapshot,
-                transaction: transaction,
-            )
+            // GNU Taler: Taler-Zahlungen im Zitat als
+            // kurze Zusammenfassung statt roher URI zeigen (Betrag nur aus
+            // dem Record, Regel 4/5). Ranges entfallen dann bewusst - sie
+            // bezoegen sich auf den ersetzten Text.
+            if let talerSummary = TalerQuoteSummary.build(body: quotedBody.text, transaction: transaction) {
+                displayableQuotedText = CVComponentState.displayableQuotedText(
+                    text: talerSummary,
+                    ranges: nil,
+                    interaction: message,
+                    revealedSpoilerIdsSnapshot: revealedSpoilerIdsSnapshot,
+                    transaction: transaction,
+                )
+            } else {
+                displayableQuotedText = CVComponentState.displayableQuotedText(
+                    text: quotedBody.text,
+                    ranges: quotedBody.ranges,
+                    interaction: message,
+                    revealedSpoilerIdsSnapshot: revealedSpoilerIdsSnapshot,
+                    transaction: transaction,
+                )
+            }
         }
         let viewState = CVQuotedMessageView.stateForConversation(
             quotedReplyModel: quotedReplyModel,
@@ -2130,6 +2184,35 @@ private extension CVComponentState.Builder {
             redemptionState: giftBadge.redemptionState,
         )
         return build()
+    }
+
+    // GNU Taler: Zahlungskarte statt Rohtext (S3).
+    // Baut die Karte fuer Nachrichten mit pay-push/pay-pull-URIs; der Zustand
+    // kommt aus der DB (Records + strukturierte Payload), nicht aus dem
+    // Render-Pfad. pay/withdraw/refund bleiben blosser Linktext.
+    mutating func buildTalerPayment(message: TSMessage) {
+        guard
+            !message.isPoll,
+            talerConfirmation == nil,
+            let payment = CVComponentTalerPayment.buildState(message: message, thread: thread, transaction: transaction)
+        else {
+            return
+        }
+        talerPayment = payment
+    }
+
+    // GNU Taler: kompakte Zeile fuer eine erkannte
+    // Bestaetigungsnachricht (S7a). Der Zustand kommt aus der DB
+    // (TalerConfirmationMessage + zugehoeriger Record), nicht aus dem
+    // Render-Pfad.
+    mutating func buildTalerConfirmation(message: TSMessage) {
+        guard
+            !message.isPoll,
+            let confirmation = CVComponentTalerConfirmation.buildState(message: message, transaction: transaction)
+        else {
+            return
+        }
+        talerConfirmation = confirmation
     }
 
     mutating func buildPoll(message: TSMessage, transaction: DBReadTransaction) throws -> CVComponentState {

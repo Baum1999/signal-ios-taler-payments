@@ -320,6 +320,12 @@ class MessageActions {
             actions.append(pinAction)
         }
 
+        // GNU Taler: Taler-Aktionen (Als Bild/Als Text
+        // weiterleiten, Als Bild/Als Transkript kopieren, Ablehnen,
+        // Abbrechen, Aktualisieren) statt des normalen Kopierens und
+        // Weiterleitens; ohne Taler-URI ein No-op.
+        actions = TalerMessageActions.adjust(actions, itemViewModel: itemViewModel, delegate: delegate)
+
         return actions
     }
 

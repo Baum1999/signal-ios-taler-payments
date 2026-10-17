@@ -192,6 +192,10 @@ class MessageDetailViewController: OWSTableViewController2 {
 
         contents.add(buildMessageSection())
 
+        // GNU Taler: pro Taler-URI der Nachricht ein
+        // eigener Abschnitt (gekuerzte URI, Status, Betrag, Zeitstempel).
+        contents.add(sections: TalerMessageDetailSection.sections(for: message))
+
         if
             !message.wasRemotelyDeleted,
             let editHistorySection = buildEditHistorySection()

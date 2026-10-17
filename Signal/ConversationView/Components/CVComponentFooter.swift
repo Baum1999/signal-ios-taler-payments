@@ -569,6 +569,17 @@ public class CVComponentFooter: CVComponentBase, CVComponent {
                     statusIndicator = nil
                 }
             }
+
+            // GNU Taler: eigenstaendiges "bezahlt"-Icon,
+            // wenn alle Taler-URIs der Nachricht angenommen sind (Rangfolge
+            // wie Android ConversationItemFooter: fehlgeschlagene Sends
+            // behalten ihr Fehler-Icon, offene Zahlungen die normalen Haken).
+            if messageStatus != .failed {
+                statusIndicator = TalerDeliveryStatusUI.footerPaidIndicator(
+                    for: outgoingMessage,
+                    transaction: tx
+                ) ?? statusIndicator
+            }
         } else if
             let incomingMessage = interaction as? TSIncomingMessage,
             incomingMessage.wasRemotelyDeleted,
