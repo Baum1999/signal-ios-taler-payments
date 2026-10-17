@@ -551,6 +551,22 @@ extension ConversationViewController {
         )
     }
 
+    /// GNU Taler. Entry point for composing a new
+    /// Taler payment — unlike `paymentButtonPressed()` (MobileCoin), not
+    /// restricted to 1:1 threads, since Taler payments support groups (see
+    /// docs/API.md's group-split feature). Opens GNU Taler via
+    /// `talerlink://compose-send` (TalerComposeLauncher, package S4); the
+    /// payment message itself is sent after the return jump from Taler
+    /// (TalerReturnHandler). No primary-device restriction: linked devices
+    /// may send.
+    func talerPaymentButtonPressed() {
+        AssertIsOnMainThread()
+
+        dismissKeyBoard()
+
+        TalerComposeLauncher.startSend(thread: thread, from: self)
+    }
+
     func pollButtonPressed() {
         AssertIsOnMainThread()
 

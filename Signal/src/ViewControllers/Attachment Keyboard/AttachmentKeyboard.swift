@@ -15,6 +15,8 @@ protocol AttachmentKeyboardDelegate: AnyObject {
     func didTapContact()
     func didTapLocation()
     func didTapPayment()
+    /// GNU Taler, see AttachmentFormatPickerDelegate.
+    func didTapTalerPayment()
     func didTapPoll()
     var isGroup: Bool { get }
 }
@@ -163,6 +165,10 @@ class AttachmentKeyboard: CustomKeyboard, RecentPhotosDelegate, AttachmentFormat
 
     func didTapPayment() {
         delegate?.didTapPayment()
+    }
+
+    func didTapTalerPayment() {
+        delegate?.didTapTalerPayment()
     }
 
     func didTapPoll() {

@@ -171,6 +171,12 @@ extension TSInteraction {
                                 return owsFailDebug("LocalIdentifiers missing during message deletion.")
                             }
 
+                            // GNU Taler: echte Taler-Abbrueche
+                            // eigener offener Zahlungen dieser Nachricht anstossen
+                            // (S10, Gap A). Muss vor dem Loeschen laufen, danach
+                            // ist der Nachrichtenkoerper weg.
+                            TalerDeleteForEveryone.abortOwnOpenPayments(in: [latestMessage], threadUniqueId: latestThread.uniqueId, tx: tx)
+
                             guard
                                 let deleteMessage = Self.buildDeleteMessage(
                                     thread: latestThread,
@@ -329,6 +335,11 @@ extension TSInteraction {
                     let freshSelf = TSInteraction.fetchViaCache(uniqueId: self.uniqueId, transaction: tx),
                     let freshThread = TSThread.fetchViaCache(uniqueId: thread.uniqueId, transaction: tx)
                 else { return }
+
+                // GNU Taler: eigene offene Zahlungen in
+                // der geloeschten Nachricht rein lokal abbrechen, bevor die
+                // Nachricht (und damit ihre URIs) weg ist.
+                TalerLocalDelete.cancelOpenOwnPayments(in: [freshSelf], tx: tx)
 
                 interactionDeleteManager.delete(
                     interactions: [freshSelf],

@@ -60,6 +60,8 @@
 		<string>maps</string>
 		<string>comgooglemaps</string>
 		<string>mailto</string>
+		<string>taler</string>
+		<string>talerlink</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
