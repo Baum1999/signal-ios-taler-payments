@@ -1672,6 +1672,8 @@ extension MediaTileViewController: MediaGalleryPrimaryViewController {
 
     func batchSelectionModeDidChange(isInBatchSelectMode: Bool) {
         collectionView!.allowsMultipleSelection = isInBatchSelectMode
+        // GNU Taler (S8): Taler-Knopf der Medienuebersicht im Select-Modus ausblenden.
+        TalerMediaTabCoordinator.batchSelectionModeDidChange(isInBatchSelectMode: isInBatchSelectMode)
         updateVisibleCells()
     }
 

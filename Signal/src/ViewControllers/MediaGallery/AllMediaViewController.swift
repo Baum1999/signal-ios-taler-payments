@@ -27,6 +27,10 @@ class AllMediaViewController: OWSViewController {
         super.init()
         navigationItem.title = name
         accessoriesHelper.viewController = tileViewController
+        // GNU Taler (S8): "Taler"-Tab neben den Medien-
+        // Segmenten, nur wenn der Chat Taler-Vorgaenge hat.
+        // Siehe Signal/Taler/TalerMediaTabCoordinator.swift.
+        TalerMediaTabCoordinator.install(host: self, thread: thread, chatName: name)
     }
 
     override func viewDidLoad() {
