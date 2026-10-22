@@ -1,6 +1,10 @@
 # Spec: Multi-URI-Link Signal an Taler (Zielbild 5.2)
 
-**Status: ENTWURF – wartet auf Freigabe durch den Nutzer. Nicht implementieren.**
+**Status: FREIGEGEBEN am 2026-10-22 (alle Empfehlungen aus Abschnitt 6), auf iOS umgesetzt.**
+Abweichung bei Frage 6: Ein Refresh setzt nach einem echten Abbruch `ABGELAUFEN`
+(Exchange antwortet 404), deshalb belegt Signal ein `aborted` per Exchange-Abfrage
+und setzt bei verschwundenem Purse `UNGUELTIG`; jede andere Antwort gilt unverändert.
+Gültiger Vertrag: `link-protokoll.md` Abschnitte 5 und 9; Android: N12 der Nachzieh-Liste.
 
 Stand: 2026-09-29. Paket D2-multiuri-spec. Grundlage: `docs/ZIEL-signal-fuer-gnu-android.md`
 (Abschnitte 4.4, 5.1, 5.2, 6.2), Gap-A-Spec

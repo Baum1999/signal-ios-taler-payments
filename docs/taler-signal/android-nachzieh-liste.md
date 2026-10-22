@@ -31,13 +31,14 @@ Taler = `taler-android/wallet/src/main/java/net/taler/wallet/`.
 | N9 | P3 | Abweichung | Kleinere Lesetoleranzen (`direction`, leere Strings, Duplikate, `returnUri`) | `link-protokoll.md` 2.3, 3, 8 |
 | N10 | P2 | Neu | compose-abort (Gap A): Signal- und Taler-Seite, `ABORT`, `result=`-Parser | `link-protokoll.md` 5, 9 |
 | N11 | P2 | Abweichung | Menüaktionen feuern pro URI einen eigenen Intent | `link-protokoll.md` 5 |
-| N12 | P3 | Neu | Multi-URI-Link (Zielbild 5.2) | `spec-multi-uri-link.md` (in Arbeit, D2) |
+| N12 | P3 | Neu | Multi-URI-Link (Zielbild 5.2), iOS umgesetzt 2026-10-22 | `spec-multi-uri-link.md`, `link-protokoll.md` 5, 9 |
 | N13 | P3 | Offen | pay-pull: Aktionslink und Annehmen-Knopf | `link-protokoll.md` 6 |
 | N14 | P3 | Abweichung | Doku: Gap-A-Spec gegen Plan/Zielbild (Encoding, Fallback) | `link-protokoll.md` 5 |
 | N15 | P1 | Abweichung | `OwnUriTracker` speichert Klartext-URIs (Inhaberpapier) als SharedPreferences-Schlüssel | `datenmodell.md`, Regel 4 |
 | N16 | P2 | Neu | compose-abort: `declined` auch beim Schließen ohne Entscheidung und für fremde URIs, erledigte Transaktionen nicht erneut abbrechen | `link-protokoll.md` 5 |
 | N17 | P2 | Offen | Persistenter Correlation-Store für SEND/REFUND (Signal-Prozess-Tod während Taler-Besuch) | `link-protokoll.md` 9 |
 | N18 | P3 | Offen | Bestätigungsnachricht bei mehreren eigenen Geräten mehrfach möglich | `entscheidungen.md` |
+| N19 | P3 | Abweichung | `TalerUriDetector.findUris` entfernt Dubletten roh statt entpackt (`taler://X` plus DD-103-Link = zwei Karten) | `datenmodell.md` 3 |
 
 ## 2. Details
 
@@ -253,9 +254,21 @@ Abbruch löst N10 (ein Sammel-Link) das Problem; für "Rückerstatten" und
 
 ### N12 Multi-URI-Link (P3, Neu)
 
-Zielbild 5.2. Spec kommt in Paket D2 (`spec-multi-uri-link.md`, in Arbeit),
-danach Freigabe durch den Nutzer. Abhängigkeit: N4 (falls JSON-Metadaten),
-N10 (Muster `result=`).
+Zielbild 5.2, Spec `spec-multi-uri-link.md`, alle Empfehlungen am 2026-10-22
+freigegeben, auf iOS umgesetzt (signal-ios `TalerAbortLauncher`,
+`TalerAbortPlan`; taler-ios `AbortRequestMeta`, `SignalComposeAbortView`).
+Für Android, aufbauend auf N10:
+
+1. Link mit `v=1` und flachen Metadaten bauen (`link-protokoll.md` 5).
+2. Menü-"Abbrechen" ab zwei eigenen Anteilen über compose-abort mit
+   `reason=menu` statt einer Schleife (behebt N11).
+3. Stapel zu 32 URIs, der nächste nach dem Rücksprung; nicht, wenn alles
+   `declined` kam.
+4. `not_own`/`failed` lesen (nur Refresh); `aborted` erst per Exchange-Abfrage
+   belegen, bei 404/410 `UNGUELTIG`.
+5. Taler: Metadaten tolerant lesen, nur verifizierte Beträge zeigen,
+   Abweichungswarnung; jede URI genau ein Ergebnis (ungültig oder ab der 33.
+   `failed`, nicht eigen `not_own`).
 
 ### N13 pay-pull (P3, Offen)
 

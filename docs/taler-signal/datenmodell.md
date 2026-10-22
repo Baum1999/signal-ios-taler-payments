@@ -44,7 +44,7 @@ Taler -> Signal beim Rücksprung von compose-send (und als ganzer Body in
 
 | Feld | Typ | Pflicht | Bedeutung |
 |---|---|---|---|
-| `legacyText` | String | ja | Fallback-Text für Clients ohne Feld 9000, heute englisch: "This is a GNU Taler link. Update Signal or copy the URI below into the GNU Taler app to make the payment." (`taler-android` `taler_payment_legacy_text`) |
+| `legacyText` | String | nein, **veraltet** | Wird seit 2026-10-11 von Taler nicht mehr gesendet. Messenger müssen es beim Lesen tolerieren und ignorieren. Den Klartext vor den URIs setzt jeder Messenger selbst: Signal-Android `TalerFork_payment_legacy_text` (en/de), Signal-iOS `TalerStrings.legacyText`, Mattermost `taler.payment.legacy_text`. |
 | `version` | Int | nein | Standard `1` |
 | `includeSelf` | Bool | nein | Split: Sender mitgezählt; `null`/fehlt = keine Split-Info |
 | `totalAmount` | String | nein | Split: Gesamtbetrag vor dem Split, Dezimalstring ohne Währung (z. B. `12.5`); fehlt = keine Split-Info |
@@ -58,7 +58,7 @@ Kodierung durch Android (kotlinx.serialization mit Standardkonfiguration):
 **weggelassen**. Ein Einzelzahlungs-JSON lautet also:
 
 ```json
-{"legacyText":"This is a GNU Taler link. Update Signal or copy the URI below into the GNU Taler app to make the payment.","uri":["taler://pay-push/exchange.example.org/7Q4XK2"]}
+{"uri":["taler://pay-push/exchange.example.org/7Q4XK2"]}
 ```
 
 Empfänger müssen fehlendes `version` als `1` und fehlende optionale Felder als
@@ -80,7 +80,9 @@ Beim Anzeigen und Tracken einer Nachricht gilt, in dieser Reihenfolge:
 
 1. **Proto-Feld 9000** (bzw. die lokal gespeicherte Seitentabelle dazu).
 2. **Legacy-JSON**: der `body` ist als Ganzes ein `TalerPaymentData`-JSON
-   (ältere Taler-Versionen). Ist `uri` nicht leer, gilt die Liste.
+   (ältere Taler-Versionen). Ist `uri` nicht leer, gilt die Liste. Solche
+   alten Bodies enthalten meist noch `legacyText`; sie werden weiterhin
+   erkannt, das Feld wird ignoriert.
 3. **Regex-Fallback** `TalerUriDetector.findUris` über freien Text. Er muss auch
    greifen, wenn vor der URI anderer Text steht. Er wird **nie** auf einen
    JSON-Body angewendet (kompaktes JSON klebt Anführungszeichen an die URI und
@@ -90,9 +92,14 @@ Beim Anzeigen und Tracken einer Nachricht gilt, in dieser Reihenfolge:
 
 Regex und Nachbearbeitung (`TalerUriDetector`, beide Plattformen gleich):
 
-- Muster `(?i)\b(?:taler|ext\+taler|payto)://\S+`
+- Muster `(?i)\b(?:taler|ext\+taler|payto)://\S+|https://(?:<Link-Hosts>)/link/?#\S+`
+  (DD-103-https-Links nur für die Hosts aus `TalerLinkHosts`, upstream
+  `wallet.taler.net`)
 - Nachlaufende Zeichen `. , ) ] } ! ? ; :` werden abgeschnitten
-- `distinct`, Reihenfolge des Auftretens
+- `distinct`, Reihenfolge des Auftretens. iOS vergleicht dabei entpackt
+  (`TalerHttpsLink.unwrap`): `taler://X` und der gleichwertige https-Link in
+  derselben Nachricht (so teilt taler-ios) zählen als eine Zahlung, die erste
+  Form gewinnt. Android vergleicht noch roh (N19).
 - `taler+http://` wird nicht erkannt.
 
 `NSRegularExpression` und Java weichen bei `\b`/`\S` minimal ab; beide Seiten
@@ -102,9 +109,9 @@ haben Tests mit denselben Randfällen.
 
 | Nachricht | Body | Feld 9000 |
 |---|---|---|
-| Zahlung gesendet/angefordert, mit `talerPaymentData` | `legacyText` + Leerzeile + URIs durch Leerzeile getrennt [Ist Android: `TalerReturnActivity.kt:295`] | ja |
+| Zahlung gesendet/angefordert, mit `talerPaymentData` | Klartext des Messengers + Leerzeile + URIs durch Leerzeile getrennt [Ist Android: `TalerPaymentBody.send`] | ja |
 | Zahlung, Rückfall ohne JSON | "Payment sent: <Art> (<URI>)" bzw. "Payment requested: <Art> (<URI>)" | ja, 1 URI |
-| Rückerstattung (Entwurf) | "Refund: <Zweck oder URI>" + Leerzeile + URIs | durch den Rücksprung nicht gesetzt (der Nutzer sendet den Entwurf manuell). [Offen: nicht geprüft, ob das normale Senden des Entwurfs Feld 9000 ergänzt] |
+| Rückerstattung (Entwurf) | "Refund: <Klartext des Messengers oder URI>" + Leerzeile + URIs | durch den Rücksprung nicht gesetzt (der Nutzer sendet den Entwurf manuell). [Offen: nicht geprüft, ob das normale Senden des Entwurfs Feld 9000 ergänzt] |
 | Bestätigung nach Annahme | "Payment for <Art> accepted (<URI>)" | nein |
 
 `<Art>` ist das Label der URI-Art. **Achtung [Ist Android]:** Body-Texte und

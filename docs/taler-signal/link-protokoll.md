@@ -178,6 +178,11 @@ und `talerPaymentData` (bei Einzelzahlung genau eine URI im JSON, bei
 Gruppen-Split N). `status=cancelled`, wenn der Nutzer Taler verlässt, bevor
 die Zahlung erstellt wurde. Taler committet die Zahlung vor dem Rücksprung.
 
+**Rollout `legacyText`:** Taler schickt seit 2026-10-11 kein `legacyText` mehr
+im `talerPaymentData`. Messenger deshalb vor Taler ausliefern: alte
+Messenger-Versionen werten fehlendes `legacyText` als Parse-Fehler und fallen
+auf `talerUri` zurück (ein Split verliert dann alle URIs außer der ersten).
+
 ### Fehlerfälle compose-send
 
 | Fall | Taler | Signal |
@@ -206,7 +211,8 @@ die Zahlung erstellt wurde. Taler committet die Zahlung vor dem Rücksprung.
    (`TalerReturnActivity.kt:270` gegen `:224-225`), siehe N5.
 4. Nur in 1:1-Chats und Gruppen, nicht in "Notiz an mich". [Ist Android:
    `TalerReturnActivity.kt:222`, `:259`]
-5. Body: `legacyText`, Leerzeile, URIs durch Leerzeile getrennt; dazu das
+5. Body: eigener Klartext des Messengers (nicht aus `talerPaymentData`),
+   Leerzeile, URIs durch Leerzeile getrennt; dazu das
    Proto-Feld 9000 (`datenmodell.md`). Ohne JSON (Rückfall): lokalisierter
    Text "Payment sent: <Art> (<URI>)" bzw. "Payment requested: ..." plus Feld
    9000 mit der einen URI. `expiresIn` = Verschwinde-Timer des Chats.
@@ -248,7 +254,7 @@ sendet **kein** `talerPaymentData` (`ComposeRefundScreen.kt:124`); Signal
 akzeptiert beides. `cancelled` beim Verlassen ohne Erstellung.
 
 **Signal-Regeln:** Kein automatisches Senden. Die URI wird als **Entwurf**
-vorbereitet: Text "Refund: <Zweck>" (mit `legacyText`, sonst mit der URI),
+vorbereitet: Text "Refund: <Klartext des Messengers>" (JSON-Pfad, sonst mit der URI),
 Leerzeile, URI(s). Stammt der Vorgang aus dem Long-Press-Menü der Karte
 (Zitat-Referenz im Store-Eintrag), wird der Entwurf als **Zitat-Antwort** auf
 die Originalnachricht angelegt. [Ist Android: `TalerReturnActivity.kt:120-166`]
@@ -281,11 +287,24 @@ passiert nichts.
 
 | Parameter | Pflicht | Typ | Werte | Kodierung |
 |---|---|---|---|---|
-| `uri` | ja, mindestens einmal | URI, **wiederholt** | eine abzubrechende `taler://pay-push/...`-URI pro Parameter, Reihenfolge erhalten | streng prozent-kodiert |
+| `v` | nein (fehlt = 1) | Int | Schema-Version, heute `1`; größere Werte trotzdem verarbeiten | roh |
+| `uri` | ja, 1 bis 32 | URI, **wiederholt** | eine abzubrechende `taler://pay-push/...`-URI pro Parameter, Reihenfolge erhalten | streng prozent-kodiert |
+| Metadaten | nein | flach | `reason`, `isGroup`, `recipientHint`, `memberCount`, `isGroupSplit`, `includeSelf`, `splitCount`, `currency`, `totalAmount`, `summary`, `sentAt` (Typen und Grenzen: `spec-multi-uri-link.md` 3.1) | streng prozent-kodiert |
 | `correlationId` | ja | UUID | 2.4, `CorrelationIntent = ABORT` mit der `uris`-Liste | roh |
 | `returnUri` | ja | URI | `sgnl://taler-return` | streng prozent-kodiert |
 
-Reihenfolge: alle `uri`, dann `correlationId`, `returnUri`.
+Reihenfolge: `v`, alle `uri`, gesetzte Metadaten, `correlationId`, `returnUri`.
+
+**Multi-URI-Link (Zielbild 5.2, freigegeben 2026-10-22, iOS umgesetzt):**
+Metadaten sind reine Anzeigehilfe; Taler zeigt Beträge nur aus den eigenen
+Transaktionen und warnt, wenn Signals Angaben abweichen. Auslöser sind
+"Für alle löschen" (`reason=delete`) und das Menü-"Abbrechen" einer
+Gruppenkarte ab zwei eigenen Anteilen (`reason=menu`, ersetzt die Schleife mit
+einem Link pro Anteil, N11). Mehr als 32 URIs schickt Signal in Stapeln zu 32,
+den nächsten erst nach dem Rücksprung des vorherigen; lehnt der Nutzer einen
+Stapel ganz ab, folgen keine weiteren. Signal entpackt DD-103-https-Links vor
+dem Senden (Taler kennt nur `taler://`) und ordnet die Ergebnisse wieder den
+gespeicherten Links zu.
 
 Beispiel (zwei URIs eines Gruppen-Splits):
 
@@ -305,19 +324,21 @@ und `results=<uri>:<status>`. Das ist überholt. Der Implementierungsplan
 
 1. Alle `uri` lesen. Jede muss mit `taler://pay-push/` oder
    `taler://pay-pull/` beginnen (case-insensitiv, so parst es Paket T1);
-   sonst wird sie verworfen. Signal sendet nur `pay-push` (Gate `showCancel`). Bleibt keine
-   übrig: Link verwerfen, kein Rücksprung.
+   sonst erhält sie `failed`, ebenso jede URI ab der 33. Doppelte URIs
+   werden zusammengefasst. Signal sendet nur `pay-push` (Gate `showCancel`).
+   Bleibt keine bearbeitbare übrig: Link verwerfen, kein Rücksprung.
 2. Jede URI auf die **eigene** laufende Transaktion abbilden
    (`OwnUriTracker`-Äquivalent). Eine URI, die Taler nicht als eigene kennt,
-   erhält `declined` (Entscheidung 2026-09-29, iOS T5: jede Eingangs-URI bekommt
-   genau ein Ergebnis; `declined` erzwingt in Signal keinen Status, nur einen Refresh).
+   erhält `not_own` (bis 2026-10-22: `declined`; jede Eingangs-URI bekommt
+   genau ein Ergebnis, keines davon erzwingt in Signal einen Status).
    [Offen: ob auf Android `OwnUriTracker.transactionIdFor` für extern
    hereinkommende URIs ausreicht, Verifikationspunkt 2 der Spec]
 3. **Eine** Sammelbestätigung ("Zahlung stornieren?" bzw. "N offene Anteile
    stornieren?"), nicht N Einzeldialoge.
 4. Bei Bestätigung `abortTransaction` pro Transaktion. Ergebnis pro URI:
    `aborted`, `already_claimed` (Empfänger hat schon angenommen), `expired`.
-   Bei Ablehnung des Dialogs `declined` für alle URIs dieser Anfrage.
+   Scheitert der Abbruch technisch: `failed`. Bei Ablehnung des Dialogs
+   `declined` für alle URIs dieser Anfrage.
 5. Rücksprung (Abschnitt 9). Schließt der Nutzer den Dialog ohne Entscheidung
    (z. B. Wischen), sendet Taler `declined` für alle URIs (Entscheidung
    2026-09-29, iOS T5). Bereits abgeschlossene/abgelaufene/abgebrochene
@@ -514,7 +535,7 @@ Nur für compose-abort.
 | Parameter | Pflicht | Typ | Werte | Kodierung |
 |---|---|---|---|---|
 | `correlationId` | ja | UUID | Echo | roh |
-| `result` | nein, wiederholt | String `<uri>\|<ergebnis>` | pro URI ein Parameter, Reihenfolge wie in `uri` des Anfrage-Links. `<ergebnis>` einer von `aborted`, `already_claimed`, `expired`, `declined` | **der gesamte Wert** `<uri>\|<ergebnis>` streng prozent-kodiert (also auch das `\|` als `%7C`) |
+| `result` | nein, wiederholt | String `<uri>\|<ergebnis>` | pro URI ein Parameter, Reihenfolge wie in `uri` des Anfrage-Links. `<ergebnis>` einer von `aborted`, `already_claimed`, `expired`, `declined`, `not_own`, `failed` | **der gesamte Wert** `<uri>\|<ergebnis>` streng prozent-kodiert (also auch das `\|` als `%7C`) |
 
 Kein `status`-Parameter in dieser Variante. (Ein Empfänger, der `status`
 vorfindet, wertet ihn bei `ABORT` nicht aus, Abschnitt 8 Regel 4.)
@@ -535,8 +556,12 @@ sgnl://taler-return?correlationId=91d3e0aa-5c47-4b6e-a8d2-7f10c3b9e455
 3. Nur URIs übernehmen, die in `uris` des Store-Eintrags stehen; andere
    Einträge verwerfen.
 4. Ergebnis -> Status (siehe `datenmodell.md`, Abbruch-Ergebnis-Mapping):
-   `aborted` -> `UNGUELTIG`, `expired` -> `ABGELAUFEN`, `already_claimed` und
-   `declined` -> keine Statusänderung (Fast-Poll übernimmt den echten Zustand).
+   `aborted` -> erst beim Exchange belegen: ist der Purse weg (404/410), dann
+   `UNGUELTIG`, sonst gilt die Exchange-Antwort (ein `aborted` im Link allein
+   ist nur eine Behauptung, Multi-URI-Link Frage 6). `expired` -> `ABGELAUFEN`.
+   `already_claimed`, `declined`, `not_own`, `failed` -> keine Statusänderung,
+   nur ein Refresh. Ältere Signal-Versionen verwerfen `not_own`/`failed` als
+   unbekannt.
 5. Keine neue lokale Statuszeile (die Zahlungsnachricht wurde gerade gelöscht).
    Die Zeile bleibt dem lokalen Fallback vorbehalten. [Plan Zeile 716]
 6. URIs aus `uris`, für die kein `result` kam, bleiben unverändert.
