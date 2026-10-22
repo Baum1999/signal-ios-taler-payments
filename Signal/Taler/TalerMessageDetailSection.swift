@@ -186,7 +186,7 @@ private final class TalerUriCopyHandler: NSObject {
             return
         }
         UIPasteboard.general.string = uri
-        ToastViewHelper.presentToastOnFrontmostViewController(
+        CurrentAppContext().frontmostViewController()?.presentToast(
             text: OWSLocalizedString(
                 "COPIED_TO_CLIPBOARD",
                 comment: "Indicator that a value has been copied to the clipboard."
