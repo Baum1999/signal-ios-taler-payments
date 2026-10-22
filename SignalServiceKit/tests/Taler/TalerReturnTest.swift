@@ -109,6 +109,16 @@ final class TalerReturnTest: XCTestCase {
         XCTAssertNil(result?.status)
     }
 
+    func testResultsAcceptMultiUriOutcomes() {
+        let result = parse("sgnl://taler-return?correlationId=abc"
+                           + "&result=taler%3A%2F%2Fpay-push%2Fex%2FAAAA%7Cnot_own"
+                           + "&result=taler%3A%2F%2Fpay-push%2Fex%2FBBBB%7Cfailed")
+        XCTAssertEqual(result?.results, [
+            TalerAbortResult(uri: "taler://pay-push/ex/AAAA", outcome: .notOwn),
+            TalerAbortResult(uri: "taler://pay-push/ex/BBBB", outcome: .failed),
+        ])
+    }
+
     func testResultWithPipeInUriQueryIsDiscarded() {
         // Das zweite | bleibt im Status-Teil ("cd|aborted" ist unbekannt),
         // nur dieser Eintrag wird verworfen, nicht der Ruecksprung.

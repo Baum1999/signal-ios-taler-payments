@@ -107,17 +107,53 @@ public enum TalerLinks {
         ])
     }
 
-    /// `talerlink://compose-abort` (Gap A, link-protokoll.md 5) - Signal bittet
-    /// Taler, eigene offene Zahlungen tatsaechlich abzubrechen. Eine URI pro
+    /// `talerlink://compose-abort` (Gap A, link-protokoll.md 5; Multi-URI-Link
+    /// spec-multi-uri-link.md 3.1) - Signal bittet Taler, eigene offene
+    /// Zahlungen tatsaechlich abzubrechen. Reihenfolge: `v=1`, eine URI pro
     /// wiederholtem `uri`-Parameter (keine Komma-Trennung, URIs koennen
-    /// Kommas enthalten), Reihenfolge bleibt erhalten; danach `correlationId`,
-    /// `returnUri`. DD-103-https-Links gehen entpackt an Taler; die
-    /// Ergebnisse ordnet `TalerAbortPlan.apply` wieder den Original-URIs zu.
-    public static func composeAbort(uris: [String], correlationId: String) -> URL {
-        var items = uris.map { URLQueryItem(name: "uri", value: encode(TalerHttpsLink.unwrap($0))) }
+    /// Kommas enthalten, Reihenfolge erhalten), dann die gesetzten
+    /// Metadaten, `correlationId`, `returnUri`. Hoechstens
+    /// `TalerAbortPlan.maxUrisPerLink` URIs; das Stapeln macht der Aufrufer.
+    /// DD-103-https-Links gehen entpackt an Taler; die Ergebnisse ordnet
+    /// `TalerAbortPlan.apply` wieder den Original-URIs zu.
+    public static func composeAbort(uris: [String], meta: TalerAbortMeta? = nil, correlationId: String) -> URL {
+        var items = [URLQueryItem(name: "v", value: "1")]
+        items += uris.map { URLQueryItem(name: "uri", value: encode(TalerHttpsLink.unwrap($0))) }
+        if let meta {
+            items += abortMetaItems(meta)
+        }
         items.append(URLQueryItem(name: "correlationId", value: encode(correlationId)))
         items.append(URLQueryItem(name: "returnUri", value: encode(returnUri)))
         return composeLink(host: "compose-abort", items: items)
+    }
+
+    /// Flache Metadaten in fester Reihenfolge (spec-multi-uri-link.md 3.1);
+    /// nicht gesetzte Felder fehlen. Texte werden auf ihre Hoechstlaenge
+    /// gekuerzt.
+    private static func abortMetaItems(_ meta: TalerAbortMeta) -> [URLQueryItem] {
+        var items: [URLQueryItem] = []
+        func add(_ name: String, _ value: String?) {
+            if let value, !value.isEmpty {
+                items.append(URLQueryItem(name: name, value: encode(value)))
+            }
+        }
+        func bool(_ value: Bool?) -> String? { value.map { $0 ? "true" : "false" } }
+        add("reason", meta.reason?.rawValue)
+        add("isGroup", bool(meta.isGroup))
+        add("recipientHint", meta.recipientHint.map { String($0.prefix(TalerAbortMeta.maxRecipientHintLength)) })
+        if meta.isGroup == true, let memberCount = meta.memberCount, memberCount >= 1 {
+            add("memberCount", String(memberCount))
+        }
+        add("isGroupSplit", bool(meta.isGroupSplit))
+        add("includeSelf", bool(meta.includeSelf))
+        if let splitCount = meta.splitCount, splitCount >= 1 {
+            add("splitCount", String(splitCount))
+        }
+        add("currency", meta.currency)
+        add("totalAmount", meta.totalAmount)
+        add("summary", meta.summary.map { String($0.prefix(TalerAbortMeta.maxSummaryLength)) })
+        add("sentAt", meta.sentAt.map(String.init))
+        return items
     }
 
     /// Aktionslink (link-protokoll.md 6): die normale Zahlungs-URI mit Scheme

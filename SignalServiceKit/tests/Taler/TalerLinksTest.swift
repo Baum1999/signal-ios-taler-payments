@@ -99,18 +99,49 @@ final class TalerLinksTest: XCTestCase {
                     "taler://pay-push/exchange.example.org/BBBB"]
         let url = TalerLinks.composeAbort(uris: uris, correlationId: correlationId)
         XCTAssertEqual(url.host, "compose-abort")
-        XCTAssertEqual(names(url), ["uri", "uri", "correlationId", "returnUri"])
-        XCTAssertEqual(items(url)[0].value, uris[0])
-        XCTAssertEqual(items(url)[1].value, uris[1])
+        XCTAssertEqual(names(url), ["v", "uri", "uri", "correlationId", "returnUri"])
+        XCTAssertEqual(items(url)[0].value, "1")
+        XCTAssertEqual(items(url)[1].value, uris[0])
+        XCTAssertEqual(items(url)[2].value, uris[1])
     }
 
     func testComposeAbortEncodesUris() {
         let uri = "taler://pay-push/e/A+B&C=D"
         let url = TalerLinks.composeAbort(uris: [uri], correlationId: correlationId)
         XCTAssertEqual(url.absoluteString,
-                       "talerlink://compose-abort?uri=taler%3A%2F%2Fpay-push%2Fe%2FA%2BB%26C%3DD"
+                       "talerlink://compose-abort?v=1&uri=taler%3A%2F%2Fpay-push%2Fe%2FA%2BB%26C%3DD"
                        + "&correlationId=\(correlationId)"
                        + "&returnUri=sgnl%3A%2F%2Ftaler-return")
+    }
+
+    func testComposeAbortCarriesFlatMetadataInSpecOrder() {
+        let meta = TalerAbortMeta(
+            reason: .delete, isGroup: true, recipientHint: "Familie + Freunde", memberCount: 4,
+            isGroupSplit: true, includeSelf: true, splitCount: 4, currency: "KUDOS",
+            totalAmount: "12.5", summary: "Pizza & Bier #1", sentAt: 1_760_000_000_000
+        )
+        let url = TalerLinks.composeAbort(uris: ["taler://pay-push/ex/A"], meta: meta, correlationId: correlationId)
+        XCTAssertEqual(names(url), [
+            "v", "uri", "reason", "isGroup", "recipientHint", "memberCount", "isGroupSplit", "includeSelf",
+            "splitCount", "currency", "totalAmount", "summary", "sentAt", "correlationId", "returnUri",
+        ])
+        let values = Dictionary(uniqueKeysWithValues: items(url).map { ($0.name, $0.value) })
+        XCTAssertEqual(values["recipientHint"], "Familie + Freunde")
+        XCTAssertEqual(values["summary"], "Pizza & Bier #1")
+        XCTAssertEqual(values["sentAt"], "1760000000000")
+    }
+
+    func testComposeAbortTruncatesTextsAndOmitsMemberCountOutsideGroups() {
+        let meta = TalerAbortMeta(
+            reason: .menu, isGroup: false, recipientHint: String(repeating: "h", count: 100),
+            memberCount: 2, summary: String(repeating: "s", count: 250)
+        )
+        let url = TalerLinks.composeAbort(uris: ["taler://pay-push/ex/A"], meta: meta, correlationId: correlationId)
+        let values = Dictionary(uniqueKeysWithValues: items(url).map { ($0.name, $0.value) })
+        XCTAssertEqual(values["recipientHint"]??.count, TalerAbortMeta.maxRecipientHintLength)
+        XCTAssertEqual(values["summary"]??.count, TalerAbortMeta.maxSummaryLength)
+        XCTAssertFalse(names(url).contains("memberCount"))
+        XCTAssertEqual(values["reason"], "menu")
     }
 
     // MARK: Roundtrip
@@ -132,10 +163,10 @@ final class TalerLinksTest: XCTestCase {
         XCTAssertEqual(items(refund)[1].value, correlationId)
 
         let abort = TalerLinks.composeAbort(uris: [uri, uri], correlationId: correlationId)
-        XCTAssertEqual(items(abort)[0].value, uri)
         XCTAssertEqual(items(abort)[1].value, uri)
+        XCTAssertEqual(items(abort)[2].value, uri)
         // Ein rohes + bleibt ein + (wird nicht zu einem Leerzeichen dekodiert).
-        XCTAssertEqual(items(abort)[2].name, "correlationId")
+        XCTAssertEqual(items(abort)[3].name, "correlationId")
     }
 
     // MARK: Aktionslink

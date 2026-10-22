@@ -30,17 +30,22 @@ public struct TalerCorrelationEntry: Equatable {
     /// REFUND: Interaktions-ID der Originalnachricht, wenn die
     /// Rueckerstattung als Zitat-Antwort vorbereitet werden soll.
     public let quoteInteractionUniqueId: String?
+    /// ABORT: noch nicht gestartete Folge-Stapel (mehr als 32 URIs), nil
+    /// wenn dies der letzte Stapel ist.
+    public let abortContinuation: TalerAbortContinuation?
 
     public init(intent: TalerCorrelationIntent,
                 threadUniqueId: String,
                 uri: String? = nil,
                 uris: [String] = [],
-                quoteInteractionUniqueId: String? = nil) {
+                quoteInteractionUniqueId: String? = nil,
+                abortContinuation: TalerAbortContinuation? = nil) {
         self.intent = intent
         self.threadUniqueId = threadUniqueId
         self.uri = uri
         self.uris = uris
         self.quoteInteractionUniqueId = quoteInteractionUniqueId
+        self.abortContinuation = abortContinuation
     }
 }
 

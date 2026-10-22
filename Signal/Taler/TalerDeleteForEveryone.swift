@@ -4,6 +4,7 @@
 //
 
 import SignalServiceKit
+import SignalUI
 import UIKit
 
 /// Startet den echten Taler-Abbruch beim "Fuer alle loeschen" (S10, Gap A,
@@ -43,43 +44,30 @@ enum TalerDeleteForEveryone {
         guard !affectedUris.isEmpty else {
             return
         }
+        // Nachrichtenbezogene Metadaten nur, wenn genau eine Nachricht
+        // betroffen ist; bei einer Mehrfachauswahl nur Chat-Angaben.
+        let messages = interactions.compactMap { $0 as? TSMessage }.filter { message in
+            message.body.map { !TalerMessageBody.uris(in: $0).isEmpty } ?? false
+        }
+        let meta = TalerAbortLauncher.meta(
+            reason: .delete,
+            message: messages.count == 1 ? messages[0] : nil,
+            threadUniqueId: threadUniqueId,
+            uris: affectedUris,
+            tx: tx
+        )
 
         // Erst nach Abschluss der Loesch-Transaktion oeffnen; die URIs sind
         // hier bereits kopiert. Main-Dispatch, weil das Oeffnen (und die
         // Installations-Pruefung) UIKit brauchen - die Transaktion selbst
         // kann auf einem Hintergrund-Queue laufen (awaitableWrite).
-        let uris = affectedUris
         DispatchQueue.main.async {
-            launch(uris: uris, threadUniqueId: threadUniqueId)
-        }
-    }
-
-    /// Registriert den ABORT-Eintrag im Correlation-Store und oeffnet
-    /// `talerlink://compose-abort` (link-protokoll.md 5). Ohne Taler bzw.
-    /// bei gescheitertem Oeffnen: lokaler Fallback.
-    private static func launch(uris: [String], threadUniqueId: String) {
-        // Main-Thread (siehe oben); frisch pruefen wie beim Tippen.
-        guard TalerInstallation.refresh() else {
-            applyLocalFallback(uris: uris)
-            return
-        }
-        let correlationId = TalerCorrelationStore.shared.register(
-            TalerCorrelationEntry(
-                intent: .abort,
+            TalerAbortLauncher.launch(
+                uris: affectedUris,
+                meta: meta,
                 threadUniqueId: threadUniqueId,
-                uri: nil,
-                uris: uris,
-                quoteInteractionUniqueId: nil
+                fallsBackLocally: true
             )
-        )
-        let url = TalerLinks.composeAbort(uris: uris, correlationId: correlationId)
-        UIApplication.shared.open(url, options: [:]) { success in
-            if !success {
-                // Link kam nicht an: Store-Eintrag bleibt ungenutzt und laeuft
-                // nach der TTL ab; stattdessen lokaler Fallback, damit das
-                // Verhalten nie unter dem heutigen bleibt.
-                applyLocalFallback(uris: uris)
-            }
         }
     }
 
@@ -90,7 +78,7 @@ enum TalerDeleteForEveryone {
     /// nicht direkt aufgerufen werden, weil der Nachrichtenkoerper zu diesem
     /// Zeitpunkt schon geloescht ist; die URIs wurden vorher gesichert. Keine
     /// Rueckerstattung, kein Netzwerk - Signal bewegt kein Geld (Regel 1).
-    private static func applyLocalFallback(uris: [String]) {
+    static func applyLocalFallback(uris: [String]) {
         SSKEnvironment.shared.databaseStorageRef.asyncWrite { tx in
             let now = Int64(Date().timeIntervalSince1970 * 1000)
             for uri in uris {
@@ -110,5 +98,116 @@ enum TalerDeleteForEveryone {
                 }
             }
         }
+    }
+}
+
+/// Startet `talerlink://compose-abort` fuer "Fuer alle loeschen" und das
+/// Menue-Abbrechen mehrerer Anteile (Multi-URI-Link 5.2). Mehr als
+/// `TalerAbortPlan.maxUrisPerLink` URIs gehen in Stapeln; den naechsten
+/// startet TalerReturnHandler nach dem Ruecksprung des vorherigen.
+enum TalerAbortLauncher {
+
+    /// Registriert den ABORT-Eintrag des ersten Stapels und oeffnet den Link.
+    /// Ohne Taler bzw. bei gescheitertem Oeffnen: `fallsBackLocally` -> lokal
+    /// LOKAL_ABGEBROCHEN fuer alle URIs, sonst der Hinweis "Taler nicht
+    /// installiert".
+    static func launch(uris: [String], meta: TalerAbortMeta?, threadUniqueId: String, fallsBackLocally: Bool) {
+        let batches = TalerAbortPlan.batches(uris)
+        guard !batches.isEmpty else {
+            return
+        }
+        open(batches: batches, meta: meta, threadUniqueId: threadUniqueId, fallsBackLocally: fallsBackLocally)
+    }
+
+    /// Naechster Stapel nach einem Ruecksprung. Leicht verzoegert, damit
+    /// Signal nach dem Ruecksprung erst im Vordergrund ist.
+    static func launchNext(_ continuation: TalerAbortContinuation, threadUniqueId: String) {
+        guard !continuation.remainingBatches.isEmpty else {
+            return
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            open(
+                batches: continuation.remainingBatches,
+                meta: continuation.meta,
+                threadUniqueId: threadUniqueId,
+                fallsBackLocally: continuation.fallsBackLocally
+            )
+        }
+    }
+
+    private static func open(batches: [[String]], meta: TalerAbortMeta?, threadUniqueId: String, fallsBackLocally: Bool) {
+        let allUris = batches.flatMap { $0 }
+        // Frisch pruefen wie beim Tippen.
+        guard TalerInstallation.refresh() else {
+            notReachable(uris: allUris, fallsBackLocally: fallsBackLocally)
+            return
+        }
+        let remaining = Array(batches.dropFirst())
+        let correlationId = TalerCorrelationStore.shared.register(
+            TalerCorrelationEntry(
+                intent: .abort,
+                threadUniqueId: threadUniqueId,
+                uri: nil,
+                uris: batches[0],
+                quoteInteractionUniqueId: nil,
+                abortContinuation: remaining.isEmpty ? nil : TalerAbortContinuation(
+                    remainingBatches: remaining,
+                    meta: meta,
+                    fallsBackLocally: fallsBackLocally
+                )
+            )
+        )
+        let url = TalerLinks.composeAbort(uris: batches[0], meta: meta, correlationId: correlationId)
+        UIApplication.shared.open(url, options: [:]) { success in
+            if !success {
+                // Link kam nicht an: Store-Eintrag bleibt ungenutzt und laeuft
+                // nach der TTL ab.
+                notReachable(uris: allUris, fallsBackLocally: fallsBackLocally)
+            }
+        }
+    }
+
+    private static func notReachable(uris: [String], fallsBackLocally: Bool) {
+        if fallsBackLocally {
+            TalerDeleteForEveryone.applyLocalFallback(uris: uris)
+        } else {
+            OWSActionSheets.showActionSheet(
+                title: TalerStrings.alertTalerNotInstalledTitle,
+                message: TalerStrings.alertTalerNotInstalledBody
+            )
+        }
+    }
+
+    /// Anzeige-Metadaten (spec-multi-uri-link.md 3.1). Chat-Angaben immer,
+    /// Split-Angaben nur mit `message` (genau eine betroffene Nachricht).
+    /// Waehrung und Zweck stammen aus den eigenen Records der URIs, nur wenn
+    /// sie eindeutig sind.
+    static func meta(reason: TalerAbortReason, message: TSMessage?, threadUniqueId: String, uris: [String], tx: DBReadTransaction) -> TalerAbortMeta {
+        var meta = TalerAbortMeta(reason: reason)
+        if let thread = TSThread.fetchViaCache(uniqueId: threadUniqueId, transaction: tx) {
+            meta.isGroup = thread.isGroupThread
+            meta.recipientHint = SSKEnvironment.shared.contactManagerRef.displayName(for: thread, transaction: tx)
+            meta.memberCount = (thread as? TSGroupThread)?.groupModel.groupMembers.count
+        }
+        let records = uris.compactMap { TalerPaymentStore.record(forUri: $0, tx: tx) }
+        let currencies = Set(records.compactMap(\.currency))
+        if currencies.count == 1 {
+            meta.currency = currencies.first
+        }
+        let summaries = Set(records.compactMap(\.summary).filter { !$0.isEmpty })
+        if summaries.count == 1 {
+            meta.summary = summaries.first
+        }
+        guard let message else {
+            return meta
+        }
+        meta.sentAt = message.timestamp
+        if let rowId = message.sqliteRowId, let payload = TalerPaymentStore.paymentMessage(interactionId: rowId, tx: tx)?.payload {
+            meta.isGroupSplit = payload.isGroupSplit
+            meta.includeSelf = payload.includeSelf
+            meta.splitCount = payload.uris.count
+            meta.totalAmount = payload.totalAmount
+        }
+        return meta
     }
 }

@@ -75,44 +75,54 @@ enum TalerReturnHandler {
 
     // MARK: - ABORT
 
-    /// Uebernimmt die Abbruch-Ergebnisse der result-Variante (S10, Gap A):
-    /// `aborted` -> UNGUELTIG, `expired` -> ABGELAUFEN,
-    /// `already_claimed`/`declined` erzwingen nichts, loesen aber einen
-    /// manuellen Refresh aus (der echte Zustand kommt aus Contract/Exchange,
-    /// nie aus dem Link). URIs ohne Ergebnis bleiben unveraendert. Statuszeilen
-    /// nur nach E7-Regeln, falls TalerStatusLine fuer den Status eine Zeile
-    /// vorsieht (UNGUELTIG hat keine, ABGELAUFEN eine), sonst keine. Kein
-    /// Loggen einer URI.
+    /// Uebernimmt die Abbruch-Ergebnisse der result-Variante (S10, Gap A,
+    /// Multi-URI-Link 5.2): `aborted` wird erst beim Exchange belegt und dann
+    /// UNGUELTIG, `expired` -> ABGELAUFEN, alle anderen erzwingen nichts und
+    /// loesen nur einen manuellen Refresh aus (der echte Zustand kommt aus
+    /// Contract/Exchange, nie aus dem Link). URIs ohne Ergebnis bleiben
+    /// unveraendert. Danach startet ein noch offener Folge-Stapel. Kein Loggen
+    /// einer URI.
     private static func applyAbortResults(_ results: [TalerAbortResult], entry: TalerCorrelationEntry) {
         let updates = TalerAbortPlan.apply(results: results, allowed: entry.uris)
 
-        // already_claimed/declined: nichts erzwingen, nur Refresh.
-        for update in updates where update.status == nil {
-            TalerPaymentManager.shared.requestRefresh(uri: update.uri, trigger: .manual)
+        var statusUpdates: [(uri: String, status: TalerPaymentStatus)] = []
+        for update in updates {
+            switch update.followUp {
+            case .verifyAbort:
+                TalerPaymentManager.shared.verifyAbort(uri: update.uri)
+            case .refresh:
+                TalerPaymentManager.shared.requestRefresh(uri: update.uri, trigger: .manual)
+            case .setStatus(let status):
+                statusUpdates.append((update.uri, status))
+            }
         }
 
-        let statusUpdates = updates.filter { $0.status != nil }
-        guard !statusUpdates.isEmpty else {
-            return
-        }
-        SSKEnvironment.shared.databaseStorageRef.asyncWrite { tx in
-            let now = Int64(Date().timeIntervalSince1970 * 1000)
-            for (uri, status) in statusUpdates {
-                guard
-                    let status,
-                    let record = TalerPaymentStore.record(forUri: uri, tx: tx),
-                    TalerPaymentStore.updateStatus(uri: uri, status: status, now: now, tx: tx)
-                else {
-                    continue
-                }
-                if record.status != status {
-                    // Statuszeile nach E7, falls der Status eine vorsieht.
-                    TalerStatusLine.insert(status: status, threadUniqueId: record.threadUniqueId, tx: tx)
-                    // Nachrichten mit derselben URI (zitierte/weitergeleitete
-                    // Kopien) neu rendern; die geloeschte Nachricht ist weg.
-                    TalerPaymentManager.touchInteractions(forUri: uri, tx: tx)
+        if !statusUpdates.isEmpty {
+            SSKEnvironment.shared.databaseStorageRef.asyncWrite { tx in
+                let now = Int64(Date().timeIntervalSince1970 * 1000)
+                for (uri, status) in statusUpdates {
+                    guard
+                        let record = TalerPaymentStore.record(forUri: uri, tx: tx),
+                        TalerPaymentStore.updateStatus(uri: uri, status: status, now: now, tx: tx)
+                    else {
+                        continue
+                    }
+                    if record.status != status {
+                        // Statuszeile nach E7, falls der Status eine vorsieht.
+                        TalerStatusLine.insert(status: status, threadUniqueId: record.threadUniqueId, tx: tx)
+                        // Nachrichten mit derselben URI (zitierte/weitergeleitete
+                        // Kopien) neu rendern; die geloeschte Nachricht ist weg.
+                        TalerPaymentManager.touchInteractions(forUri: uri, tx: tx)
+                    }
                 }
             }
+        }
+
+        // Hat der Nutzer in Taler alles abgelehnt (oder den Dialog
+        // geschlossen), keine weiteren Stapel nachschieben.
+        let userDeclined = !results.isEmpty && results.allSatisfy { $0.outcome == .declined }
+        if let continuation = entry.abortContinuation, !userDeclined {
+            TalerAbortLauncher.launchNext(continuation, threadUniqueId: entry.threadUniqueId)
         }
     }
 

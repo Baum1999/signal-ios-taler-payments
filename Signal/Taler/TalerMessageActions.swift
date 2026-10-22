@@ -199,19 +199,36 @@ enum TalerMessageActions {
     }
 
     /// Abbrechen: oeffnet Talers eigene Abbrechen-UI fuer den eigenen,
-    /// offenen Anteil. Signal bewegt dabei kein Geld - bestaetigt wird nur
-    /// in der Taler-UI durch den Nutzer (Regel 1). Der Status aendert sich
-    /// erst durch Taler bzw. den Exchange, nie lokal.
+    /// offenen Anteil. Ab zwei Anteilen (Gruppenkarte) ein einziger
+    /// compose-abort mit Sammel-Bestaetigung (`reason=menu`, Multi-URI-Link
+    /// 5.2) statt einem Link pro Anteil, von denen nur der letzte sicher
+    /// ankaeme. Signal bewegt dabei kein Geld - bestaetigt wird nur in der
+    /// Taler-UI durch den Nutzer (Regel 1). Der Status aendert sich erst
+    /// durch Taler bzw. den Exchange, nie lokal.
     static func cancel(messageUniqueId: String) {
-        SSKEnvironment.shared.databaseStorageRef.read { tx in
+        let request = SSKEnvironment.shared.databaseStorageRef.read { tx -> (uris: [String], threadUniqueId: String, meta: TalerAbortMeta?)? in
             guard let message = TSMessage.fetchMessageViaCache(uniqueId: messageUniqueId, transaction: tx) else {
-                return
+                return nil
             }
-            let targets = TalerMenuState.targets(for: message, tx: tx)
-            for uri in targets.cancelUris {
-                TalerCardActions.cancel(uri: uri, threadUniqueId: message.uniqueThreadId)
-            }
+            let uris = TalerMenuState.targets(for: message, tx: tx).cancelUris
+            let meta = uris.count >= 2
+                ? TalerAbortLauncher.meta(reason: .menu, message: message, threadUniqueId: message.uniqueThreadId, uris: uris, tx: tx)
+                : nil
+            return (uris, message.uniqueThreadId, meta)
         }
+        guard let request, !request.uris.isEmpty else {
+            return
+        }
+        guard request.uris.count >= 2 else {
+            TalerCardActions.cancel(uri: request.uris[0], threadUniqueId: request.threadUniqueId)
+            return
+        }
+        TalerAbortLauncher.launch(
+            uris: request.uris,
+            meta: request.meta,
+            threadUniqueId: request.threadUniqueId,
+            fallsBackLocally: false
+        )
     }
 
     /// Aktualisieren: sofortiger manueller Abruf je Anteil. Bewusst kein

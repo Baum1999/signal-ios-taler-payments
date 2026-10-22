@@ -75,7 +75,7 @@ final class TalerAbortPlanTest: XCTestCase {
             "taler://pay-push/ex/C",
             "taler://pay-push/ex/D",
         ])
-        XCTAssertEqual(updates.map(\.status), [.ungueltig, .abgelaufen, nil, nil])
+        XCTAssertEqual(updates.map(\.followUp), [.verifyAbort, .setStatus(.abgelaufen), .refresh, .refresh])
     }
 
     func testApplyDropsUrisOutsideAllowedList() {
@@ -88,7 +88,7 @@ final class TalerAbortPlanTest: XCTestCase {
         )
 
         XCTAssertEqual(updates.map(\.uri), ["taler://pay-push/ex/A"])
-        XCTAssertEqual(updates.first?.status, .ungueltig)
+        XCTAssertEqual(updates.first?.followUp, .verifyAbort)
     }
 
     func testApplyWithEmptyAllowedListDropsEverything() {
@@ -109,6 +109,36 @@ final class TalerAbortPlanTest: XCTestCase {
         )
 
         XCTAssertEqual(updates.map(\.uri), ["taler://pay-push/ex/B", "taler://pay-push/ex/A"])
-        XCTAssertEqual(updates.map(\.status), [.ungueltig, .abgelaufen])
+        XCTAssertEqual(updates.map(\.followUp), [.verifyAbort, .setStatus(.abgelaufen)])
+    }
+
+    func testApplyMapsNewMultiUriOutcomesToRefresh() {
+        let updates = TalerAbortPlan.apply(
+            results: [
+                TalerAbortResult(uri: "taler://pay-push/ex/A", outcome: .notOwn),
+                TalerAbortResult(uri: "taler://pay-push/ex/B", outcome: .failed),
+            ],
+            allowed: ["taler://pay-push/ex/A", "taler://pay-push/ex/B"]
+        )
+        XCTAssertEqual(updates.map(\.followUp), [.refresh, .refresh])
+    }
+
+    // MARK: - batches
+
+    func testBatchesSplitAt32KeepingOrder() {
+        let uris = (0..<70).map { "taler://pay-push/ex/\($0)" }
+        let batches = TalerAbortPlan.batches(uris)
+        XCTAssertEqual(batches.map(\.count), [32, 32, 6])
+        XCTAssertEqual(batches.flatMap { $0 }, uris)
+        XCTAssertEqual(TalerAbortPlan.batches(Array(uris.prefix(32))).count, 1)
+        XCTAssertEqual(TalerAbortPlan.batches([]), [])
+    }
+
+    // MARK: - verifiedAbortResolution
+
+    func testAbortIsOnlyAppliedWhenTheExchangeNoLongerKnowsThePurse() {
+        XCTAssertEqual(TalerAbortPlan.verifiedAbortResolution(.failed(.abgelaufen)), .failed(.ungueltig))
+        XCTAssertEqual(TalerAbortPlan.verifiedAbortResolution(.failed(.ungueltig)), .failed(.ungueltig))
+        XCTAssertEqual(TalerAbortPlan.verifiedAbortResolution(.offline), .offline)
     }
 }

@@ -224,6 +224,19 @@ public final class TalerPaymentManager: @unchecked Sendable {
         await apply(resolution, uri: uri)
     }
 
+    /// Belegt ein von Taler gemeldetes `aborted` beim Exchange
+    /// (spec-multi-uri-link.md Frage 6) und uebernimmt nur dessen Ergebnis,
+    /// siehe `TalerAbortPlan.verifiedAbortResolution`.
+    public func verifyAbort(uri: String) {
+        guard isEnabled else {
+            return
+        }
+        Task {
+            let resolution = await self.resolver.resolve(uri)
+            await self.apply(TalerAbortPlan.verifiedAbortResolution(resolution), uri: uri)
+        }
+    }
+
     func apply(_ resolution: TalerContractResolution, uri: String) async {
         let now = Int64(Date().timeIntervalSince1970 * 1000)
         await SSKEnvironment.shared.databaseStorageRef.awaitableWrite { tx in

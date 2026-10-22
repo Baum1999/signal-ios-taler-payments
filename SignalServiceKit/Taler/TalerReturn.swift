@@ -18,12 +18,18 @@ public enum TalerReturnStatus: String {
 /// Ergebnis pro URI aus der result-Variante des Ruecksprungs
 /// (link-protokoll.md 9, Gap A): `aborted` (echter Abbruch),
 /// `already_claimed` (Empfaenger hat angenommen), `expired` (Purse abgelaufen),
-/// `declined` (Nutzer hat die Sammel-Bestaetigung in Taler abgelehnt).
+/// `declined` (Nutzer hat die Sammel-Bestaetigung in Taler abgelehnt),
+/// `not_own` (URI gehoert keiner eigenen Zahlung dieser Wallet) und
+/// `failed` (Abbruch technisch gescheitert, URI ungueltig oder ueber der
+/// Obergrenze von 32), die letzten beiden aus dem Multi-URI-Link
+/// (spec-multi-uri-link.md 3.3).
 public enum TalerAbortOutcome: String {
     case aborted
     case alreadyClaimed = "already_claimed"
     case expired
     case declined
+    case notOwn = "not_own"
+    case failed
 }
 
 /// Ein uebernommenes Abbruch-Ergebnis: die URI und ihr Ausgang. Die URI ist
