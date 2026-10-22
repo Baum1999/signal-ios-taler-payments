@@ -562,7 +562,7 @@ extension ConversationViewController {
     func talerPaymentButtonPressed() {
         AssertIsOnMainThread()
 
-        dismissKeyBoard()
+        dismissKeyboard()
 
         TalerComposeLauncher.startSend(thread: thread, from: self)
     }

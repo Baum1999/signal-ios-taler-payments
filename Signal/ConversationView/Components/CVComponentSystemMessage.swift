@@ -969,7 +969,7 @@ extension CVComponentSystemMessage {
                 return .pin
             // GNU Taler: Taler payment status line.
             case .talerPaymentUpdate:
-                return .creditcard
+                return .creditCard
             }
         }
         if let call = interaction as? TSCall {
