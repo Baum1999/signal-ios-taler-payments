@@ -38,21 +38,27 @@ public enum TalerAbortPlan {
     /// der echte Zustand kommt aus Contract/Exchange, nie aus dem Link).
     /// Ergebnisse mit einer URI, die nicht in `allowed` steht, werden
     /// komplett ignoriert (Ziel-Validierung). Die Reihenfolge des
-    /// Ruecksprungs bleibt erhalten.
+    /// Ruecksprungs bleibt erhalten. Verglichen wird entpackt
+    /// (`TalerHttpsLink.unwrap`): Taler bekommt und meldet `taler://`, der
+    /// Record kann den DD-103-https-Link tragen; zurueck kommt immer die URI
+    /// aus `allowed`.
     public static func apply(results: [TalerAbortResult], allowed: [String]) -> [(uri: String, status: TalerPaymentStatus?)] {
-        let allowedUris = Set(allowed)
+        var allowedByKey: [String: String] = [:]
+        for uri in allowed where allowedByKey[TalerHttpsLink.unwrap(uri)] == nil {
+            allowedByKey[TalerHttpsLink.unwrap(uri)] = uri
+        }
         var updates: [(uri: String, status: TalerPaymentStatus?)] = []
         for result in results {
-            guard allowedUris.contains(result.uri) else {
+            guard let original = allowedByKey[TalerHttpsLink.unwrap(result.uri)] else {
                 continue
             }
             switch result.outcome {
             case .aborted:
-                updates.append((result.uri, .ungueltig))
+                updates.append((original, .ungueltig))
             case .expired:
-                updates.append((result.uri, .abgelaufen))
+                updates.append((original, .abgelaufen))
             case .alreadyClaimed, .declined:
-                updates.append((result.uri, nil))
+                updates.append((original, nil))
             }
         }
         return updates

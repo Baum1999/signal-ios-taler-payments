@@ -141,11 +141,13 @@ public struct TalerPeerContractResolver: Sendable {
 
     /// `taler://pay-push/<host>[/<path>...]/<key>` -> Exchange-Base-URL
     /// (immer `https`, ausser bei `taler+http`) und privater Schluessel.
+    /// DD-103-https-Links werden vorher entpackt.
     public static func parse(_ uri: String) -> ParsedPeerUri? {
-        guard let kind = TalerUriParser.classify(uri), kind == .payPush || kind == .payPull else {
+        let unwrapped = TalerHttpsLink.unwrap(uri)
+        guard let kind = TalerUriParser.classify(unwrapped), kind == .payPush || kind == .payPull else {
             return nil
         }
-        let trimmed = uri.trimmingCharacters(in: .whitespacesAndNewlines)
+        let trimmed = unwrapped
         let withoutQuery = trimmed.split(separator: "?", maxSplits: 1, omittingEmptySubsequences: false).first.map(String.init) ?? trimmed
         let scheme = withoutQuery.lowercased().hasPrefix("taler+http://") ? "http" : "https"
         guard let schemeEnd = withoutQuery.range(of: "://") else {

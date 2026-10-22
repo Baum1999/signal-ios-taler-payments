@@ -14,12 +14,24 @@ import Foundation
 ///
 /// `taler+http://` fehlt bewusst: Signal loest erkannte Peer-URIs
 /// unaufgefordert beim Exchange auf, das soll nicht im Klartext passieren.
+///
+/// https-Links nach DD 103 (`https://<host>/link#...`, `TalerHttpsLink`)
+/// werden nur fuer die Domains aus `TalerLinkHosts` erkannt.
+///
+/// Abweichung von Android: Dubletten werden nach dem entpackten Link
+/// entfernt, nicht nach dem Rohtext. taler-ios teilt `taler://...` und den
+/// gleichwertigen https-Link in einer Nachricht; das ist eine Zahlung, keine
+/// zwei.
 public enum TalerUriDetector {
 
     private static let uriRegex: NSRegularExpression = {
-        // Gleiches Muster wie Android: (?i)\b(?:taler|ext\+taler|payto)://\S+
+        // Gleiches Muster wie Android:
+        // (?i)\b(?:taler|ext\+taler|payto)://\S+|https://(?:<hosts>)/link/?#\S+
         // swiftlint:disable:next force_try
-        return try! NSRegularExpression(pattern: #"\b(?:taler|ext\+taler|payto)://\S+"#, options: [.caseInsensitive])
+        return try! NSRegularExpression(
+            pattern: #"\b(?:taler|ext\+taler|payto)://\S+|"# + TalerHttpsLink.linkPrefixPattern + #"\S+"#,
+            options: [.caseInsensitive]
+        )
     }()
 
     private static let trailingPunctuation: Set<Character> = [".", ",", ")", "]", "}", "!", "?", ";", ":"]
@@ -27,12 +39,13 @@ public enum TalerUriDetector {
     public static func findUris(_ text: String) -> [String] {
         let nsText = text as NSString
         var result: [String] = []
+        var seen = Set<String>()
         for match in uriRegex.matches(in: text, range: NSRange(location: 0, length: nsText.length)) {
             var value = nsText.substring(with: match.range)
             while let last = value.last, trailingPunctuation.contains(last) {
                 value.removeLast()
             }
-            if !result.contains(value) {
+            if seen.insert(TalerHttpsLink.unwrap(value)).inserted {
                 result.append(value)
             }
         }

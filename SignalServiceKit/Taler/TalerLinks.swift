@@ -98,9 +98,10 @@ public enum TalerLinks {
     /// zu erstellen. `originalUri` ist die einzige Angabe; Taler loest daraus
     /// selbst Betrag und Zweck auf. Reihenfolge (link-protokoll.md 4):
     /// `originalUri`, `correlationId`, `returnUri`.
+    /// DD-103-https-Links gehen entpackt an Taler, das nur `taler://` kennt.
     public static func composeRefund(originalUri: String, correlationId: String) -> URL {
         composeLink(host: "compose-refund", items: [
-            URLQueryItem(name: "originalUri", value: encode(originalUri)),
+            URLQueryItem(name: "originalUri", value: encode(TalerHttpsLink.unwrap(originalUri))),
             URLQueryItem(name: "correlationId", value: encode(correlationId)),
             URLQueryItem(name: "returnUri", value: encode(returnUri)),
         ])
@@ -110,9 +111,10 @@ public enum TalerLinks {
     /// Taler, eigene offene Zahlungen tatsaechlich abzubrechen. Eine URI pro
     /// wiederholtem `uri`-Parameter (keine Komma-Trennung, URIs koennen
     /// Kommas enthalten), Reihenfolge bleibt erhalten; danach `correlationId`,
-    /// `returnUri`.
+    /// `returnUri`. DD-103-https-Links gehen entpackt an Taler; die
+    /// Ergebnisse ordnet `TalerAbortPlan.apply` wieder den Original-URIs zu.
     public static func composeAbort(uris: [String], correlationId: String) -> URL {
-        var items = uris.map { URLQueryItem(name: "uri", value: encode($0)) }
+        var items = uris.map { URLQueryItem(name: "uri", value: encode(TalerHttpsLink.unwrap($0))) }
         items.append(URLQueryItem(name: "correlationId", value: encode(correlationId)))
         items.append(URLQueryItem(name: "returnUri", value: encode(returnUri)))
         return composeLink(host: "compose-abort", items: items)
@@ -127,8 +129,10 @@ public enum TalerLinks {
     /// Nur `taler://pay-push/...` und `taler://pay-pull/...` (jeweils auch in
     /// Grossbuchstaben). Andere Arten (`ext+taler://`, `taler+http://`, `pay`,
     /// `withdraw`, `refund`) und unparsable Eingaben liefern nil - fuer sie
-    /// schickt Signal keinen Aktionslink.
-    public static func actionLink(forTalerUri uri: String, correlationId: String) -> URL? {
+    /// schickt Signal keinen Aktionslink. DD-103-https-Links werden vorher
+    /// entpackt (wie Android, TalerAcceptRejectActions.kt).
+    public static func actionLink(forTalerUri originalUri: String, correlationId: String) -> URL? {
+        let uri = TalerHttpsLink.unwrap(originalUri)
         let normalized = uri.lowercased()
         guard normalized.hasPrefix("taler://pay-push/") || normalized.hasPrefix("taler://pay-pull/") else {
             return nil

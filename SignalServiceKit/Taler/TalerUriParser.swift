@@ -8,11 +8,12 @@ import Foundation
 /// Klassifiziert Taler-URIs anhand ihres Pfad-Praefixes. Swift-Spiegel von
 /// `net.taler.wallet.link.TalerUriParser` (taler-android, von signal-android
 /// byte-identisch uebernommen) - gleiche Praefixe, gleiche Reihenfolge,
-/// kein Netzwerk.
+/// kein Netzwerk. DD-103-https-Links werden zuerst entpackt
+/// (`TalerHttpsLink.unwrap`), wie auf Android.
 public enum TalerUriParser {
 
     public static func classify(_ uri: String) -> TalerUriKind? {
-        let normalized = uri.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+        let normalized = TalerHttpsLink.unwrap(uri).trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
         let action: Substring
         if normalized.hasPrefix("taler://") {
             action = normalized.dropFirst("taler://".count)
