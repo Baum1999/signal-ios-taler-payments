@@ -21,7 +21,6 @@ extension TalerStrings {
     /// `Refund: %1$s` (Android TalerFork_refund_message). Wie die anderen
     /// Texte echter ausgehender Nachrichten bewusst NICHT lokalisiert: der
     /// Body wird gesendet und soll geraeteueberall identisch bleiben; Argument
-    /// ist der Taler-seitige Verwendungszweck (legacyText) bzw. im
-    /// Rueckfallpfad die URI selbst.
+    /// ist `TalerStrings.legacyText` bzw. im Rueckfallpfad die URI selbst.
     public static let refundMessageFormat = "Refund: %@"
 }

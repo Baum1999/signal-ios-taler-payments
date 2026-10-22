@@ -22,6 +22,9 @@ public enum TalerStrings {
     public static let acceptConfirmationFormat = "Payment for %@ accepted (%@)"
     public static let sendMessageFormat = "Payment sent: %@ (%@)"
     public static let requestMessageFormat = "Payment requested: %@ (%@)"
+    /// Klartext vor den URIs einer Zahlungsnachricht. Gehoert Signal, nicht
+    /// Taler (Taler sendet seit 2026-10-11 kein legacyText mehr). Identisch zu
+    /// Android TalerFork_payment_legacy_text (values).
     public static let legacyText = "This is a GNU Taler link. Update Signal or copy the URI below into the GNU Taler app to make the payment."
 
     // MARK: Karte

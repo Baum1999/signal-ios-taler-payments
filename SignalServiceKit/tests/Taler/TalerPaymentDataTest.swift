@@ -82,6 +82,20 @@ final class TalerPaymentDataTest: XCTestCase {
         XCTAssertEqual(json, #"{"legacyText":"x","uri":["taler://pay-push/e/A"]}"#)
     }
 
+    func testDecodesWithoutLegacyText() {
+        let json = #"{"includeSelf":true,"totalAmount":"30","uri":["taler://pay-push/e/A","taler://pay-push/e/B"]}"#
+        let decoded = TalerPaymentData.parseOrNil(json)
+        XCTAssertNil(decoded?.legacyText)
+        XCTAssertEqual(decoded?.uri.count, 2)
+    }
+
+    func testEncodesWithoutLegacyTextWhenNil() {
+        XCTAssertEqual(
+            TalerPaymentData(uri: ["taler://pay-push/e/A"]).jsonString(),
+            #"{"uri":["taler://pay-push/e/A"]}"#
+        )
+    }
+
     func testShortHashIsTwelveHexCharactersAndStable() {
         let hash = TalerCorrelation.shortHash("taler://pay-push/exchange.example/AAA")
         XCTAssertEqual(hash.count, 12)

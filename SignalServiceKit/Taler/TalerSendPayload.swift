@@ -43,7 +43,6 @@ public enum TalerSendPayload {
                 // Rueckfall auf talerUri.
                 return build(
                     uris: paymentData.uri,
-                    legacyText: paymentData.legacyText,
                     includeSelf: paymentData.includeSelf,
                     totalAmount: paymentData.totalAmount
                 )
@@ -59,14 +58,13 @@ public enum TalerSendPayload {
     }
 
     /// JSON-Pfad (Gruppen-Split: mehrere URIs). Body wie Android
-    /// (TalerReturnActivity.kt, sendComposedPaymentWithData): erst der
-    /// Legacy-Text, Leerzeile, dann die URIs - jeweils durch eine Leerzeile
-    /// getrennt, damit TalerUriDetector sie einzeln findet und der Klartext
-    /// lesbar bleibt (der Legacy-Text sagt "copy the URI below", das stimmt
-    /// nur mit den URIs NACH dem Text).
+    /// (TalerPaymentBody.send): Signals eigener Klartext, Leerzeile, dann die
+    /// URIs - jeweils durch eine Leerzeile getrennt, damit TalerUriDetector
+    /// sie einzeln findet (der Text sagt "copy the URI below", das stimmt nur
+    /// mit den URIs NACH dem Text). Ein von Taler mitgeschicktes legacyText
+    /// wird ignoriert.
     private static func build(
         uris: [String],
-        legacyText: String,
         includeSelf: Bool?,
         totalAmount: String?
     ) -> (body: String, payload: TalerPaymentPayload)? {
@@ -75,7 +73,7 @@ public enum TalerSendPayload {
                 return nil
             }
         }
-        let body = legacyText + "\n\n" + uris.joined(separator: "\n\n")
+        let body = TalerStrings.legacyText + "\n\n" + uris.joined(separator: "\n\n")
         let payload = TalerPaymentPayload(
             uris: uris,
             version: 1,

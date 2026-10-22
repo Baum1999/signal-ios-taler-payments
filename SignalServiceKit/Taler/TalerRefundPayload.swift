@@ -13,11 +13,12 @@ import Foundation
 /// Signal-Target) - KEIN automatisches Senden wie beim SEND-Intent: der Nutzer
 /// verschickt selbst (link-protokoll.md Abschnitt 4).
 ///
-/// Body exakt wie Android (TalerReturnActivity.kt, REFUND-Zweig): der Header
-/// "Refund: " VOR dem Taler-seitigen Verwendungszweck (legacyText), Leerzeile,
-/// dann die URIs im Klartext - Text-zuerst, damit legacyText ("copy the URI
-/// below") stimmt und TalerUriDetector die URIs einzeln findet. Rueckfall ohne
-/// JSON (aeltere Taler-Versionen): Header direkt vor der URI.
+/// Body exakt wie Android (TalerPaymentBody.refundDraft): der Header
+/// "Refund: " VOR Signals eigenem Klartext (`TalerStrings.legacyText`),
+/// Leerzeile, dann die URIs im Klartext - Text-zuerst, damit "copy the URI
+/// below" stimmt und TalerUriDetector die URIs einzeln findet. Ein von Taler
+/// mitgeschicktes legacyText wird ignoriert. Rueckfall ohne JSON (aeltere
+/// Taler-Versionen): Header direkt vor der URI.
 ///
 /// Alle Eingaben sind angreiferkontrolliert. Da der Body nur als lokaler
 /// Entwurf gespeichert wird (der Nutzer prueft ihn vor dem Senden), besteht
@@ -47,10 +48,7 @@ public enum TalerRefundPayload {
             if !paymentData.uri.isEmpty {
                 // Die JSON-Liste ist autoritativ: besteht eine ihrer URIs die
                 // Pruefung nicht, wird kein Entwurf angelegt, ohne Rueckfall.
-                return build(
-                    uris: paymentData.uri,
-                    legacyText: paymentData.legacyText
-                )
+                return build(uris: paymentData.uri)
             }
             // Parsbar, aber leere URI-Liste: Rueckfall auf talerUri.
         }
@@ -61,16 +59,16 @@ public enum TalerRefundPayload {
         return nil
     }
 
-    /// JSON-Pfad: Header + Taler-seitiger Verwendungszweck ZUERST, Leerzeile,
-    /// dann die URIs (jeweils durch eine Leerzeile getrennt) - derselbe Aufbau
-    /// wie beim Senden, nur mit Header vor legacyText.
-    private static func build(uris: [String], legacyText: String) -> String? {
+    /// JSON-Pfad: Header + Signals eigener Klartext ZUERST, Leerzeile, dann
+    /// die URIs (jeweils durch eine Leerzeile getrennt) - derselbe Aufbau wie
+    /// beim Senden, nur mit Header davor.
+    private static func build(uris: [String]) -> String? {
         for uri in uris {
             guard TalerUriDetector.isExactlyOneUri(uri) else {
                 return nil
             }
         }
-        return String(format: TalerStrings.refundMessageFormat, legacyText)
+        return String(format: TalerStrings.refundMessageFormat, TalerStrings.legacyText)
             + "\n\n" + uris.joined(separator: "\n\n")
     }
 

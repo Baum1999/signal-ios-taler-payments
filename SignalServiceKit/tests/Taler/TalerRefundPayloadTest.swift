@@ -35,10 +35,11 @@ final class TalerRefundPayloadTest: XCTestCase {
 
     /// Kompaktes TalerPaymentData-JSON (wie Taler es im Ruecksprung schickt).
     private func paymentDataJson(
-        legacyText: String = TalerStrings.legacyText,
+        legacyText: String? = nil,
         uris: [String]
     ) -> String {
-        let dict: [String: Any] = ["legacyText": legacyText, "uri": uris]
+        var dict: [String: Any] = ["uri": uris]
+        dict["legacyText"] = legacyText
         let data = try! JSONSerialization.data(withJSONObject: dict)
         return String(data: data, encoding: .utf8)!
     }
@@ -62,7 +63,8 @@ final class TalerRefundPayloadTest: XCTestCase {
             from: makeReturn(status: .ready, talerUri: payPushUri, talerPaymentData: json)
         )
         // JSON hat Vorrang vor talerUri; jede URI durch eine Leerzeile getrennt.
-        XCTAssertEqual(body, "Refund: \(legacy)\n\n" + uris.joined(separator: "\n\n"))
+        // Der fremde Text aus Taler landet nie im Entwurf.
+        XCTAssertEqual(body, "Refund: \(TalerStrings.legacyText)\n\n" + uris.joined(separator: "\n\n"))
     }
 
     // MARK: ready, Rueckfall talerUri (aeltere Taler-Versionen)

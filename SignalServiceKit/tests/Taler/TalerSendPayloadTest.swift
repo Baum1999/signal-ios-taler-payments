@@ -10,7 +10,7 @@ import XCTest
 /// nur status=ready sendet; JSON vor talerUri mit Rueckfall bei unparbarem
 /// JSON oder leerer Liste; JEDE URI muss isExactlyOneUri UND PAY_PUSH/PAY_PULL
 /// sein, sonst wird nichts gesendet (kein Teilversand); Body wie Android
-/// (TalerReturnActivity.kt: legacyText + Leerzeile + URIs mit Leerzeile,
+/// (TalerPaymentBody.send: Signals Klartext + Leerzeile + URIs mit Leerzeile,
 /// Rueckfallpfad als Einzeiler "Payment sent/requested: ...").
 final class TalerSendPayloadTest: XCTestCase {
 
@@ -35,12 +35,13 @@ final class TalerSendPayloadTest: XCTestCase {
 
     /// Kompaktes TalerPaymentData-JSON (wie Taler es im Ruecksprung schickt).
     private func paymentDataJson(
-        legacyText: String = TalerStrings.legacyText,
+        legacyText: String? = nil,
         uris: [String],
         includeSelf: Bool? = nil,
         totalAmount: String? = nil
     ) -> String {
-        var dict: [String: Any] = ["legacyText": legacyText, "uri": uris]
+        var dict: [String: Any] = ["uri": uris]
+        dict["legacyText"] = legacyText
         dict["includeSelf"] = includeSelf
         dict["totalAmount"] = totalAmount
         let data = try! JSONSerialization.data(withJSONObject: dict)
@@ -86,13 +87,22 @@ final class TalerSendPayloadTest: XCTestCase {
         let result = TalerSendPayload.build(
             from: makeReturn(status: .ready, talerUri: payPushUri, talerPaymentData: json)
         )
-        // JSON hat Vorrang vor talerUri.
-        XCTAssertEqual(result?.body, legacy + "\n\n" + uris.joined(separator: "\n\n"))
+        // JSON hat Vorrang vor talerUri. Ein von (aelterem) Taler
+        // mitgeschicktes legacyText wird ignoriert.
+        XCTAssertEqual(result?.body, TalerStrings.legacyText + "\n\n" + uris.joined(separator: "\n\n"))
         XCTAssertEqual(result?.payload.uris, uris)
         XCTAssertEqual(result?.payload.version, 1)
         XCTAssertTrue(result!.payload.isGroupSplit)
         XCTAssertEqual(result?.payload.includeSelf, true)
         XCTAssertEqual(result?.payload.totalAmount, "10")
+    }
+
+    func testReadyWithJsonWithoutLegacyTextSendsAllUris() {
+        let uris = [payPushUri, payPushUri2, payPushUri3]
+        let json = paymentDataJson(uris: uris, includeSelf: false, totalAmount: "30")
+        let result = TalerSendPayload.build(from: makeReturn(status: .ready, talerUri: payPushUri, talerPaymentData: json))
+        XCTAssertEqual(result?.payload.uris, uris)
+        XCTAssertEqual(result?.body, TalerStrings.legacyText + "\n\n" + uris.joined(separator: "\n\n"))
     }
 
     func testReadyWithJsonSingleUriIsNoGroupSplit() {

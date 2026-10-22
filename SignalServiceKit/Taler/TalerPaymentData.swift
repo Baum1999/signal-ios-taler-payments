@@ -10,16 +10,18 @@ import Foundation
 /// `TalerPaymentData` (signal-android/taler-android, kotlinx.serialization).
 ///
 /// Kotlin kodiert Felder mit Standardwert nicht mit (`encodeDefaults=false`),
-/// deshalb sind hier alle Felder ausser `legacyText`/`uri` beim Dekodieren
-/// optional.
+/// deshalb sind hier alle Felder ausser `uri` beim Dekodieren optional.
+/// `legacyText` schickt Taler seit 2026-10-11 nicht mehr; es bleibt nur fuer
+/// aeltere Taler-Versionen und alte JSON-Bodies lesbar und wird nie benutzt -
+/// den Klartext setzt Signal selbst (`TalerStrings.legacyText`).
 public struct TalerPaymentData: Codable, Equatable, Sendable {
-    public var legacyText: String
+    public var legacyText: String?
     public var version: Int
     public var includeSelf: Bool?
     public var totalAmount: String?
     public var uri: [String]
 
-    public init(legacyText: String, version: Int = 1, includeSelf: Bool? = nil, totalAmount: String? = nil, uri: [String]) {
+    public init(legacyText: String? = nil, version: Int = 1, includeSelf: Bool? = nil, totalAmount: String? = nil, uri: [String]) {
         self.legacyText = legacyText
         self.version = version
         self.includeSelf = includeSelf
@@ -33,7 +35,7 @@ public struct TalerPaymentData: Codable, Equatable, Sendable {
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        legacyText = try container.decode(String.self, forKey: .legacyText)
+        legacyText = try container.decodeIfPresent(String.self, forKey: .legacyText)
         version = try container.decodeIfPresent(Int.self, forKey: .version) ?? 1
         includeSelf = try container.decodeIfPresent(Bool.self, forKey: .includeSelf)
         totalAmount = try container.decodeIfPresent(String.self, forKey: .totalAmount)
@@ -44,7 +46,7 @@ public struct TalerPaymentData: Codable, Equatable, Sendable {
         // Wie kotlinx.serialization mit Standardkonfiguration: Standardwerte
         // und null weglassen, damit beide Seiten dasselbe JSON erzeugen.
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(legacyText, forKey: .legacyText)
+        try container.encodeIfPresent(legacyText, forKey: .legacyText)
         if version != 1 {
             try container.encode(version, forKey: .version)
         }
