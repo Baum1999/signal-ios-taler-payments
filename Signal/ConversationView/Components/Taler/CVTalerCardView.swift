@@ -55,13 +55,13 @@ class CVTalerCardView: ManualStackView {
         state.conversationStyle.bubbleSecondaryTextColor(isIncoming: state.isIncoming)
     }
 
+    /// Auf der eigenen (farbigen) Blase ist Gruen/Orange/Rot kaum lesbar -
+    /// dort die normale Textfarbe, der Zustand steht im Symbol davor.
     private static func toneColor(_ tone: TalerCardModel.Tone, state: State) -> UIColor {
-        switch tone {
-        case .ok: return UIColor(rgbHex: 0x2E7D32)
-        case .bad: return UIColor(rgbHex: 0xC62828)
-        case .waiting: return UIColor(rgbHex: 0xB26A00)
-        case .neutral: return secondaryColor(state)
+        guard state.isIncoming else {
+            return textColor(state)
         }
+        return tone == .neutral ? secondaryColor(state) : TalerToneColors.color(for: tone)
     }
 
     private static func labelConfigs(_ state: State) -> [CVLabelConfig] {

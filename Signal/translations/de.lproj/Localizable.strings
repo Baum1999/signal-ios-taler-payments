@@ -11607,7 +11607,7 @@
 
 "TALER_STATUS_ACCEPTED" = "Angenommen";
 
-"TALER_STATUS_ACCEPTED_FROM_FORMAT" = "Angenommen von %@";
+"TALER_STATUS_ACCEPTED_FROM_FORMAT" = "Von %@ erhalten";
 
 "TALER_STATUS_CANCELLED" = "Abgebrochen";
 
