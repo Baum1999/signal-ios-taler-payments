@@ -12,16 +12,16 @@ public extension TalerStrings {
     /// Platzhalter auf der Karte, solange kein verifizierter Betrag bekannt
     /// ist (Regel 5: nie eine Zahl aus dem Nachrichtentext).
     static var amountPending: String {
-        OWSLocalizedString("TALER_CARD_AMOUNT_PENDING", comment: "Placeholder on a Taler payment card instead of an amount while no verified amount is known yet")
+        TalerLocalizedString("TALER_CARD_AMOUNT_PENDING", comment: "Placeholder on a Taler payment card instead of an amount while no verified amount is known yet")
     }
 
     /// Hinweis-Alert, wenn das Oeffnen des Aktionslinks scheitert, weil keine
     /// Taler-App installiert ist.
     static var alertTalerNotInstalledTitle: String {
-        OWSLocalizedString("TALER_NOT_INSTALLED_ALERT_TITLE", comment: "Alert title shown when the GNU Taler app is not installed")
+        TalerLocalizedString("TALER_NOT_INSTALLED_ALERT_TITLE", comment: "Alert title shown when the GNU Taler app is not installed")
     }
 
     static var alertTalerNotInstalledBody: String {
-        OWSLocalizedString("TALER_NOT_INSTALLED_ALERT_BODY", comment: "Alert body shown when the GNU Taler app is not installed")
+        TalerLocalizedString("TALER_NOT_INSTALLED_ALERT_BODY", comment: "Alert body shown when the GNU Taler app is not installed")
     }
 }

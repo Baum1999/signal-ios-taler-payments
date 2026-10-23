@@ -57,6 +57,17 @@ final class TalerCardModelTest: XCTestCase {
         XCTAssertFalse(TalerCardActionGate.showRefund(record(status: .offen, own: false)))
     }
 
+    /// In Gruppen ist der Gruppenname kein Empfaenger: eigene Zahlungen
+    /// nennen "ein Gruppenmitglied", eingehende den Absender.
+    func testGroupSinglePaymentNeverNamesTheGroup() {
+        let open = TalerCardModel.build(record: record(status: .offen, own: true), otherPartyName: nil, isGroup: true)
+        XCTAssertEqual(open.statusText, TalerStrings.statusWaitingForGroupMember)
+        let accepted = TalerCardModel.build(record: record(status: .angenommen, own: true), otherPartyName: nil, isGroup: true)
+        XCTAssertEqual(accepted.statusText, TalerStrings.statusSentConfirmedByGroupMember)
+        let incoming = TalerCardModel.build(record: record(status: .angenommen, own: false), otherPartyName: "Bob", isGroup: true)
+        XCTAssertEqual(incoming.statusText, String(format: TalerStrings.statusAcceptedFromFormat, "Bob"))
+    }
+
     func testStatusTones() {
         XCTAssertEqual(TalerCardModel.build(record: record(status: .offen, own: false), otherPartyName: "Bob").statusTone, .waiting)
         XCTAssertEqual(TalerCardModel.build(record: record(status: .angenommen, own: true), otherPartyName: "Bob").statusTone, .ok)

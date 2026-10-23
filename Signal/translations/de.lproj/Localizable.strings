@@ -11532,3 +11532,101 @@
 
 /* Confirm button of the decline dialog for a Taler payment */
 "TALER_REJECT_DIALOG_CONFIRM" = "Ablehnen";
+
+/* GNU Taler: Texte, die in de bisher fehlten (sonst zeigt iOS den Schluessel). */
+
+"TALER_ACTION_ACCEPT" = "Annehmen";
+
+"TALER_CARD_AMOUNT_PENDING" = "Wird geprüft…";
+
+"TALER_CONFIRMATION_LINE" = "Zahlung angenommen";
+
+"TALER_DETAIL_AMOUNT_LABEL" = "Betrag";
+
+"TALER_DETAIL_DETECTED_LABEL" = "Auf diesem Gerät erkannt am";
+
+"TALER_DETAIL_SECTION_TITLE" = "Taler-Zahlung";
+
+"TALER_DETAIL_STATUS_CHANGED_LABEL" = "Status geändert am";
+
+"TALER_DETAIL_STATUS_LABEL" = "Status";
+
+"TALER_DETAIL_URI_LABEL" = "Zahlungslink";
+
+"TALER_EXCHANGES_COUNT_FORMAT" = "%d Exchanges";
+
+"TALER_FORWARD_WARNING_MESSAGE" = "Dies leitet eine noch nicht eingelöste Zahlung weiter. Wer den Link zuerst öffnet, kann das Geld beanspruchen.";
+
+"TALER_KIND_PAY" = "Taler-Zahlung";
+
+"TALER_KIND_PAY_PULL" = "Taler-Zahlungsanfrage";
+
+"TALER_KIND_PAY_PUSH" = "Taler-Zahlungslink";
+
+"TALER_KIND_REFUND" = "Taler-Erstattungslink";
+
+"TALER_KIND_UNKNOWN" = "Taler-Link";
+
+"TALER_KIND_WITHDRAW" = "Taler-Abhebungslink";
+
+"TALER_MENU_COPY_AS_IMAGE" = "Als Bild kopieren";
+
+"TALER_MENU_FORWARD_AS_IMAGE" = "Als Bild weiterleiten";
+
+"TALER_MENU_FORWARD_AS_TEXT" = "Als Transkript weiterleiten";
+
+"TALER_MENU_REFUND" = "Rückerstatten";
+
+"TALER_NOT_INSTALLED_ALERT_BODY" = "Installiere die GNU-Taler-App, um diese Zahlung anzunehmen.";
+
+"TALER_NOT_INSTALLED_ALERT_TITLE" = "GNU Taler nicht installiert";
+
+"TALER_PARTY_FROM_YOU" = "von dir";
+
+"TALER_PARTY_TO_YOU" = "an dich";
+
+"TALER_QUOTE_GROUP_SUMMARY_FORMAT" = "Taler-Zahlung · %d Links";
+
+"TALER_QUOTE_TITLE" = "Taler-Zahlung";
+
+"TALER_RECIPIENT_FALLBACK" = "Empfänger";
+
+"TALER_SENDER_FALLBACK" = "Absender";
+
+"TALER_SETTINGS_WALLET_INSTALLED" = "Installiert";
+
+"TALER_SETTINGS_WALLET_LABEL" = "GNU-Taler-Wallet";
+
+"TALER_SETTINGS_WALLET_NOT_INSTALLED" = "Nicht installiert";
+
+"TALER_SPLIT_NOTE_WITHOUT_SELF_FORMAT" = "Gesamt %1$@ %2$@ ÷ %3$d Personen (ohne dich)";
+
+"TALER_SPLIT_NOTE_WITH_SELF_FORMAT" = "Gesamt %1$@ %2$@ ÷ %3$d Personen (inkl. dir) • %4$d Links verschickt";
+
+"TALER_SPLIT_PROGRESS_FORMAT" = "%d von %d angenommen";
+
+"TALER_STATUS_ACCEPTED" = "Angenommen";
+
+"TALER_STATUS_ACCEPTED_FROM_FORMAT" = "Angenommen von %@";
+
+"TALER_STATUS_CANCELLED" = "Abgebrochen";
+
+"TALER_STATUS_CHECKING" = "Wird geprüft…";
+
+"TALER_STATUS_DECLINED" = "Abgelehnt";
+
+"TALER_STATUS_EXPIRED" = "Abgelaufen";
+
+"TALER_STATUS_INVALID" = "Zahlung fehlgeschlagen";
+
+"TALER_STATUS_OPEN" = "Offen";
+
+"TALER_STATUS_SENT_CONFIRMED_FORMAT" = "Von dir gesendet an %@ (bestätigt)";
+
+"TALER_STATUS_SENT_CONFIRMED_GROUP_MEMBER" = "Von dir gesendet, von einem Gruppenmitglied angenommen";
+
+"TALER_STATUS_WAITING_FOR_ACCEPTANCE" = "Wartet auf Annahme";
+
+"TALER_STATUS_WAITING_FOR_GROUP_MEMBER" = "Wartet auf Bestätigung durch ein Gruppenmitglied";
+
+"TALER_STATUS_WAITING_FOR_RECIPIENT_FORMAT" = "Wartet auf Bestätigung von %@";

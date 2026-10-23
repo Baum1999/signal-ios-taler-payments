@@ -12,6 +12,6 @@ extension TalerStrings {
     /// "N Exchanges" in der Kontextzeile, wenn der Saldo aus mehr als einem
     /// Exchange stammt. Embeds {{ count }}.
     public static var exchangeCountFormat: String {
-        OWSLocalizedString("TALER_EXCHANGES_COUNT_FORMAT", comment: "Context line in the Taler tab: number of distinct exchanges. Embeds {{ count }}.")
+        TalerLocalizedString("TALER_EXCHANGES_COUNT_FORMAT", comment: "Context line in the Taler tab: number of distinct exchanges. Embeds {{ count }}.")
     }
 }

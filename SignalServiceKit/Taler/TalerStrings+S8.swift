@@ -13,85 +13,85 @@ extension TalerStrings {
 
     /// Titel des Tab-Knopfs neben den Medien-Segmenten.
     public static var mediaTabTitle: String {
-        OWSLocalizedString("TALER_MEDIA_TAB_TITLE", comment: "Title of the Taler tab in the chat's media overview")
+        TalerLocalizedString("TALER_MEDIA_TAB_TITLE", comment: "Title of the Taler tab in the chat's media overview")
     }
 
     // MARK: - Filter-Chips
 
     public static var threadFilterAll: String {
-        OWSLocalizedString("TALER_THREAD_FILTER_ALL", comment: "Filter chip in the Taler tab: show all payments")
+        TalerLocalizedString("TALER_THREAD_FILTER_ALL", comment: "Filter chip in the Taler tab: show all payments")
     }
 
     public static var threadFilterOpen: String {
-        OWSLocalizedString("TALER_THREAD_FILTER_OPEN", comment: "Filter chip in the Taler tab: show only open payments")
+        TalerLocalizedString("TALER_THREAD_FILTER_OPEN", comment: "Filter chip in the Taler tab: show only open payments")
     }
 
     public static var threadFilterReceived: String {
-        OWSLocalizedString("TALER_THREAD_FILTER_RECEIVED", comment: "Filter chip in the Taler tab: show only payments received from the other side")
+        TalerLocalizedString("TALER_THREAD_FILTER_RECEIVED", comment: "Filter chip in the Taler tab: show only payments received from the other side")
     }
 
     public static var threadFilterSent: String {
-        OWSLocalizedString("TALER_THREAD_FILTER_SENT", comment: "Filter chip in the Taler tab: show only payments sent by the viewer")
+        TalerLocalizedString("TALER_THREAD_FILTER_SENT", comment: "Filter chip in the Taler tab: show only payments sent by the viewer")
     }
 
     // MARK: - Kopfzeile
 
     public static var threadLatestReceived: String {
-        OWSLocalizedString("TALER_THREAD_LATEST_RECEIVED", comment: "Direction label for the latest payment in the Taler tab header: received")
+        TalerLocalizedString("TALER_THREAD_LATEST_RECEIVED", comment: "Direction label for the latest payment in the Taler tab header: received")
     }
 
     public static var threadLatestSent: String {
-        OWSLocalizedString("TALER_THREAD_LATEST_SENT", comment: "Direction label for the latest payment in the Taler tab header: sent")
+        TalerLocalizedString("TALER_THREAD_LATEST_SENT", comment: "Direction label for the latest payment in the Taler tab header: sent")
     }
 
     public static var threadLatestPrefix: String {
-        OWSLocalizedString("TALER_THREAD_LATEST_PREFIX", comment: "Prefix of the 'latest activity' line in the Taler tab header")
+        TalerLocalizedString("TALER_THREAD_LATEST_PREFIX", comment: "Prefix of the 'latest activity' line in the Taler tab header")
     }
 
     public static var threadBalancePrefix: String {
-        OWSLocalizedString("TALER_THREAD_BALANCE_PREFIX", comment: "Prefix of the balance line in the Taler tab header")
+        TalerLocalizedString("TALER_THREAD_BALANCE_PREFIX", comment: "Prefix of the balance line in the Taler tab header")
     }
 
     public static var threadEmptyFilterMessage: String {
-        OWSLocalizedString("TALER_THREAD_EMPTY_FILTER", comment: "Hint in the Taler tab when the selected filter matches no payments")
+        TalerLocalizedString("TALER_THREAD_EMPTY_FILTER", comment: "Hint in the Taler tab when the selected filter matches no payments")
     }
 
     // MARK: - Headline (Rangfolge aus TalerThreadHeadline)
 
     public static var headlineWaitingForMe: String {
-        OWSLocalizedString("TALER_HEADLINE_WAITING_FOR_ME", comment: "Taler tab headline: one payment is waiting for the viewer to act")
+        TalerLocalizedString("TALER_HEADLINE_WAITING_FOR_ME", comment: "Taler tab headline: one payment is waiting for the viewer to act")
     }
 
     public static var headlineWaitingForMeFormat: String {
-        OWSLocalizedString("TALER_HEADLINE_WAITING_FOR_ME_FORMAT", comment: "Taler tab headline: number of payments waiting for the viewer. Embeds {{ count }}.")
+        TalerLocalizedString("TALER_HEADLINE_WAITING_FOR_ME_FORMAT", comment: "Taler tab headline: number of payments waiting for the viewer. Embeds {{ count }}.")
     }
 
     public static var headlineWaitingForOtherNameFormat: String {
-        OWSLocalizedString("TALER_HEADLINE_WAITING_FOR_OTHER_NAME_FORMAT", comment: "Taler tab headline: payments waiting for the other side, named by chat partner. Embeds {{ name }}.")
+        TalerLocalizedString("TALER_HEADLINE_WAITING_FOR_OTHER_NAME_FORMAT", comment: "Taler tab headline: payments waiting for the other side, named by chat partner. Embeds {{ name }}.")
     }
 
     public static var headlineWaitingForOther: String {
-        OWSLocalizedString("TALER_HEADLINE_WAITING_FOR_OTHER", comment: "Taler tab headline: one payment is waiting for the other side (unnamed, e.g. in groups)")
+        TalerLocalizedString("TALER_HEADLINE_WAITING_FOR_OTHER", comment: "Taler tab headline: one payment is waiting for the other side (unnamed, e.g. in groups)")
     }
 
     public static var headlineWaitingForOtherFormat: String {
-        OWSLocalizedString("TALER_HEADLINE_WAITING_FOR_OTHER_FORMAT", comment: "Taler tab headline: number of payments waiting for the other side. Embeds {{ count }}.")
+        TalerLocalizedString("TALER_HEADLINE_WAITING_FOR_OTHER_FORMAT", comment: "Taler tab headline: number of payments waiting for the other side. Embeds {{ count }}.")
     }
 
     public static var headlineWaitingForBothFormat: String {
-        OWSLocalizedString("TALER_HEADLINE_WAITING_FOR_BOTH_FORMAT", comment: "Taler tab headline: payments open on both sides. Embeds {{ count waiting for viewer }}, {{ count waiting for other side }}.")
+        TalerLocalizedString("TALER_HEADLINE_WAITING_FOR_BOTH_FORMAT", comment: "Taler tab headline: payments open on both sides. Embeds {{ count waiting for viewer }}, {{ count waiting for other side }}.")
     }
 
     public static var headlineUnverifiable: String {
-        OWSLocalizedString("TALER_HEADLINE_UNVERIFIABLE", comment: "Taler tab headline: one payment could not be verified")
+        TalerLocalizedString("TALER_HEADLINE_UNVERIFIABLE", comment: "Taler tab headline: one payment could not be verified")
     }
 
     public static var headlineUnverifiableFormat: String {
-        OWSLocalizedString("TALER_HEADLINE_UNVERIFIABLE_FORMAT", comment: "Taler tab headline: number of payments that could not be verified. Embeds {{ count }}.")
+        TalerLocalizedString("TALER_HEADLINE_UNVERIFIABLE_FORMAT", comment: "Taler tab headline: number of payments that could not be verified. Embeds {{ count }}.")
     }
 
     public static var headlineAllSettled: String {
-        OWSLocalizedString("TALER_HEADLINE_ALL_SETTLED", comment: "Taler tab headline: nothing open, all payments are settled")
+        TalerLocalizedString("TALER_HEADLINE_ALL_SETTLED", comment: "Taler tab headline: nothing open, all payments are settled")
     }
 }
 

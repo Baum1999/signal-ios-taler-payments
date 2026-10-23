@@ -13,7 +13,7 @@ extension TalerStrings {
     // MARK: Long-Press-Menue
 
     public static var menuRefund: String {
-        OWSLocalizedString("TALER_MENU_REFUND", comment: "Long-press menu action on a Taler message: refund an accepted incoming payment, opens GNU Taler")
+        TalerLocalizedString("TALER_MENU_REFUND", comment: "Long-press menu action on a Taler message: refund an accepted incoming payment, opens GNU Taler")
     }
 
     // MARK: Nachrichtentext (Protokoll, nicht lokalisiert)

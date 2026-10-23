@@ -305,9 +305,12 @@ final class TalerThreadPaymentsViewController: OWSViewController {
 
     /// Statuszeile einer Listezeile - dasselbe Bild wie der Kompaktstatus der
     /// Karte (S3), nur mit dessen oeffentlichen Bausteinen nachgebaut.
-    private static func statusText(of record: TalerPaymentRecord, chatName: String?) -> String {
+    private static func statusText(of record: TalerPaymentRecord, chatName: String?, isGroup: Bool) -> String {
         if record.status == .offen, record.uriKind == .payPush {
             if record.isOwnPayment {
+                if isGroup {
+                    return TalerStrings.statusWaitingForGroupMember
+                }
                 return String(
                     format: TalerStrings.statusWaitingForRecipientFormat,
                     nonEmpty(chatName) ?? TalerStrings.recipientFallback
@@ -317,10 +320,17 @@ final class TalerThreadPaymentsViewController: OWSViewController {
         }
         if record.status == .angenommen, record.uriKind == .payPush {
             if record.isOwnPayment {
+                if isGroup {
+                    return TalerStrings.statusSentConfirmedByGroupMember
+                }
                 return String(
                     format: TalerStrings.statusSentConfirmedFormat,
                     nonEmpty(chatName) ?? TalerStrings.recipientFallback
                 )
+            }
+            if isGroup {
+                // Die Liste kennt den Absender nicht, nur den Chat.
+                return TalerCardModel.plainStatusLabel(record.status)
             }
             return String(
                 format: TalerStrings.statusAcceptedFromFormat,
@@ -365,7 +375,7 @@ extension TalerThreadPaymentsViewController: UITableViewDataSource {
         cell.configure(
             directionIn: TalerCardModel.isDirectionIn(kind: record.uriKind, isOwnPayment: record.isOwnPayment),
             amountText: Self.amountText(of: record),
-            statusText: Self.statusText(of: record, chatName: chatName),
+            statusText: Self.statusText(of: record, chatName: chatName, isGroup: isGroupThread),
             statusColor: Self.statusColor(record),
             detailText: Self.detailText(of: record)
         )

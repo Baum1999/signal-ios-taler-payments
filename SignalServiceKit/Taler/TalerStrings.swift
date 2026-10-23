@@ -5,6 +5,21 @@
 
 import Foundation
 
+/// Wie `OWSLocalizedString`, aber mit Englisch als Rueckfall: Die Taler-Texte
+/// sind nur in en/de gepflegt, und iOS liefert bei einem fehlenden Schluessel
+/// sonst den rohen Schluessel statt der Basissprache.
+func TalerLocalizedString(_ key: String, comment: String) -> String {
+    let value = OWSLocalizedString(key, comment: comment)
+    guard value == key, let english = TalerEnglishBundle.bundle else {
+        return value
+    }
+    return english.localizedString(forKey: key, value: key, table: nil)
+}
+
+private enum TalerEnglishBundle {
+    static let bundle: Bundle? = Bundle.main.app.path(forResource: "en", ofType: "lproj").flatMap(Bundle.init(path:))
+}
+
 /// Nutzersichtbare Taler-Strings (Android: `TalerFork_*` in strings.xml).
 ///
 /// Ausnahme: die Texte echter ausgehender Nachrichten
@@ -29,39 +44,41 @@ public enum TalerStrings {
 
     // MARK: Karte
 
-    public static var kindPayPush: String { OWSLocalizedString("TALER_KIND_PAY_PUSH", comment: "Label on a payment card for a taler://pay-push/... link") }
-    public static var kindPayPull: String { OWSLocalizedString("TALER_KIND_PAY_PULL", comment: "Label on a payment card for a taler://pay-pull/... link") }
-    public static var kindPay: String { OWSLocalizedString("TALER_KIND_PAY", comment: "Label for a taler://pay/... link") }
-    public static var kindWithdraw: String { OWSLocalizedString("TALER_KIND_WITHDRAW", comment: "Label for a taler://withdraw/... link") }
-    public static var kindRefund: String { OWSLocalizedString("TALER_KIND_REFUND", comment: "Label for a taler://refund/... link") }
-    public static var kindUnknown: String { OWSLocalizedString("TALER_KIND_UNKNOWN", comment: "Label for a recognized but uncategorized Taler link") }
+    public static var kindPayPush: String { TalerLocalizedString("TALER_KIND_PAY_PUSH", comment: "Label on a payment card for a taler://pay-push/... link") }
+    public static var kindPayPull: String { TalerLocalizedString("TALER_KIND_PAY_PULL", comment: "Label on a payment card for a taler://pay-pull/... link") }
+    public static var kindPay: String { TalerLocalizedString("TALER_KIND_PAY", comment: "Label for a taler://pay/... link") }
+    public static var kindWithdraw: String { TalerLocalizedString("TALER_KIND_WITHDRAW", comment: "Label for a taler://withdraw/... link") }
+    public static var kindRefund: String { TalerLocalizedString("TALER_KIND_REFUND", comment: "Label for a taler://refund/... link") }
+    public static var kindUnknown: String { TalerLocalizedString("TALER_KIND_UNKNOWN", comment: "Label for a recognized but uncategorized Taler link") }
 
     // MARK: Vorschau (Chatliste, Benachrichtigungen) - Android: TalerFork_preview_group_split
 
-    public static var previewGroupSplit: String { OWSLocalizedString("TALER_PREVIEW_GROUP_SPLIT", comment: "Preview label in the chat list and notification banner for a group-split Taler payment (multiple Taler URIs)") }
+    public static var previewGroupSplit: String { TalerLocalizedString("TALER_PREVIEW_GROUP_SPLIT", comment: "Preview label in the chat list and notification banner for a group-split Taler payment (multiple Taler URIs)") }
 
-    public static var partyToYou: String { OWSLocalizedString("TALER_PARTY_TO_YOU", comment: "Direction on a Taler card: money comes to the viewer") }
-    public static var partyFromYou: String { OWSLocalizedString("TALER_PARTY_FROM_YOU", comment: "Direction on a Taler card: money leaves the viewer") }
+    public static var partyToYou: String { TalerLocalizedString("TALER_PARTY_TO_YOU", comment: "Direction on a Taler card: money comes to the viewer") }
+    public static var partyFromYou: String { TalerLocalizedString("TALER_PARTY_FROM_YOU", comment: "Direction on a Taler card: money leaves the viewer") }
 
-    public static var statusOpen: String { OWSLocalizedString("TALER_STATUS_OPEN", comment: "Compact Taler payment status: open") }
-    public static var statusAccepted: String { OWSLocalizedString("TALER_STATUS_ACCEPTED", comment: "Compact Taler payment status: accepted") }
-    public static var statusDeclined: String { OWSLocalizedString("TALER_STATUS_DECLINED", comment: "Compact Taler payment status: declined locally") }
-    public static var statusCancelled: String { OWSLocalizedString("TALER_STATUS_CANCELLED", comment: "Compact Taler payment status: cancelled") }
-    public static var statusExpired: String { OWSLocalizedString("TALER_STATUS_EXPIRED", comment: "Compact Taler payment status: expired") }
-    public static var statusChecking: String { OWSLocalizedString("TALER_STATUS_CHECKING", comment: "Compact Taler payment status: being checked") }
-    public static var statusInvalid: String { OWSLocalizedString("TALER_STATUS_INVALID", comment: "Compact Taler payment status: payment failed / invalid") }
-    public static var statusWaitingForAcceptance: String { OWSLocalizedString("TALER_STATUS_WAITING_FOR_ACCEPTANCE", comment: "Taler status on an incoming payment waiting for the viewer's acceptance") }
-    public static var statusWaitingForRecipientFormat: String { OWSLocalizedString("TALER_STATUS_WAITING_FOR_RECIPIENT_FORMAT", comment: "Taler status on an own payment. Embeds {{ recipient name }}.") }
-    public static var statusSentConfirmedFormat: String { OWSLocalizedString("TALER_STATUS_SENT_CONFIRMED_FORMAT", comment: "Taler status on an own accepted payment. Embeds {{ recipient name }}.") }
-    public static var statusAcceptedFromFormat: String { OWSLocalizedString("TALER_STATUS_ACCEPTED_FROM_FORMAT", comment: "Taler status on an accepted incoming payment. Embeds {{ sender name }}.") }
-    public static var recipientFallback: String { OWSLocalizedString("TALER_RECIPIENT_FALLBACK", comment: "Fallback name for the recipient of a Taler payment") }
-    public static var senderFallback: String { OWSLocalizedString("TALER_SENDER_FALLBACK", comment: "Fallback name for the sender of a Taler payment") }
+    public static var statusOpen: String { TalerLocalizedString("TALER_STATUS_OPEN", comment: "Compact Taler payment status: open") }
+    public static var statusAccepted: String { TalerLocalizedString("TALER_STATUS_ACCEPTED", comment: "Compact Taler payment status: accepted") }
+    public static var statusDeclined: String { TalerLocalizedString("TALER_STATUS_DECLINED", comment: "Compact Taler payment status: declined locally") }
+    public static var statusCancelled: String { TalerLocalizedString("TALER_STATUS_CANCELLED", comment: "Compact Taler payment status: cancelled") }
+    public static var statusExpired: String { TalerLocalizedString("TALER_STATUS_EXPIRED", comment: "Compact Taler payment status: expired") }
+    public static var statusChecking: String { TalerLocalizedString("TALER_STATUS_CHECKING", comment: "Compact Taler payment status: being checked") }
+    public static var statusInvalid: String { TalerLocalizedString("TALER_STATUS_INVALID", comment: "Compact Taler payment status: payment failed / invalid") }
+    public static var statusWaitingForAcceptance: String { TalerLocalizedString("TALER_STATUS_WAITING_FOR_ACCEPTANCE", comment: "Taler status on an incoming payment waiting for the viewer's acceptance") }
+    public static var statusWaitingForRecipientFormat: String { TalerLocalizedString("TALER_STATUS_WAITING_FOR_RECIPIENT_FORMAT", comment: "Taler status on an own payment. Embeds {{ recipient name }}.") }
+    public static var statusWaitingForGroupMember: String { TalerLocalizedString("TALER_STATUS_WAITING_FOR_GROUP_MEMBER", comment: "Taler status on an own single payment in a group, before any member accepted it.") }
+    public static var statusSentConfirmedByGroupMember: String { TalerLocalizedString("TALER_STATUS_SENT_CONFIRMED_GROUP_MEMBER", comment: "Taler status on an own single payment in a group after a member accepted it.") }
+    public static var statusSentConfirmedFormat: String { TalerLocalizedString("TALER_STATUS_SENT_CONFIRMED_FORMAT", comment: "Taler status on an own accepted payment. Embeds {{ recipient name }}.") }
+    public static var statusAcceptedFromFormat: String { TalerLocalizedString("TALER_STATUS_ACCEPTED_FROM_FORMAT", comment: "Taler status on an accepted incoming payment. Embeds {{ sender name }}.") }
+    public static var recipientFallback: String { TalerLocalizedString("TALER_RECIPIENT_FALLBACK", comment: "Fallback name for the recipient of a Taler payment") }
+    public static var senderFallback: String { TalerLocalizedString("TALER_SENDER_FALLBACK", comment: "Fallback name for the sender of a Taler payment") }
 
-    public static var actionAccept: String { OWSLocalizedString("TALER_ACTION_ACCEPT", comment: "Button on a Taler card: accept, opens GNU Taler") }
+    public static var actionAccept: String { TalerLocalizedString("TALER_ACTION_ACCEPT", comment: "Button on a Taler card: accept, opens GNU Taler") }
 
     // MARK: Gruppen-Split
 
-    public static var splitProgressFormat: String { OWSLocalizedString("TALER_SPLIT_PROGRESS_FORMAT", comment: "Group split progress. Embeds {{ accepted count }}, {{ total count }}.") }
-    public static var splitNoteWithSelfFormat: String { OWSLocalizedString("TALER_SPLIT_NOTE_WITH_SELF_FORMAT", comment: "Group split note. Embeds {{ total }}, {{ currency }}, {{ people incl. sender }}, {{ links sent }}.") }
-    public static var splitNoteWithoutSelfFormat: String { OWSLocalizedString("TALER_SPLIT_NOTE_WITHOUT_SELF_FORMAT", comment: "Group split note. Embeds {{ total }}, {{ currency }}, {{ people }}.") }
+    public static var splitProgressFormat: String { TalerLocalizedString("TALER_SPLIT_PROGRESS_FORMAT", comment: "Group split progress. Embeds {{ accepted count }}, {{ total count }}.") }
+    public static var splitNoteWithSelfFormat: String { TalerLocalizedString("TALER_SPLIT_NOTE_WITH_SELF_FORMAT", comment: "Group split note. Embeds {{ total }}, {{ currency }}, {{ people incl. sender }}, {{ links sent }}.") }
+    public static var splitNoteWithoutSelfFormat: String { TalerLocalizedString("TALER_SPLIT_NOTE_WITHOUT_SELF_FORMAT", comment: "Group split note. Embeds {{ total }}, {{ currency }}, {{ people }}.") }
 }

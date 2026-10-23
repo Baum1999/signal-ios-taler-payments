@@ -11483,6 +11483,12 @@
 /* Taler status on an own payment. Embeds {{ recipient name }}. */
 "TALER_STATUS_WAITING_FOR_RECIPIENT_FORMAT" = "Waiting for confirmation from %@";
 
+/* Taler status on an own single payment in a group, before any member accepted it. */
+"TALER_STATUS_WAITING_FOR_GROUP_MEMBER" = "Waiting for confirmation from a group member";
+
+/* Taler status on an own single payment in a group after a member accepted it. */
+"TALER_STATUS_SENT_CONFIRMED_GROUP_MEMBER" = "Sent by you, accepted by a group member";
+
 /* Taler status on an own accepted payment. Embeds {{ recipient name }}. */
 "TALER_STATUS_SENT_CONFIRMED_FORMAT" = "Sent by you to %@ (confirmed)";
 

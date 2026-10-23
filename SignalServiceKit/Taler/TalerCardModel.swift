@@ -43,11 +43,15 @@ public struct TalerCardModel: Equatable, Sendable {
 
     // MARK: - Einzelkarte
 
-    public static func build(record: TalerPaymentRecord?, otherPartyName: String?) -> TalerCardModel {
+    /// `isGroup`: Einzelzahlung in einer Gruppe. Wer eine eigene Zahlung
+    /// annimmt, ist dann unbekannt (irgendein Mitglied) - der Gruppenname ist
+    /// kein Empfaenger. `otherPartyName` ist in Gruppen der Absender einer
+    /// eingehenden Zahlung.
+    public static func build(record: TalerPaymentRecord?, otherPartyName: String?, isGroup: Bool = false) -> TalerCardModel {
         let status = record?.status ?? .unbekanntOffline
         let isOwnPayment = record?.isOwnPayment ?? false
         let directionIn = isDirectionIn(kind: record?.uriKind, isOwnPayment: isOwnPayment)
-        let (icon, text, tone) = compactStatus(record: record, status: status, otherPartyName: otherPartyName)
+        let (icon, text, tone) = compactStatus(record: record, status: status, otherPartyName: otherPartyName, isGroup: isGroup)
         // Regel 5: Betraege nur aus dem Record (verifiziert). Ohne Record-Betrag
         // steht ein Platzhalter, niemals eine Zahl aus dem Nachrichtentext.
         let amountText = record?.amount.map(formatAmount) ?? TalerStrings.amountPending
@@ -130,16 +134,22 @@ public struct TalerCardModel: Equatable, Sendable {
         }
     }
 
-    static func compactStatus(record: TalerPaymentRecord?, status: TalerPaymentStatus, otherPartyName: String?) -> (String, String, Tone) {
+    static func compactStatus(record: TalerPaymentRecord?, status: TalerPaymentStatus, otherPartyName: String?, isGroup: Bool = false) -> (String, String, Tone) {
         let name = otherPartyName.flatMap { $0.isEmpty ? nil : $0 }
         if status == .offen, record?.uriKind == .payPush, let record {
             if record.isOwnPayment {
+                if isGroup {
+                    return ("⏳", TalerStrings.statusWaitingForGroupMember, .waiting)
+                }
                 return ("⏳", String(format: TalerStrings.statusWaitingForRecipientFormat, name ?? TalerStrings.recipientFallback), .waiting)
             }
             return ("⏳", TalerStrings.statusWaitingForAcceptance, .waiting)
         }
         if status == .angenommen, record?.uriKind == .payPush, let record {
             if record.isOwnPayment {
+                if isGroup {
+                    return ("✓", TalerStrings.statusSentConfirmedByGroupMember, .ok)
+                }
                 return ("✓", String(format: TalerStrings.statusSentConfirmedFormat, name ?? TalerStrings.recipientFallback), .ok)
             }
             return ("✓", String(format: TalerStrings.statusAcceptedFromFormat, name ?? TalerStrings.senderFallback), .ok)

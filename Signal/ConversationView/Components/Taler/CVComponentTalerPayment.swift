@@ -63,11 +63,11 @@ public class CVComponentTalerPayment: CVComponentBase, CVComponent {
         // Deckt auch Chats ab, deren URIs laengst bekannt sind (Oeffnen/Scrollen).
         TalerPaymentManager.shared.ensureStarted()
 
-        let otherPartyName = CVComponentTalerPayment.otherPartyName(thread: thread, transaction: transaction)
+        let otherPartyName = CVComponentTalerPayment.otherPartyName(message: message, thread: thread, transaction: transaction)
         let records = uris.map { TalerPaymentStore.record(forUri: $0, tx: transaction) }
 
         if uris.count == 1 {
-            let model = TalerCardModel.build(record: records[0], otherPartyName: otherPartyName)
+            let model = TalerCardModel.build(record: records[0], otherPartyName: otherPartyName, isGroup: thread.isGroupThread)
             return CVComponentState.TalerPayment(
                 model: model,
                 uris: uris,
@@ -99,12 +99,15 @@ public class CVComponentTalerPayment: CVComponentBase, CVComponent {
         )
     }
 
-    static func otherPartyName(thread: TSThread, transaction: DBReadTransaction) -> String? {
+    /// Gegenueber im Status-Text: im 1:1-Chat der Kontakt, in einer Gruppe
+    /// der Absender einer eingehenden Nachricht - nie der Gruppenname (der
+    /// ist kein Empfaenger, angenommen hat irgendein Mitglied).
+    static func otherPartyName(message: TSMessage, thread: TSThread, transaction: DBReadTransaction) -> String? {
         if let contactThread = thread as? TSContactThread {
             return SSKEnvironment.shared.contactManagerRef.displayName(for: contactThread.contactAddress, tx: transaction).resolvedValue()
         }
-        if let groupThread = thread as? TSGroupThread {
-            return groupThread.groupNameOrDefault
+        if thread.isGroupThread, let incoming = message as? TSIncomingMessage {
+            return SSKEnvironment.shared.contactManagerRef.displayName(for: incoming.authorAddress, tx: transaction).resolvedValue()
         }
         return nil
     }

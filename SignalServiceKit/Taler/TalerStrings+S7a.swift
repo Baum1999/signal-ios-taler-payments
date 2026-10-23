@@ -17,6 +17,6 @@ extension TalerStrings {
 
     /// Kompakte Zeile statt Rohtext fuer eine erkannte Bestaetigung.
     public static var confirmationLine: String {
-        OWSLocalizedString("TALER_CONFIRMATION_LINE", comment: "Compact line shown in the chat instead of the raw text of a recognized Taler payment confirmation")
+        TalerLocalizedString("TALER_CONFIRMATION_LINE", comment: "Compact line shown in the chat instead of the raw text of a recognized Taler payment confirmation")
     }
 }
