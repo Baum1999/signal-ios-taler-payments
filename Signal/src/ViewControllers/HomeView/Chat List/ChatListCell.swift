@@ -646,14 +646,13 @@ class ChatListCell: UITableViewCell, ReusableTableViewCell {
             messageStatusViewTintColor = .ows_gray60
         }
 
-        // GNU Taler: eigenstaendiges "bezahlt"-Icon in
-        // der Chatliste, wenn alle Taler-URIs der letzten ausgehenden
-        // Nachricht angenommen sind (S7b).
-        if let talerPaidImage = TalerDeliveryStatusUI.chatListPaidImage(
+        // GNU Taler: Kreis-Varianten bzw. "bezahlt"-Icon in der Chatliste,
+        // wenn die letzte ausgehende Nachricht Taler-URIs enthaelt (S7b).
+        if let talerImage = TalerDeliveryStatusUI.chatListImage(
             status: messageStatus,
-            isPaid: threadViewModel.chatListInfo?.lastMessageTalerPaid ?? false
+            talerStatus: threadViewModel.chatListInfo?.lastMessageTalerStatus
         ) {
-            statusIndicatorImage = talerPaidImage
+            statusIndicatorImage = talerImage
             shouldAnimateStatusIcon = false
         }
 

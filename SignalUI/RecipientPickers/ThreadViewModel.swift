@@ -124,9 +124,9 @@ public class ChatListInfo {
 
     public let lastMessageDate: Date?
     public let lastMessageOutgoingStatus: MessageReceiptStatus?
-    /// GNU Taler: alle Taler-URIs der letzten
-    /// ausgehenden Nachricht angenommen (S7b). Im Ladepfad berechnet.
-    public let lastMessageTalerPaid: Bool
+    /// GNU Taler: Status der Taler-URIs der letzten ausgehenden Nachricht
+    /// (S7b), `nil` ohne Taler-URI. Im Ladepfad berechnet.
+    public let lastMessageTalerStatus: TalerDeliveryStatus?
     public let snippet: CLVSnippet
 
     public init(
@@ -162,9 +162,9 @@ public class ChatListInfo {
         }()
 
         if let outgoingMessage = lastMessageForInbox as? TSOutgoingMessage, !outgoingMessage.wasRemotelyDeleted {
-            self.lastMessageTalerPaid = TalerDeliveryStatus.isPaid(message: outgoingMessage, tx: transaction)
+            self.lastMessageTalerStatus = TalerDeliveryStatus.status(message: outgoingMessage, tx: transaction)
         } else {
-            self.lastMessageTalerPaid = false
+            self.lastMessageTalerStatus = nil
         }
 
         self.snippet = Self.buildCLVSnippet(

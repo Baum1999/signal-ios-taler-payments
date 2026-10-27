@@ -459,6 +459,12 @@ class MessageDetailViewController: OWSTableViewController2 {
 
         guard let messageRecipients = messageRecipients.get() else { return [] }
 
+        // GNU Taler: Kreis-Varianten der Status-Icons fuer Taler-Nachrichten
+        // (wie Android RecipientHeaderViewHolder).
+        let isTalerPayment = SSKEnvironment.shared.databaseStorageRef.read { tx in
+            TalerDeliveryStatus.status(message: message, tx: tx) != nil
+        }
+
         for statusGroup in orderedStatusGroups {
             guard let recipients = messageRecipients[statusGroup], !recipients.isEmpty else { continue }
 
@@ -466,7 +472,9 @@ class MessageDetailViewController: OWSTableViewController2 {
             sections.append(section)
 
             let sectionTitle = sectionTitle(for: statusGroup)
-            if let iconName = sectionIconName(for: statusGroup) {
+            if let iconName = TalerDeliveryStatusUI.detailSectionIconName(status: statusGroup, isTalerPayment: isTalerPayment)
+                ?? sectionIconName(for: statusGroup)
+            {
                 let headerView = UIView()
                 headerView.layoutMargins = .init(
                     top: (defaultSpacingBetweenSections ?? 0) + 12,

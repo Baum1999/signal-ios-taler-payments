@@ -14,8 +14,8 @@ import Foundation
 /// - `.paid`: ALLE enthaltenen URIs sind angenommen - eigenstaendiges
 ///   `TALER_PAID`-Icon.
 /// - `.open`: Taler-Zahlung, aber noch nicht vollstaendig angenommen -
-///   Platzhalter; der Aufrufer unterscheidet selbst weiter nach
-///   pending/delivered/read (zeigt also die normalen Haken).
+///   der Aufrufer unterscheidet selbst weiter nach sent/delivered/read und
+///   zeigt die Kreis-Varianten (`TALER_SENT`/`TALER_DELIVERED`/`TALER_READ`).
 public enum TalerDeliveryStatus: Equatable, Sendable {
     case paid
     case open
@@ -37,10 +37,10 @@ public enum TalerDeliveryStatus: Equatable, Sendable {
         return allAccepted ? .paid : .open
     }
 
-    /// Ladepfad-Helfer (Chatliste, Footer): `true`, wenn die Nachricht
-    /// Taler-URIs enthaelt und ALLE angenommen sind. Nur mit einer
+    /// Ladepfad-Helfer (Chatliste, Footer, Nachrichtendetails): Status der
+    /// Taler-URIs der Nachricht, `nil` ohne Taler-URI. Nur mit einer
     /// Lese-Transaktion aufrufen, nie im Render-Pfad.
-    public static func isPaid(message: TSMessage, tx: DBReadTransaction) -> Bool {
+    public static func status(message: TSMessage, tx: DBReadTransaction) -> TalerDeliveryStatus? {
         var uris: [String] = []
         if
             let rowId = message.sqliteRowId,
@@ -51,9 +51,9 @@ public enum TalerDeliveryStatus: Equatable, Sendable {
             uris = TalerMessageBody.uris(in: body)
         }
         guard !uris.isEmpty else {
-            return false
+            return nil
         }
         let records = uris.map { TalerPaymentStore.record(forUri: $0, tx: tx) }
-        return compute(uris: uris, records: records) == .paid
+        return compute(uris: uris, records: records)
     }
 }
