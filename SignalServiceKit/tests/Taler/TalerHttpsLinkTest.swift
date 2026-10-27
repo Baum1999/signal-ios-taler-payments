@@ -116,4 +116,18 @@ final class TalerHttpsLinkTest: XCTestCase {
         )
         XCTAssertEqual(updates.map(\.uri), [wrapped])
     }
+
+    // MARK: wrap (Klartext der Zahlungsnachrichten)
+
+    func testWrapUsesWrapHostAndRoundTrips() {
+        let wrapped = TalerHttpsLink.wrap(rawPush)
+        XCTAssertEqual(wrapped, "https://\(TalerLinkHosts.wrapHost)/link#pay-push/exchange.example/ABC")
+        XCTAssertEqual(TalerHttpsLink.unwrap(wrapped), rawPush)
+    }
+
+    func testMessageLinkWrapsOnlyTaler() {
+        XCTAssertEqual(TalerHttpsLink.messageLink(rawPush), TalerHttpsLink.wrap(rawPush))
+        XCTAssertEqual(TalerHttpsLink.messageLink("payto://iban/DE00"), "payto://iban/DE00")
+    }
+
 }

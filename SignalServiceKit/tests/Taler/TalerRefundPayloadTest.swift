@@ -46,12 +46,17 @@ final class TalerRefundPayloadTest: XCTestCase {
 
     // MARK: ready, JSON-Pfad (Header vor Verwendungszweck)
 
+
+    /// Klartext-Form im Body: https-Link nach DD 103.
+    private func link(_ uri: String) -> String {
+        "https://\(TalerLinkHosts.wrapHost)/link#" + uri.dropFirst("taler://".count)
+    }
     func testReadyWithJsonSingleUri() {
         let json = paymentDataJson(uris: [payPushUri])
         let body = TalerRefundPayload.build(from: makeReturn(status: .ready, talerPaymentData: json))
         XCTAssertEqual(
             body,
-            "Refund: \(TalerStrings.legacyText)\n\n\(payPushUri)"
+            "Refund: \(TalerStrings.legacyText)\n\n\(link(payPushUri))"
         )
     }
 
@@ -64,7 +69,7 @@ final class TalerRefundPayloadTest: XCTestCase {
         )
         // JSON hat Vorrang vor talerUri; jede URI durch eine Leerzeile getrennt.
         // Der fremde Text aus Taler landet nie im Entwurf.
-        XCTAssertEqual(body, "Refund: \(TalerStrings.legacyText)\n\n" + uris.joined(separator: "\n\n"))
+        XCTAssertEqual(body, "Refund: \(TalerStrings.legacyText)\n\n" + uris.map(link).joined(separator: "\n\n"))
     }
 
     // MARK: ready, Rueckfall talerUri (aeltere Taler-Versionen)
@@ -101,7 +106,7 @@ final class TalerRefundPayloadTest: XCTestCase {
         let jsonBody = TalerRefundPayload.build(
             from: makeReturn(status: .ready, talerPaymentData: paymentDataJson(uris: [withdrawUri]))
         )
-        XCTAssertEqual(jsonBody, "Refund: \(TalerStrings.legacyText)\n\n\(withdrawUri)")
+        XCTAssertEqual(jsonBody, "Refund: \(TalerStrings.legacyText)\n\n\(link(withdrawUri))")
         XCTAssertEqual(
             TalerRefundPayload.build(from: makeReturn(status: .ready, talerUri: refundUri)),
             "Refund: \(refundUri)"

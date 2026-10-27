@@ -37,10 +37,20 @@ public enum TalerStrings {
     public static let acceptConfirmationFormat = "Payment for %@ accepted (%@)"
     public static let sendMessageFormat = "Payment sent: %@ (%@)"
     public static let requestMessageFormat = "Payment requested: %@ (%@)"
-    /// Klartext vor den URIs einer Zahlungsnachricht. Gehoert Signal, nicht
+    /// Klartext vor den Links einer Zahlungsnachricht. Gehoert Signal, nicht
     /// Taler (Taler sendet seit 2026-10-11 kein legacyText mehr). Identisch zu
     /// Android TalerFork_payment_legacy_text (values).
-    public static let legacyText = "This is a GNU Taler link. Update Signal or copy the URI below into the GNU Taler app to make the payment."
+    public static let legacyText = "This is a GNU Taler link. Update Signal or open the link below with the GNU Taler app to make the payment."
+    /// Alle Klartexte, die die Vorschau als Zahlungsnachricht erkennt: der
+    /// aktuelle (en/de) und der bis 2026-10-27 versendete ("copy the URI
+    /// below") fuer bereits empfangene Nachrichten. Spiegel von
+    /// TalerPreviewText.LEGACY_TEXTS (Android).
+    public static let legacyTexts = [
+        legacyText,
+        "Dies ist ein GNU-Taler-Link. Aktualisieren Sie Signal oder öffnen Sie den unten stehenden Link mit der GNU-Taler-App, um die Zahlung durchzuführen.",
+        "This is a GNU Taler link. Update Signal or copy the URI below into the GNU Taler app to make the payment.",
+        "Dies ist ein GNU-Taler-Link. Aktualisieren Sie Signal oder kopieren Sie den unten stehenden URI in die GNU-Taler-App, um die Zahlung durchzuführen.",
+    ]
 
     // MARK: Karte
 

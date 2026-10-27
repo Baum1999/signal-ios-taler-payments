@@ -59,10 +59,11 @@ public enum TalerSendPayload {
 
     /// JSON-Pfad (Gruppen-Split: mehrere URIs). Body wie Android
     /// (TalerPaymentBody.send): Signals eigener Klartext, Leerzeile, dann die
-    /// URIs - jeweils durch eine Leerzeile getrennt, damit TalerUriDetector
-    /// sie einzeln findet (der Text sagt "copy the URI below", das stimmt nur
-    /// mit den URIs NACH dem Text). Ein von Taler mitgeschicktes legacyText
-    /// wird ignoriert.
+    /// URIs als https-Links (`TalerHttpsLink.messageLink`) - jeweils durch
+    /// eine Leerzeile getrennt, damit TalerUriDetector sie einzeln findet (der
+    /// Text sagt "open the link below", das stimmt nur mit den Links NACH dem
+    /// Text). Das Payload behaelt die taler://-URIs. Ein von Taler
+    /// mitgeschicktes legacyText wird ignoriert.
     private static func build(
         uris: [String],
         includeSelf: Bool?,
@@ -73,7 +74,7 @@ public enum TalerSendPayload {
                 return nil
             }
         }
-        let body = TalerStrings.legacyText + "\n\n" + uris.joined(separator: "\n\n")
+        let body = TalerStrings.legacyText + "\n\n" + uris.map(TalerHttpsLink.messageLink).joined(separator: "\n\n")
         let payload = TalerPaymentPayload(
             uris: uris,
             version: 1,

@@ -10,6 +10,9 @@ import Foundation
 /// (signal-android). Forks mit eigener Link-Domain ueberschreiben nur diese
 /// Datei, damit ein Rebase auf den Hauptzweig konfliktfrei bleibt.
 public enum TalerLinkHosts {
+    /// Domain, mit der `TalerHttpsLink.wrap` neue Links erzeugt.
+    public static let wrapHost = "wallet.taler.net"
+
     /// Domains, deren `/link#`-Links `TalerHttpsLink.unwrap` akzeptiert.
     public static let acceptedHosts = ["wallet.taler.net"]
 }

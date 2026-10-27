@@ -63,7 +63,7 @@ public enum TalerPreviewText {
         if matchesFormat(rest, TalerStrings.sendMessageFormat) || matchesFormat(rest, TalerStrings.requestMessageFormat) {
             return label(forUris: uris)
         }
-        if rest == normalizeWhitespace(TalerStrings.legacyText) {
+        if TalerStrings.legacyTexts.contains(where: { rest == normalizeWhitespace($0) }) {
             return label(forUris: uris)
         }
 

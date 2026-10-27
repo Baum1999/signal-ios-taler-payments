@@ -54,6 +54,16 @@ final class TalerPreviewTextTest: XCTestCase {
         XCTAssertEqual(TalerPreviewText.previewLabel(body: body), TalerStrings.previewGroupSplit)
     }
 
+    func testBodyWithHttpsLinksYieldsLabel() {
+        let body = TalerStrings.legacyText + "\n\n" + TalerHttpsLink.messageLink(payPushUri)
+        XCTAssertEqual(TalerPreviewText.previewLabel(body: body), TalerStrings.kindPayPush)
+    }
+
+    func testOldUriTextIsStillRecognised() {
+        let body = "This is a GNU Taler link. Update Signal or copy the URI below into the GNU Taler app to make the payment.\n\n" + payPushUri
+        XCTAssertEqual(TalerPreviewText.previewLabel(body: body), TalerStrings.kindPayPush)
+    }
+
     // MARK: Nutzertext bleibt sichtbar
 
     func testUserTextWithUriIsNotATalerMessage() {

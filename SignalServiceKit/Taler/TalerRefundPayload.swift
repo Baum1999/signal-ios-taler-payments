@@ -15,8 +15,9 @@ import Foundation
 ///
 /// Body exakt wie Android (TalerPaymentBody.refundDraft): der Header
 /// "Refund: " VOR Signals eigenem Klartext (`TalerStrings.legacyText`),
-/// Leerzeile, dann die URIs im Klartext - Text-zuerst, damit "copy the URI
-/// below" stimmt und TalerUriDetector die URIs einzeln findet. Ein von Taler
+/// Leerzeile, dann die URIs als https-Links (`TalerHttpsLink.messageLink`) -
+/// Text-zuerst, damit "open the link below" stimmt und TalerUriDetector die
+/// Links einzeln findet. Ein von Taler
 /// mitgeschicktes legacyText wird ignoriert. Rueckfall ohne JSON (aeltere
 /// Taler-Versionen): Header direkt vor der URI.
 ///
@@ -69,7 +70,7 @@ public enum TalerRefundPayload {
             }
         }
         return String(format: TalerStrings.refundMessageFormat, TalerStrings.legacyText)
-            + "\n\n" + uris.joined(separator: "\n\n")
+            + "\n\n" + uris.map(TalerHttpsLink.messageLink).joined(separator: "\n\n")
     }
 
     /// Rueckfall-Pfad ohne JSON (aeltere Taler-Versionen): Header direkt vor

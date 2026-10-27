@@ -50,6 +50,11 @@ final class TalerSendPayloadTest: XCTestCase {
 
     // MARK: ready, eine URI (Rueckfall talerUri)
 
+
+    /// Klartext-Form im Body: https-Link nach DD 103.
+    private func link(_ uri: String) -> String {
+        "https://\(TalerLinkHosts.wrapHost)/link#" + uri.dropFirst("taler://".count)
+    }
     func testReadyWithSinglePayPushUri() {
         let result = TalerSendPayload.build(from: makeReturn(status: .ready, talerUri: payPushUri))
         XCTAssertNotNil(result)
@@ -89,7 +94,7 @@ final class TalerSendPayloadTest: XCTestCase {
         )
         // JSON hat Vorrang vor talerUri. Ein von (aelterem) Taler
         // mitgeschicktes legacyText wird ignoriert.
-        XCTAssertEqual(result?.body, TalerStrings.legacyText + "\n\n" + uris.joined(separator: "\n\n"))
+        XCTAssertEqual(result?.body, TalerStrings.legacyText + "\n\n" + uris.map(link).joined(separator: "\n\n"))
         XCTAssertEqual(result?.payload.uris, uris)
         XCTAssertEqual(result?.payload.version, 1)
         XCTAssertTrue(result!.payload.isGroupSplit)
@@ -102,14 +107,15 @@ final class TalerSendPayloadTest: XCTestCase {
         let json = paymentDataJson(uris: uris, includeSelf: false, totalAmount: "30")
         let result = TalerSendPayload.build(from: makeReturn(status: .ready, talerUri: payPushUri, talerPaymentData: json))
         XCTAssertEqual(result?.payload.uris, uris)
-        XCTAssertEqual(result?.body, TalerStrings.legacyText + "\n\n" + uris.joined(separator: "\n\n"))
+        XCTAssertEqual(result?.body, TalerStrings.legacyText + "\n\n" + uris.map(link).joined(separator: "\n\n"))
     }
 
     func testReadyWithJsonSingleUriIsNoGroupSplit() {
         let json = paymentDataJson(uris: [payPushUri])
         let result = TalerSendPayload.build(from: makeReturn(status: .ready, talerPaymentData: json))
         XCTAssertFalse(result!.payload.isGroupSplit)
-        XCTAssertEqual(result?.body, TalerStrings.legacyText + "\n\n" + payPushUri)
+        XCTAssertEqual(result?.body, TalerStrings.legacyText + "\n\n" + link(payPushUri))
+        XCTAssertEqual(result?.payload.uris, [payPushUri])
     }
 
     // MARK: ungueltige URIs
