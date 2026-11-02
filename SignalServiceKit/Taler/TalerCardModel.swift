@@ -179,9 +179,13 @@ public struct TalerCardModel: Equatable, Sendable {
 /// Karte und Long-Press-Menue.
 public enum TalerCardActionGate {
 
-    /// Annehmen/Ablehnen: offener, fremder pay-push.
+    /// Annehmen/Ablehnen: offener, fremder pay-push oder pay-pull (N13: bei
+    /// einer Anforderung ist Annehmen das Bezahlen in Talers eigener UI).
     public static func showAccept(_ record: TalerPaymentRecord?) -> Bool {
-        record?.status == .offen && record?.uriKind == .payPush && record?.isOwnPayment == false
+        guard let record else { return false }
+        return record.status == .offen
+            && (record.uriKind == .payPush || record.uriKind == .payPull)
+            && !record.isOwnPayment
     }
 
     public static func showReject(_ record: TalerPaymentRecord?) -> Bool {

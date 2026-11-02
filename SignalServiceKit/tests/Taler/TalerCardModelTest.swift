@@ -39,7 +39,11 @@ final class TalerCardModelTest: XCTestCase {
     func testAcceptOnlyForForeignOpenPayPush() {
         XCTAssertTrue(TalerCardActionGate.showAccept(record(status: .offen, own: false)))
         XCTAssertFalse(TalerCardActionGate.showAccept(record(status: .offen, own: true)))
-        XCTAssertFalse(TalerCardActionGate.showAccept(record(kind: .payPull, status: .offen, own: false)))
+        XCTAssertTrue(TalerCardActionGate.showAccept(record(kind: .payPull, status: .offen, own: false)))
+        XCTAssertTrue(TalerCardActionGate.showReject(record(kind: .payPull, status: .offen, own: false)))
+        XCTAssertFalse(TalerCardActionGate.showAccept(record(kind: .payPull, status: .offen, own: true)))
+        XCTAssertFalse(TalerCardActionGate.showAccept(record(kind: .payPull, status: .angenommen, own: false)))
+        XCTAssertFalse(TalerCardActionGate.showAccept(record(kind: .pay, status: .offen, own: false)))
         XCTAssertFalse(TalerCardActionGate.showAccept(record(status: .angenommen, own: false)))
         XCTAssertFalse(TalerCardActionGate.showAccept(nil))
     }

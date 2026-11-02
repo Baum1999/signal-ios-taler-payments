@@ -34,7 +34,7 @@ final class TalerConfirmationSender: TalerPaymentManagerDelegate {
         // Nur EIGENE Annahme eines pay-push: dieselbe Bedingung wie fuer den
         // Annehmen-Knopf. Self-Chat braucht keinen zusaetzlichen Ausschluss
         // (dann ist isOwnPayment ohnehin true, siehe Android Bug 2 Fix).
-        guard record.uriKind == .payPush, !record.isOwnPayment else {
+        guard let kind = record.uriKind, kind == .payPush || kind == .payPull, !record.isOwnPayment else {
             return
         }
         // Nur 1:1-Chats - in Gruppen wird keine Bestaetigung gesendet.
@@ -42,8 +42,8 @@ final class TalerConfirmationSender: TalerPaymentManagerDelegate {
         guard thread is TSContactThread else {
             return
         }
-        ThreadUtil.enqueueSendQueue.enqueue { [uri = record.uri, threadUniqueId = record.threadUniqueId] in
-            await Self.sendConfirmation(uri: uri, threadUniqueId: threadUniqueId)
+        ThreadUtil.enqueueSendQueue.enqueue { [kind, uri = record.uri, threadUniqueId = record.threadUniqueId] in
+            await Self.sendConfirmation(kind: kind, uri: uri, threadUniqueId: threadUniqueId)
         }
     }
 
@@ -53,7 +53,7 @@ final class TalerConfirmationSender: TalerPaymentManagerDelegate {
     /// TalerReturnHandler (SerialTaskQueue, Body-Validierung,
     /// UnpreparedOutgoingMessage.prepare, MessageSenderJobQueue). Wird nichts
     /// gesendet (bereits bestaetigt, Thread weg), passiert nichts.
-    private static func sendConfirmation(uri: String, threadUniqueId: String) async {
+    private static func sendConfirmation(kind: TalerUriKind, uri: String, threadUniqueId: String) async {
         let databaseStorage = SSKEnvironment.shared.databaseStorageRef
 
         let thread = databaseStorage.read { tx in
@@ -64,7 +64,7 @@ final class TalerConfirmationSender: TalerPaymentManagerDelegate {
         }
 
         guard
-            let body = TalerConfirmationDetector.body(kind: .payPush, uri: uri),
+            let body = TalerConfirmationDetector.body(kind: kind, uri: uri),
             let validatedBody = try? await DependenciesBridge.shared.attachmentContentValidator
                 .prepareOversizeTextIfNeeded(MessageBody(text: body, ranges: .empty))
         else {

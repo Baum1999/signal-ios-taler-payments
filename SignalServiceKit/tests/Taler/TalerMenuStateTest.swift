@@ -66,6 +66,17 @@ final class TalerMenuStateTest: XCTestCase {
         XCTAssertEqual(targets.cancelUris, [])
     }
 
+    func testForeignOpenPayPullShowsAcceptAndReject() {
+        let pull = record(uriA, status: .offen, isOwnPayment: false, uriKind: .payPull)
+        XCTAssertTrue(TalerCardActionGate.showAccept(pull))
+        XCTAssertEqual(computeSingle(pull).rejectUri, uriA)
+    }
+
+    func testOwnOpenPayPullShowsNoAccept() {
+        let pull = record(uriA, status: .offen, isOwnPayment: true, uriKind: .payPull)
+        XCTAssertFalse(TalerCardActionGate.showAccept(pull))
+    }
+
     func testAcceptedForeignPaymentShowsRefundOnly() {
         let targets = computeSingle(record(uriA, status: .angenommen, isOwnPayment: false))
         XCTAssertNil(targets.rejectUri)
