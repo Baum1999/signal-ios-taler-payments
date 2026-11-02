@@ -75,10 +75,11 @@ public enum TalerLinks {
     /// unbedenkliche Kontextinfo mit. Sender-Reihenfolge (link-protokoll.md 3):
     /// `recipientHint`, `senderAppName`, `isGroup`, `direction`,
     /// `disappearingMessagesSeconds`, `correlationId`, `returnUri`, dann
-    /// `memberCount` nur bei Gruppe (wie Android, TalerSendActions.kt).
+    /// `memberCount` nur bei Gruppe (wie Android, TalerSendActions.kt),
+    /// zuletzt `avatarFile` (iOS-Transport des Avatars, nur wenn vorhanden).
     public static func composeSend(recipientHint: String, isGroup: Bool, memberCount: Int?,
                                    disappearingMessagesSeconds: UInt32, direction: Direction,
-                                   correlationId: String) -> URL {
+                                   correlationId: String, avatarFile: String? = nil) -> URL {
         var items: [URLQueryItem] = [
             URLQueryItem(name: "recipientHint", value: encode(recipientHint)),
             URLQueryItem(name: "senderAppName", value: encode(senderAppName)),
@@ -90,6 +91,13 @@ public enum TalerLinks {
         ]
         if isGroup, let memberCount {
             items.append(URLQueryItem(name: "memberCount", value: String(memberCount)))
+        }
+        // Nur der Dateiname (<correlationId>.jpg) im gemeinsamen App-Group-
+        // Ordner, nie ein Pfad: Taler setzt ihn selbst an den Container an
+        // (link-protokoll.md 3, avatarFile). Fehlt der Parameter, zeigt Taler
+        // einen Platzhalter.
+        if let avatarFile {
+            items.append(URLQueryItem(name: "avatarFile", value: encode(avatarFile)))
         }
         return composeLink(host: "compose-send", items: items)
     }

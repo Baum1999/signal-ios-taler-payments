@@ -78,6 +78,20 @@ final class TalerLinksTest: XCTestCase {
         XCTAssertFalse(names(url).contains("memberCount"))
     }
 
+    func testComposeSendAvatarFileIsAppendedLastAndOnlyWhenPresent() {
+        let without = TalerLinks.composeSend(recipientHint: "Team", isGroup: true, memberCount: 5,
+                                             disappearingMessagesSeconds: 0,
+                                             direction: .payPush, correlationId: correlationId)
+        XCTAssertFalse(names(without).contains("avatarFile"))
+
+        let with = TalerLinks.composeSend(recipientHint: "Team", isGroup: true, memberCount: 5,
+                                          disappearingMessagesSeconds: 0,
+                                          direction: .payPush, correlationId: correlationId,
+                                          avatarFile: "\(correlationId).jpg")
+        XCTAssertEqual(names(with).suffix(2), ["memberCount", "avatarFile"])
+        XCTAssertEqual(items(with).last?.value, "\(correlationId).jpg")
+    }
+
     // MARK: compose-refund
 
     func testComposeRefundParameterOrderAndEncoding() {

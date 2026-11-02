@@ -73,18 +73,80 @@ enum TalerComposeLauncher {
             )
         )
 
+        let avatarFile = writeSharedAvatar(for: thread, correlationId: correlationId)
+
         let url = TalerLinks.composeSend(
             recipientHint: recipientHint,
             isGroup: isGroup,
             memberCount: isGroup ? memberCount : nil,
             disappearingMessagesSeconds: disappearingMessagesSeconds,
             direction: .payPush,
-            correlationId: correlationId
+            correlationId: correlationId,
+            avatarFile: avatarFile
         )
 
         // Schlaegt das Oeffnen fehl, bleibt der Store-Eintrag ungenutzt und
         // laeuft nach der TTL ab; es wird nichts gesendet (link-protokoll.md 3,
         // Fehlerfall "Taler nicht installiert").
         UIApplication.shared.open(url)
+    }
+
+    // MARK: Avatar-Transport
+
+    /// Info.plist-Schluessel mit dem Namen der App Group, die Signal und Taler
+    /// teilen. Fehlt er (oder ist der Container nicht verfuegbar, z.B. ohne
+    /// bezahlten Developer-Account), laeuft der Flow ohne Avatar - Taler zeigt
+    /// dann einen Platzhalter. Der Gruppenname gehoert in die Fork-Konfiguration,
+    /// nicht in den Code.
+    private static let shareGroupInfoKey = "TalerShareAppGroup"
+    private static let shareFolderName = "taler-compose-avatars"
+    /// 96 px wie Taler-Android (ContactStore); mehr braucht die Listenzeile nicht.
+    private static let avatarDiameterPixels: CGFloat = 96
+    private static let staleAvatarAge: TimeInterval = 60 * 60
+
+    /// Legt den Thread-Avatar als `<correlationId>.jpg` im gemeinsamen
+    /// App-Group-Ordner ab und liefert den Dateinamen. Taler liest und loescht
+    /// die Datei; uebrig gebliebene werden hier nach einer Stunde aufgeraeumt.
+    /// Rein optional: jeder Fehler ergibt nil, nie einen Abbruch des Flows.
+    private static func writeSharedAvatar(for thread: TSThread, correlationId: String) -> String? {
+        guard let group = Bundle.main.object(forInfoDictionaryKey: shareGroupInfoKey) as? String,
+              !group.isEmpty,
+              let container = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: group)
+        else { return nil }
+        let folder = container.appendingPathComponent(shareFolderName, isDirectory: true)
+        let fileManager = FileManager.default
+        do {
+            try fileManager.createDirectory(at: folder, withIntermediateDirectories: true)
+            pruneStaleAvatars(in: folder)
+
+            let image = SSKEnvironment.shared.databaseStorageRef.read { tx in
+                SSKEnvironment.shared.avatarBuilderRef.avatarImage(
+                    forThread: thread,
+                    diameterPixels: avatarDiameterPixels,
+                    localUserDisplayMode: .asUser,
+                    transaction: tx
+                )
+            }
+            guard let data = image?.jpegData(compressionQuality: 0.8) else { return nil }
+            let fileName = "\(correlationId).jpg"
+            try data.write(to: folder.appendingPathComponent(fileName), options: .atomic)
+            return fileName
+        } catch {
+            return nil
+        }
+    }
+
+    private static func pruneStaleAvatars(in folder: URL) {
+        let fileManager = FileManager.default
+        let cutoff = Date().addingTimeInterval(-staleAvatarAge)
+        let files = (try? fileManager.contentsOfDirectory(
+            at: folder, includingPropertiesForKeys: [.contentModificationDateKey])) ?? []
+        for file in files {
+            let modified = (try? file.resourceValues(forKeys: [.contentModificationDateKey]))?
+                .contentModificationDate
+            if let modified, modified < cutoff {
+                try? fileManager.removeItem(at: file)
+            }
+        }
     }
 }
