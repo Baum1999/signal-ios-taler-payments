@@ -199,28 +199,28 @@ enum TalerMessageActions {
     }
 
     /// Abbrechen: oeffnet Talers eigene Abbrechen-UI fuer den eigenen,
-    /// offenen Anteil. Ab zwei Anteilen (Gruppenkarte) ein einziger
-    /// compose-abort mit Sammel-Bestaetigung (`reason=menu`, Multi-URI-Link
-    /// 5.2) statt einem Link pro Anteil, von denen nur der letzte sicher
-    /// ankaeme. Signal bewegt dabei kein Geld - bestaetigt wird nur in der
-    /// Taler-UI durch den Nutzer (Regel 1). Der Status aendert sich erst
-    /// durch Taler bzw. den Exchange, nie lokal.
+    /// offenen Anteil. Immer ein einziger compose-abort (`reason=menu`,
+    /// Multi-URI-Link 5.2), auch bei nur einer URI: der Aktionslink
+    /// `talerlink://pay-push/...` oeffnet in Taler den Annehmen-Bildschirm,
+    /// und auf einem zweiten eigenen Geraet derselben Signal-Identitaet
+    /// koennte dort die eigene Wallet das Geld einziehen (E16). Bei
+    /// mehreren Anteilen (Gruppenkarte) bleibt es ein Link statt einem pro
+    /// Anteil, von denen nur der letzte sicher ankaeme. Signal bewegt dabei
+    /// kein Geld - bestaetigt wird nur in der Taler-UI durch den Nutzer
+    /// (Regel 1). Der Status aendert sich erst durch Taler bzw. den
+    /// Exchange, nie lokal.
     static func cancel(messageUniqueId: String) {
         let request = SSKEnvironment.shared.databaseStorageRef.read { tx -> (uris: [String], threadUniqueId: String, meta: TalerAbortMeta?)? in
             guard let message = TSMessage.fetchMessageViaCache(uniqueId: messageUniqueId, transaction: tx) else {
                 return nil
             }
             let uris = TalerMenuState.targets(for: message, tx: tx).cancelUris
-            let meta = uris.count >= 2
-                ? TalerAbortLauncher.meta(reason: .menu, message: message, threadUniqueId: message.uniqueThreadId, uris: uris, tx: tx)
-                : nil
+            let meta = uris.isEmpty
+                ? nil
+                : TalerAbortLauncher.meta(reason: .menu, message: message, threadUniqueId: message.uniqueThreadId, uris: uris, tx: tx)
             return (uris, message.uniqueThreadId, meta)
         }
         guard let request, !request.uris.isEmpty else {
-            return
-        }
-        guard request.uris.count >= 2 else {
-            TalerCardActions.cancel(uri: request.uris[0], threadUniqueId: request.threadUniqueId)
             return
         }
         TalerAbortLauncher.launch(

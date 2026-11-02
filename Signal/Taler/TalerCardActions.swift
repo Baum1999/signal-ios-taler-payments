@@ -55,34 +55,4 @@ enum TalerCardActions {
             }
         }
     }
-
-    /// Abbrechen eines eigenen, offenen pay-push: derselbe
-    /// ACCEPT_OR_CANCEL-Flow wie Annehmen - Talers eigene UI bricht die
-    /// Zahlung ab, Signal bestaetigt nichts (Regel 1). Der Ruecksprung loest
-    /// den Fast-Poll aus (Paket S4); der Status aendert sich erst durch
-    /// Taler bzw. den Exchange, nie lokal.
-    static func cancel(uri: String, threadUniqueId: String) {
-        // Beim Tippen frisch pruefen (siehe accept).
-        guard TalerInstallation.refresh() else {
-            OWSActionSheets.showActionSheet(
-                title: TalerStrings.alertTalerNotInstalledTitle,
-                message: TalerStrings.alertTalerNotInstalledBody
-            )
-            return
-        }
-        let correlationId = TalerCorrelationStore.shared.register(
-            TalerCorrelationEntry(
-                intent: .acceptOrCancel,
-                threadUniqueId: threadUniqueId,
-                uri: uri,
-                uris: [],
-                quoteInteractionUniqueId: nil
-            )
-        )
-        guard let link = TalerLinks.actionLink(forTalerUri: uri, correlationId: correlationId) else {
-            owsFailDebug("Aktionslink konnte nicht gebaut werden.")
-            return
-        }
-        UIApplication.shared.open(link, options: [:])
-    }
 }
