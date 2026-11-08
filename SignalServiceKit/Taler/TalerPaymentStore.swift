@@ -318,6 +318,21 @@ public enum TalerPaymentStore {
         }
     }
 
+    /// Alle URIs einer Nachricht (bei einem Gruppen-Split alle Anteile).
+    public static func uris(forInteractionId interactionId: Int64, tx: DBReadTransaction) -> [String] {
+        failIfThrows {
+            try String.fetchAll(tx.database, sql: "SELECT uri FROM TalerPaymentInteraction WHERE interactionId = ?", arguments: [interactionId])
+        }
+    }
+
+    /// Alle bekannten Vorgangs-URIs, fuer die Hash-Suche von `taler-open`
+    /// (TalerOpenLink). Nur die URIs, keine weiteren Spalten.
+    public static func allUris(tx: DBReadTransaction) -> [String] {
+        failIfThrows {
+            try String.fetchAll(tx.database, sql: "SELECT uri FROM TalerPayment")
+        }
+    }
+
     // MARK: - TalerPaymentMessage
 
     private static let uriSeparator = "\n"

@@ -19,6 +19,8 @@ private enum OpenableUrl {
     case quickRestore(URL)
     // GNU Taler: Ruecksprung von GNU Taler (S4).
     case talerReturn(URL)
+    // GNU Taler: Taler oeffnet die Zahlungsnachricht (link-protokoll.md 12).
+    case talerOpen(URL)
 }
 
 class UrlOpener {
@@ -99,6 +101,11 @@ class UrlOpener {
         if isTalerReturnUrl(url) {
             return .talerReturn(url)
         }
+        // GNU Taler: "Nachricht zur Zahlung zeigen" aus der Taler-
+        // Transaktionsliste. Pruefen und Suchen macht TalerOpenHandler.
+        if TalerOpenLink.isOpenUrl(url) {
+            return .talerOpen(url)
+        }
         owsFailDebug("Couldn't parse URL")
         return nil
     }
@@ -164,7 +171,7 @@ class UrlOpener {
     private func shouldDismiss(for url: OpenableUrl) -> Bool {
         switch url {
         case .completeIDEALDonation, .talerReturn: return false
-        case .groupInvite, .linkDevice, .phoneNumberLink, .signalProxy, .stickerPack, .usernameLink, .callLink, .quickRestore: return true
+        case .groupInvite, .linkDevice, .phoneNumberLink, .signalProxy, .stickerPack, .usernameLink, .callLink, .quickRestore, .talerOpen: return true
         }
     }
 
@@ -348,6 +355,12 @@ class UrlOpener {
         case .talerReturn(let url):
             _ = try tsAccountManager.registeredStateWithMaybeSneakyTransaction()
             _ = TalerReturnHandler.handle(url)
+
+        // GNU Taler: Taler oeffnet die Zahlungsnachricht. Nur Navigation und
+        // ein Status-Abruf; aus dem Link wird nichts uebernommen.
+        case .talerOpen(let url):
+            _ = try tsAccountManager.registeredStateWithMaybeSneakyTransaction()
+            TalerOpenHandler.handle(url)
         }
     }
 }

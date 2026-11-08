@@ -11672,3 +11672,9 @@
 
 /* Settings row value: the GNU Taler wallet app is not installed */
 "TALER_SETTINGS_WALLET_NOT_INSTALLED" = "Not installed";
+
+/* Title of the alert when GNU Taler asks Signal to show the message of a payment that Signal does not know */
+"TALER_OPEN_PAYMENT_NOT_FOUND_TITLE" = "Payment Not Found";
+
+/* Message of the alert when GNU Taler asks Signal to show the message of a payment that Signal does not know */
+"TALER_OPEN_PAYMENT_NOT_FOUND_MESSAGE" = "Signal has no message for this payment. It may have been sent from another device or deleted.";

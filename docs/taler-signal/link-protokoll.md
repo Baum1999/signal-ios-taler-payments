@@ -18,6 +18,7 @@ geprüft.
 | Aktionslink `pay-push` / `pay-pull` | Signal -> Taler | Annehmen (fremde URI), Abbrechen (eigene URI) | vorhanden, aber als `taler://` |
 | Rücksprung, status-Variante | Taler -> Signal | Ergebnis von compose-send, compose-refund und Aktionslink | vorhanden |
 | Rücksprung, result-Variante | Taler -> Signal | Ergebnis pro URI von compose-abort | **[Neu]** |
+| `taler-open` | Taler -> Signal | Signal-Nachricht zu einer eigenen Zahlung öffnen, Status sofort abrufen (Abschnitt 12) | **[Neu]** |
 
 ## 2. Gemeinsame Regeln
 
@@ -584,3 +585,60 @@ baut: `correlationId`, dann je URI ein `result`.
 Siehe `android-nachzieh-liste.md`. Kurz: `talerlink://` auch für Aktionslinks
 annehmen, compose-abort mit result-Parser, `talerPaymentData` tolerant
 lesen, URI-Art im JSON-Sendepfad prüfen, Aktionslink-Öffnen absichern.
+
+## 12. Zur Nachricht springen: `taler-open` [Neu, iOS umgesetzt 2026-11-08]
+
+Taler öffnet aus seiner Transaktionsliste (Antippen der Zeile „Signal-Logo,
+Avatar, Name“, auch in der Detailansicht und bei der Sammelzeile eines
+Gruppen-Splits) die Signal-Nachricht zu einer eigenen Zahlung: der Nutzer
+sieht dort Reaktionen und Antworten und kann eine Erinnerung als normale
+Antwort schicken. Kein Correlation-Eintrag, kein Rücksprung.
+
+`sgnl://taler-open?v=1&uriHash=<hex>&uriHash=<hex>...`
+
+| Parameter | Pflicht | Typ | Werte | Kodierung |
+|---|---|---|---|---|
+| `v` | nein (fehlt = 1) | Int | Schema-Version, heute `1`; größere Werte trotzdem verarbeiten | roh |
+| `uriHash` | ja, 1 bis 32, **wiederholt** | Hex | SHA-256 über die UTF-8-Bytes der Zahlungs-URI, genau so, wie Taler sie im `ready`-Rücksprung geschickt hat, 64 Zeichen klein. Bei einem Gruppen-Split ein Wert pro Anteil | roh (nur `0-9a-f`) |
+
+**Warum nur der Hash:** Die URI ist ein Inhaberpapier (2.6). iOS kann nicht
+prüfen, welche App `sgnl` registriert hat; der Hash verrät nichts. Taler
+kennt die Hashes ohnehin: der `OwnUriStore` speichert seine Einträge unter
+genau diesem Schlüssel. Ohne bekannten Hash (die Zahlung wurde nie an Signal
+übergeben) öffnet Taler nichts.
+
+**Kein Status im Link:** Jede App kann diesen Link öffnen, daher übernimmt
+Signal keinen Wert daraus (2.5). Stattdessen fragt Signal beim Öffnen sofort
+den Status aller URIs der Nachricht beim Exchange ab. Damit ist Signal
+synchron, sobald der Chat erscheint, und das reguläre Polling kann langsamer
+laufen (iOS seit 2026-11-08 60 s statt 20 s, N20).
+
+**Signal-Regeln:**
+
+1. Scheme `sgnl` und Host `taler-open`, Groß/Kleinschreibung egal.
+2. Jeden `uriHash` prüfen (genau 64 Hex-Zeichen, Großbuchstaben werden klein
+   gelesen); ungültige Werte einzeln verwerfen, Duplikate zusammenfassen,
+   höchstens 32. Bleibt keiner: Link still ignorieren.
+3. Die erste bekannte Vorgangs-URI (`TalerPayment`), deren Hash im Link steht
+   (Link-Reihenfolge), bestimmt den Chat (`threadUniqueId` des Vorgangs).
+4. Ziel ist die älteste Nachricht in diesem Chat, die diese URI trägt
+   (`TalerPaymentInteraction`), also die Zahlungsnachricht selbst, keine
+   spätere Kopie. Der Chat öffnet sich mit dieser Nachricht im Fokus. Ist
+   sie gelöscht oder verschwunden, öffnet sich nur der Chat.
+5. Sofort-Abruf (`refresh`, Trigger `manual`) für alle URIs dieser
+   Nachricht, sonst für die gefundene URI.
+6. Keine passende URI: Hinweis „Zahlung nicht gefunden“ (die Zahlung kann
+   von einem anderen eigenen Gerät stammen oder gelöscht sein).
+7. Keine URI und kein Hash im Log.
+
+**Taler-Regeln:** Ziel ist die Konstante `sgnl://taler-open`, die Query
+wird komplett neu gebaut (nie aus einem empfangenen Link übernommen).
+Hashes kommen nur aus dem eigenen `OwnUriStore`.
+
+Beispiel (Gruppen-Split mit zwei Anteilen, Umbruch nur zur Lesbarkeit):
+
+```
+sgnl://taler-open?v=1
+  &uriHash=b128b650d7a36d51ebef90db845d6eff7c01cc99c6246b5179743c1d7c176147
+  &uriHash=cc50c43eff63012e647a5808223fae212472d70d0243f32e8971f64ae212104e
+```

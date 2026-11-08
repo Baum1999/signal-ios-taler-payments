@@ -39,6 +39,7 @@ Taler = `taler-android/wallet/src/main/java/net/taler/wallet/`.
 | N17 | P2 | Offen | Persistenter Correlation-Store für SEND/REFUND (Signal-Prozess-Tod während Taler-Besuch) | `link-protokoll.md` 9 |
 | N18 | P3 | Offen | Bestätigungsnachricht bei mehreren eigenen Geräten mehrfach möglich | `entscheidungen.md` |
 | N19 | P3 | Abweichung | `TalerUriDetector.findUris` entfernt Dubletten roh statt entpackt (`taler://X` plus DD-103-Link = zwei Karten) | `datenmodell.md` 3 |
+| N20 | P2 | Neu, iOS umgesetzt 2026-11-08 | Taler-Zeile: Zeit unter dem Signal-Kontakt mit Ablaufangabe, Antippen öffnet die Signal-Nachricht (`taler-open`); Signal pollt seltener | `link-protokoll.md` 12 |
 
 ## 2. Details
 
@@ -318,6 +319,27 @@ Vorschlag für beide Plattformen: SEND/REFUND persistent mit TTL 15 min. Nutzere
 Jedes eigene Gerät pollt die URI und sieht den Übergang zu `ANGENOMMEN` selbst. Die Deduplizierung wirkt nur auf dem
 jeweiligen Gerät, iOS und Android verhalten sich hier gleich. Eine saubere Lösung wäre eine geräteübergreifende
 Kennzeichnung, etwa über ein Proto-Feld statt eines erkannten Textes. Hängt mit N6 zusammen (sprachneutrale Bestätigung).
+
+### N20 Zeit und Ablauf in der Taler-Zeile, Sprung zur Signal-Nachricht (P2, Neu)
+iOS seit 2026-11-08 (taler-ios, signal-ios; nicht gebaut). Android soll nachziehen:
+
+- **Taler, Zeile mit Signal-Kontakt:** Die Zeit steht ganz unten, unter der
+  Kontaktzeile (bei der Gruppen-Sammelzeile unter dem Fortschritt). Bei offenen
+  P2P-Zahlungen (pending oder dialog) folgt die Restlaufzeit:
+  „vor 5 Minuten · noch 28 Tage gültig“. Ab 48 h in Tagen, ab 2 h in Stunden,
+  sonst in Minuten (abgerundet), unter einer Minute „läuft gleich ab“. In den
+  letzten 5 % der Laufzeit (Erstellung bis `info.expiration`) in Warnfarbe
+  (Orange), danach „abgelaufen“ in Rot. Offene P2P-Zeilen ohne Signal-Kontakt
+  zeigen die Ablaufangabe an derselben Stelle wie bisher die Zeit.
+- **Taler, Antippen der Kontaktzeile** (Liste, Detailansicht, Sammelzeile):
+  öffnet `taler-open` mit den Hashes aus `OwnUriTracker` (Schlüssel ist
+  bereits SHA-256 der URI, N15). Der Rest der Zeile öffnet weiter die Details.
+- **Signal:** Link annehmen, Nachricht suchen, Chat mit Fokus öffnen,
+  sofort abrufen (`link-protokoll.md` 12).
+- **Signal, Polling:** iOS pollt im Vordergrund alle 60 s statt 20 s
+  (`TalerPaymentManager.pollIntervalSeconds`; der Backoff wächst dadurch ab
+  2 min statt 40 s). Android: `TalerPollingCoordinator.POLL_INTERVAL_MS`
+  ebenfalls auf 60 000 setzen.
 
 ## 3. Nicht-Abweichungen (geprüft, stimmt mit dem Zielbild)
 

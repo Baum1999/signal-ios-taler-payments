@@ -26,8 +26,11 @@ public protocol TalerPaymentManagerDelegate: AnyObject {
 /// Polling und Abruf fuer Taler-Vorgaenge. Spiegel von
 /// `TalerPollingCoordinator` + `TalerUriRefreshJob` (signal-android):
 ///
-///  - fester 20-s-Takt nur im Vordergrund, plus sofortiger Lauf beim
-///    Aktivwerden der App (kein dauerhaftes Hintergrund-Polling),
+///  - fester 60-s-Takt nur im Vordergrund, plus sofortiger Lauf beim
+///    Aktivwerden der App (kein dauerhaftes Hintergrund-Polling). Ein
+///    Ruecksprung aus Taler und `taler-open` (Taler oeffnet die
+///    Zahlungsnachricht) fragen ihre URIs sofort ab, daher reicht der
+///    langsame Takt,
 ///  - Obergrenze 200 Kandidaten pro Zyklus, TTL 24 h fuer UNBEKANNT_OFFLINE,
 ///  - exponentieller Backoff pro URI nach Transportfehlern (max. 20 min),
 ///  - Fast-Poll (2 s fuer 2 min) nach einem Ruecksprung aus Taler,
@@ -42,7 +45,9 @@ public final class TalerPaymentManager: @unchecked Sendable {
 
     public weak var delegate: TalerPaymentManagerDelegate?
 
-    static let pollIntervalSeconds: TimeInterval = 20
+    /// Android: 20 s (TalerPollingCoordinator.POLL_INTERVAL_MS), Angleichung
+    /// in android-nachzieh-liste.md N20.
+    static let pollIntervalSeconds: TimeInterval = 60
     static let pollCap = 200
     static let ttlMillis: Int64 = 24 * 60 * 60 * 1000
     static let maxBackoffMillis: Int64 = 20 * 60 * 1000

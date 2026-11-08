@@ -1089,6 +1089,7 @@
 		6600F39029918CBF00B1EDB7 /* RegistrationStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6600F38F29918CBF00B1EDB7 /* RegistrationStep.swift */; };
 		6600F39629919ECC00B1EDB7 /* RegistrationCoodinatorShims.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6600F39529919ECC00B1EDB7 /* RegistrationCoodinatorShims.swift */; };
 		66018EFCA198D9B3385C487C /* TalerStrings+S8.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFFBBB61F0ED153544C1053 /* TalerStrings+S8.swift */; };
+		44013968108A0E0B01F19F37 /* TalerStrings+OpenLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6D7430AA423B131DC0FD009 /* TalerStrings+OpenLink.swift */; };
 		660248F02BBCD29D009E2956 /* TSMessage+RenderableContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 660248EF2BBCD29D009E2956 /* TSMessage+RenderableContent.swift */; };
 		6603AC2D29C220F30079BC82 /* ChangePhoneNumberPniManagerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6603AC2C29C220F30079BC82 /* ChangePhoneNumberPniManagerMock.swift */; };
 		6605B9802B194A7900E8A68A /* ReactionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6605B97F2B194A7900E8A68A /* ReactionStore.swift */; };
@@ -1730,6 +1731,7 @@
 		80615C584AB99C0287AFF1D9 /* TalerQuoteSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C3CE6352419F818BE0ED295 /* TalerQuoteSummary.swift */; };
 		8251AA9A57A79421CB418B70 /* TalerPaymentData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A52931072511894AF8E3D0E /* TalerPaymentData.swift */; };
 		826B0BBB209B4622C05D327A /* TalerReturnHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59608C8FF10D465F51EEC586 /* TalerReturnHandler.swift */; };
+		1EEC025CB2EC3B3AB35C21A2 /* TalerOpenHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBF598FFD49A162730C00F60 /* TalerOpenHandler.swift */; };
 		8296978219C9134DA54EECE8 /* TalerDeliveryStatusUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50940BE5D22B98CF1EC77011 /* TalerDeliveryStatusUI.swift */; };
 		83B9573927C9A1FA00A678FD /* CaptchaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B9573827C9A1FA00A678FD /* CaptchaView.swift */; };
 		848961B553640CEDA15C38D9 /* ContactSharingSystemContactWrapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 691923222A44D263F4F0084D /* ContactSharingSystemContactWrapperTests.swift */; };
@@ -2174,6 +2176,7 @@
 		C6178119E745DD1F71683830 /* TalerDeleteForEveryone.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9D1484A44568D258364B1F2 /* TalerDeleteForEveryone.swift */; };
 		C6C5078823A0906BCF498EFD /* TalerQuoteSummaryTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9B9E47AA8E46C2B61B4472 /* TalerQuoteSummaryTest.swift */; };
 		C7D5D271606207F74D612CF0 /* TalerReturnTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA44DA5EDD0D41A177A213E3 /* TalerReturnTest.swift */; };
+		DE65DA4898CDAC8BBBB2D1B6 /* TalerOpenLinkTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6075F12AB3336E253B0F79D2 /* TalerOpenLinkTest.swift */; };
 		C7DB03DFAA18393AA6B04ADE /* TalerStrings+S7b.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F443A891962324915A0016B /* TalerStrings+S7b.swift */; };
 		C81D6F040373D68EDDE02532 /* CVTalerCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB834368D65DBB129F5CD9CB /* CVTalerCardView.swift */; };
 		CBCD7499B0A64FE64EAC82E4 /* LowDiskSpaceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A780A90C5DDC028939E97635 /* LowDiskSpaceManager.swift */; };
@@ -4368,6 +4371,7 @@
 		FA6644128FBB3BB82E1D6CD5 /* TalerThreadSummaryTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86BA5E065A54E5E4ACB16811 /* TalerThreadSummaryTest.swift */; };
 		FCB11D8C1A129A76002F93FB /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCB11D8B1A129A76002F93FB /* CoreMedia.framework */; };
 		FCC704359F7948209113CF40 /* TalerCorrelation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F79D7709C4996439CC6F3807 /* TalerCorrelation.swift */; };
+		33578AAB242B21DEAB3CB85D /* TalerOpenLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D122D467242EC21BE9DDD37 /* TalerOpenLink.swift */; };
 		FD2BE95DC24491AC2B571728 /* TalerConfirmationTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2A2243A353DD870A119A3F /* TalerConfirmationTest.swift */; };
 		FE1A5033EE02BD4392BCEFFD /* Curve25519Field.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86BB198491924A6F780EB088 /* Curve25519Field.swift */; };
 /* End PBXBuildFile section */
@@ -5199,6 +5203,7 @@
 		46A264714061EF055DE53BDA /* TalerLocalDelete.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TalerLocalDelete.swift; sourceTree = "<group>"; };
 		46A35218397D9FD1709A675C /* Pods-SignalUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SignalUITests.debug.xcconfig"; path = "Target Support Files/Pods-SignalUITests/Pods-SignalUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		4AFFBBB61F0ED153544C1053 /* TalerStrings+S8.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "TalerStrings+S8.swift"; sourceTree = "<group>"; };
+		C6D7430AA423B131DC0FD009 /* TalerStrings+OpenLink.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "TalerStrings+OpenLink.swift"; sourceTree = "<group>"; };
 		4B7D2A1F9C3E5B8DAF6C2E51 /* OWSContactTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OWSContactTests.swift; sourceTree = "<group>"; };
 		4C090A1A210FD9C7001FD7F9 /* HapticFeedback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticFeedback.swift; sourceTree = "<group>"; };
 		4C0CF6F92386295400C9F818 /* tap_to_focus.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = tap_to_focus.json; sourceTree = "<group>"; };
@@ -5609,6 +5614,7 @@
 		55B7535F2D97303A00CCC91C /* RemoteMuteToast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteMuteToast.swift; sourceTree = "<group>"; };
 		55C5606B10744CCF00E8744A /* TalerForwardGateTest.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TalerForwardGateTest.swift; sourceTree = "<group>"; };
 		59608C8FF10D465F51EEC586 /* TalerReturnHandler.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TalerReturnHandler.swift; sourceTree = "<group>"; };
+		DBF598FFD49A162730C00F60 /* TalerOpenHandler.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TalerOpenHandler.swift; sourceTree = "<group>"; };
 		5A9B9E47AA8E46C2B61B4472 /* TalerQuoteSummaryTest.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TalerQuoteSummaryTest.swift; sourceTree = "<group>"; };
 		5AA002E52CA2455F002D1CC2 /* SessionStoreTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStoreTest.swift; sourceTree = "<group>"; };
 		5C3CE6352419F818BE0ED295 /* TalerQuoteSummary.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TalerQuoteSummary.swift; sourceTree = "<group>"; };
@@ -8435,6 +8441,7 @@
 		F5C80FA12BE3F29F0028F76D /* RTCIceServerFetcherTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RTCIceServerFetcherTest.swift; sourceTree = "<group>"; };
 		F70CAD4E12CCE311EC60A2C9 /* Pods-SignalServiceKitTests.profiling.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SignalServiceKitTests.profiling.xcconfig"; path = "Target Support Files/Pods-SignalServiceKitTests/Pods-SignalServiceKitTests.profiling.xcconfig"; sourceTree = "<group>"; };
 		F79D7709C4996439CC6F3807 /* TalerCorrelation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TalerCorrelation.swift; sourceTree = "<group>"; };
+		2D122D467242EC21BE9DDD37 /* TalerOpenLink.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TalerOpenLink.swift; sourceTree = "<group>"; };
 		F900F2DC27F25AB300431E09 /* DonationReceiptViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DonationReceiptViewController.swift; sourceTree = "<group>"; };
 		F903C29A28EC7AE60035B42B /* RegistrationIdGeneratorTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationIdGeneratorTest.swift; sourceTree = "<group>"; };
 		F905DFEA29A534F200BAD034 /* RegistrationPhoneNumberDiscoverabilityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationPhoneNumberDiscoverabilityViewController.swift; sourceTree = "<group>"; };
@@ -8965,6 +8972,7 @@
 		F9FAABD729DB55940004B383 /* Progress+Signal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Progress+Signal.swift"; sourceTree = "<group>"; };
 		FA0F334C71C5504ED07AC74C /* Pods-SignalUI.profiling.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SignalUI.profiling.xcconfig"; path = "Target Support Files/Pods-SignalUI/Pods-SignalUI.profiling.xcconfig"; sourceTree = "<group>"; };
 		FA44DA5EDD0D41A177A213E3 /* TalerReturnTest.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TalerReturnTest.swift; sourceTree = "<group>"; };
+		6075F12AB3336E253B0F79D2 /* TalerOpenLinkTest.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TalerOpenLinkTest.swift; sourceTree = "<group>"; };
 		FC3BD9871A30A790005B96BB /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		FCB11D8B1A129A76002F93FB /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		FEFD8A174F57F4C221747D51 /* Pods-SignalServiceKitTests.app store release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SignalServiceKitTests.app store release.xcconfig"; path = "Target Support Files/Pods-SignalServiceKitTests/Pods-SignalServiceKitTests.app store release.xcconfig"; sourceTree = "<group>"; };
@@ -10809,6 +10817,7 @@
 				EF38A6153C5E237A6F6B7C1B /* TalerLinksTest.swift */,
 				E46A0BD124373A0D3542F5D0 /* TalerCorrelationStoreTest.swift */,
 				FA44DA5EDD0D41A177A213E3 /* TalerReturnTest.swift */,
+				6075F12AB3336E253B0F79D2 /* TalerOpenLinkTest.swift */,
 				86BA5E065A54E5E4ACB16811 /* TalerThreadSummaryTest.swift */,
 				E8A1814D6E701441CE204599 /* TalerSendPayloadTest.swift */,
 				B03118E392180DE188316789 /* TalerCardModelTest.swift */,
@@ -12488,6 +12497,7 @@
 				D8E24C7E1B5CCC47E2A68FBD /* TalerUriDetector.swift */,
 				6A52931072511894AF8E3D0E /* TalerPaymentData.swift */,
 				F79D7709C4996439CC6F3807 /* TalerCorrelation.swift */,
+				2D122D467242EC21BE9DDD37 /* TalerOpenLink.swift */,
 				80C9F2618204FE1055623B68 /* Crypto */,
 				C21CECEA3F407F1B1A044548 /* TalerPeerContractResolver.swift */,
 				524C3545B0EC526E5FFC7C6F /* TalerPaymentStore.swift */,
@@ -12505,6 +12515,7 @@
 				4C8BA8AC6F0AD3C2A5184F5E /* TalerGroupSplit.swift */,
 				CAEC662084D3C09F63B3E74A /* TalerStrings+S3CardWiring.swift */,
 				4AFFBBB61F0ED153544C1053 /* TalerStrings+S8.swift */,
+				C6D7430AA423B131DC0FD009 /* TalerStrings+OpenLink.swift */,
 				46A264714061EF055DE53BDA /* TalerLocalDelete.swift */,
 				908EAE87B850C0D103893CB7 /* TalerMenuState.swift */,
 				943B80CD686D4C3D7C48927C /* TalerStatusLine.swift */,
@@ -12532,6 +12543,7 @@
 			children = (
 				5FFC5289323D24855AB27B2F /* TalerComposeLauncher.swift */,
 				59608C8FF10D465F51EEC586 /* TalerReturnHandler.swift */,
+				DBF598FFD49A162730C00F60 /* TalerOpenHandler.swift */,
 				40B627C7D78E5BF2128FF9E2 /* TalerCardActions.swift */,
 				3F54A0267F243A73B2A5612F /* TalerMediaTabCoordinator.swift */,
 				81999DE164D5F4856C204641 /* TalerThreadPaymentsViewController.swift */,
@@ -20049,6 +20061,7 @@
 				76616C9D2A266A05005F7001 /* WindowManager.swift in Sources */,
 				6281DB205F3928766E832FF4 /* TalerComposeLauncher.swift in Sources */,
 				826B0BBB209B4622C05D327A /* TalerReturnHandler.swift in Sources */,
+				1EEC025CB2EC3B3AB35C21A2 /* TalerOpenHandler.swift in Sources */,
 				D86893B3B22DE2B79B02B033 /* CVComponentTalerPayment.swift in Sources */,
 				C81D6F040373D68EDDE02532 /* CVTalerCardView.swift in Sources */,
 				3C65CF9F619175D140B1FCEC /* TalerCardActions.swift in Sources */,
@@ -21407,6 +21420,7 @@
 				E845E8B2892F84AE49011716 /* TalerUriDetector.swift in Sources */,
 				8251AA9A57A79421CB418B70 /* TalerPaymentData.swift in Sources */,
 				FCC704359F7948209113CF40 /* TalerCorrelation.swift in Sources */,
+				33578AAB242B21DEAB3CB85D /* TalerOpenLink.swift in Sources */,
 				6492A12C55CF8710A623BAB3 /* Crockford.swift in Sources */,
 				AA902C0E0A7AA1B67F980DA9 /* TalerKdf.swift in Sources */,
 				FE1A5033EE02BD4392BCEFFD /* Curve25519Field.swift in Sources */,
@@ -21430,6 +21444,7 @@
 				2794648CFD6CC4E9564DF5CA /* TalerGroupSplit.swift in Sources */,
 				A0D6A61BB0B63709D7D6B8C0 /* TalerStrings+S3CardWiring.swift in Sources */,
 				66018EFCA198D9B3385C487C /* TalerStrings+S8.swift in Sources */,
+				44013968108A0E0B01F19F37 /* TalerStrings+OpenLink.swift in Sources */,
 				F5184E3526A66CED1D1E2E61 /* TalerLocalDelete.swift in Sources */,
 				C41CE9AFFDD49DDAAEAFC44F /* TalerMenuState.swift in Sources */,
 				1E81D15EBEBB120DC5E528EA /* TalerStatusLine.swift in Sources */,
@@ -21735,6 +21750,7 @@
 				7BFA61B16FFEE105DDBFD9ED /* TalerLinksTest.swift in Sources */,
 				4703F0F5EAEC6C9768EF2420 /* TalerCorrelationStoreTest.swift in Sources */,
 				C7D5D271606207F74D612CF0 /* TalerReturnTest.swift in Sources */,
+				DE65DA4898CDAC8BBBB2D1B6 /* TalerOpenLinkTest.swift in Sources */,
 				FA6644128FBB3BB82E1D6CD5 /* TalerThreadSummaryTest.swift in Sources */,
 				9D63E93FC1FCFB87BF958B3C /* TalerSendPayloadTest.swift in Sources */,
 				557032CB0F4F9FBE074A7520 /* TalerCardModelTest.swift in Sources */,

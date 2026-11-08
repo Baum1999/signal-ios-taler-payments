@@ -11630,3 +11630,7 @@
 "TALER_STATUS_WAITING_FOR_GROUP_MEMBER" = "Wartet auf Bestätigung durch ein Gruppenmitglied";
 
 "TALER_STATUS_WAITING_FOR_RECIPIENT_FORMAT" = "Wartet auf Bestätigung von %@";
+
+"TALER_OPEN_PAYMENT_NOT_FOUND_TITLE" = "Zahlung nicht gefunden";
+
+"TALER_OPEN_PAYMENT_NOT_FOUND_MESSAGE" = "Signal hat zu dieser Zahlung keine Nachricht. Vielleicht wurde sie von einem anderen Gerät gesendet oder gelöscht.";

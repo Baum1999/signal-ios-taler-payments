@@ -98,8 +98,8 @@ final class TalerPaymentStoreTest: XCTestCase {
 
     func testBackoff() {
         XCTAssertEqual(TalerPaymentManager.backoffMillis(consecutiveFailures: 0), 0)
-        XCTAssertEqual(TalerPaymentManager.backoffMillis(consecutiveFailures: 1), 40_000)
-        XCTAssertEqual(TalerPaymentManager.backoffMillis(consecutiveFailures: 3), 160_000)
+        XCTAssertEqual(TalerPaymentManager.backoffMillis(consecutiveFailures: 1), 120_000)
+        XCTAssertEqual(TalerPaymentManager.backoffMillis(consecutiveFailures: 3), 480_000)
         XCTAssertEqual(TalerPaymentManager.backoffMillis(consecutiveFailures: 50), 20 * 60 * 1000)
     }
 
