@@ -4,7 +4,7 @@
 //
 
 import SignalServiceKit
-public import SignalUI
+import SignalUI
 
 extension CVComponentState {
     /// Zustand der Taler-Karte einer Nachricht. Wird beim Laden aus
@@ -20,9 +20,9 @@ extension CVComponentState {
     }
 }
 
-public class CVComponentTalerPayment: CVComponentBase, CVComponent {
+class CVComponentTalerPayment: CVComponentBase, CVComponent {
 
-    public var componentKey: CVComponentKey { .talerPayment }
+    var componentKey: CVComponentKey { .talerPayment }
 
     private let talerPayment: CVComponentState.TalerPayment
 
@@ -114,11 +114,11 @@ public class CVComponentTalerPayment: CVComponentBase, CVComponent {
 
     // MARK: - CVComponent
 
-    public func buildComponentView(componentDelegate: CVComponentDelegate) -> CVComponentView {
+    func buildComponentView(componentDelegate: CVComponentDelegate) -> CVComponentView {
         CVComponentViewTalerPayment()
     }
 
-    public func configureForRendering(
+    func configureForRendering(
         componentView: CVComponentView,
         cellMeasurement: CVCellMeasurement,
         componentDelegate: CVComponentDelegate,
@@ -135,7 +135,7 @@ public class CVComponentTalerPayment: CVComponentBase, CVComponent {
     /// Streifen erscheint (Vorgabe S3; Muster: CVComponentGiftBadge).
     static let minIncomingCardWidth: CGFloat = 240
 
-    public func measure(maxWidth: CGFloat, measurementBuilder: CVCellMeasurement.Builder) -> CGSize {
+    func measure(maxWidth: CGFloat, measurementBuilder: CVCellMeasurement.Builder) -> CGSize {
         owsAssertDebug(maxWidth > 0)
         let maxWidth = min(maxWidth, conversationStyle.maxMessageWidth)
         var size = CVTalerCardView.measurement(for: state, maxWidth: maxWidth, measurementBuilder: measurementBuilder)
@@ -145,7 +145,7 @@ public class CVComponentTalerPayment: CVComponentBase, CVComponent {
         return size
     }
 
-    override public func handleTap(
+    override func handleTap(
         sender: UIGestureRecognizer,
         componentDelegate: CVComponentDelegate,
         componentView: CVComponentView,
@@ -165,16 +165,16 @@ public class CVComponentTalerPayment: CVComponentBase, CVComponent {
         return true
     }
 
-    public class CVComponentViewTalerPayment: NSObject, CVComponentView {
+    class CVComponentViewTalerPayment: NSObject, CVComponentView {
         fileprivate let cardView = CVTalerCardView(name: "CVTalerCardView")
 
-        public var isDedicatedCellView = false
+        var isDedicatedCellView = false
 
-        public var rootView: UIView { cardView }
+        var rootView: UIView { cardView }
 
-        public func setIsCellVisible(_ isCellVisible: Bool) {}
+        func setIsCellVisible(_ isCellVisible: Bool) {}
 
-        public func reset() {
+        func reset() {
             cardView.reset()
         }
     }

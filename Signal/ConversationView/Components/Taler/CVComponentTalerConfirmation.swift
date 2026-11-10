@@ -4,7 +4,7 @@
 //
 
 import SignalServiceKit
-public import SignalUI
+import SignalUI
 
 extension CVComponentState {
     /// Zustand einer erkannten Bestaetigungsnachricht (S7a). Wird beim Laden
@@ -24,9 +24,9 @@ extension CVComponentState {
 /// nachricht des Zahlungsempfaengers: grau = erkannt, blau = die URI ist
 /// ANGENOMMEN. Spiegel von `TalerConfirmationIconPresenter.kt`
 /// (signal-android); angezeigt wird der Zustand aus der DB, nie der Rohtext.
-public class CVComponentTalerConfirmation: CVComponentBase, CVComponent {
+class CVComponentTalerConfirmation: CVComponentBase, CVComponent {
 
-    public var componentKey: CVComponentKey { .talerConfirmation }
+    var componentKey: CVComponentKey { .talerConfirmation }
 
     private let talerConfirmation: CVComponentState.TalerConfirmation
 
@@ -88,11 +88,11 @@ public class CVComponentTalerConfirmation: CVComponentBase, CVComponent {
 
     // MARK: - CVComponent
 
-    public func buildComponentView(componentDelegate: CVComponentDelegate) -> CVComponentView {
+    func buildComponentView(componentDelegate: CVComponentDelegate) -> CVComponentView {
         CVComponentViewTalerConfirmation()
     }
 
-    public func configureForRendering(
+    func configureForRendering(
         componentView: CVComponentView,
         cellMeasurement: CVCellMeasurement,
         componentDelegate: CVComponentDelegate,
@@ -105,22 +105,22 @@ public class CVComponentTalerConfirmation: CVComponentBase, CVComponent {
         labelConfig.applyForRendering(label: componentView.label)
     }
 
-    public func measure(maxWidth: CGFloat, measurementBuilder: CVCellMeasurement.Builder) -> CGSize {
+    func measure(maxWidth: CGFloat, measurementBuilder: CVCellMeasurement.Builder) -> CGSize {
         owsAssertDebug(maxWidth > 0)
         let maxWidth = min(maxWidth, conversationStyle.maxMessageWidth)
         return labelConfig.measure(maxWidth: maxWidth)
     }
 
-    public class CVComponentViewTalerConfirmation: NSObject, CVComponentView {
+    class CVComponentViewTalerConfirmation: NSObject, CVComponentView {
         fileprivate let label = CVLabel()
 
-        public var isDedicatedCellView = false
+        var isDedicatedCellView = false
 
-        public var rootView: UIView { label }
+        var rootView: UIView { label }
 
-        public func setIsCellVisible(_ isCellVisible: Bool) {}
+        func setIsCellVisible(_ isCellVisible: Bool) {}
 
-        public func reset() {
+        func reset() {
             label.text = nil
             label.attributedText = nil
         }
