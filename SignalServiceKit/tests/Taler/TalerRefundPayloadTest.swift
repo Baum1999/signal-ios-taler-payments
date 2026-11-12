@@ -47,10 +47,8 @@ final class TalerRefundPayloadTest: XCTestCase {
     // MARK: ready, JSON-Pfad (Header vor Verwendungszweck)
 
 
-    /// Klartext-Form im Body: https-Link nach DD 103.
-    private func link(_ uri: String) -> String {
-        "https://\(TalerLinkHosts.wrapHost)/link#" + uri.dropFirst("taler://".count)
-    }
+    /// Klartext-Form im Body: unveraendert der taler://-Link.
+    private func link(_ uri: String) -> String { uri }
     func testReadyWithJsonSingleUri() {
         let json = paymentDataJson(uris: [payPushUri])
         let body = TalerRefundPayload.build(from: makeReturn(status: .ready, talerPaymentData: json))

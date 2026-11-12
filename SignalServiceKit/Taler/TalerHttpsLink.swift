@@ -53,12 +53,10 @@ public enum TalerHttpsLink {
         return "https://\(TalerLinkHosts.wrapHost)/link#\(fragment)"
     }
 
-    /// Klartext-Form einer URI fuer Zahlungsnachrichten: `taler://` als
-    /// https-Link (anklickbar in jedem Client), alles andere (payto://, ...)
-    /// unveraendert.
-    public static func messageLink(_ uri: String) -> String {
-        uri.lowercased().hasPrefix(talerScheme) ? wrap(uri) : uri
-    }
+    /// Klartext-Form einer URI fuer Zahlungsnachrichten: seit der Umstellung
+    /// weg von URLs unveraendert (`taler://` bleibt `taler://`, keine https-Huelle).
+    /// Signal macht den Link selbst anklickbar, die Taler-App oeffnet ihn direkt.
+    public static func messageLink(_ uri: String) -> String { uri }
 
     /// Gibt den eingebetteten `taler://`-Link zurueck, falls `uri` ein
     /// akzeptierter DD-103-Link ist - sonst `uri` getrimmt, aber unveraendert.
