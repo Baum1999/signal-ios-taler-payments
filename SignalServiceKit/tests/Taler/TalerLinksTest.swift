@@ -27,8 +27,9 @@ final class TalerLinksTest: XCTestCase {
         let url = TalerLinks.composeSend(recipientHint: "Anna Müller", isGroup: false,
                                          memberCount: nil, disappearingMessagesSeconds: 0,
                                          direction: .payPush, correlationId: correlationId)
-        XCTAssertEqual(url.scheme, "talerlink")
+        XCTAssertEqual(url.scheme, "taler")
         XCTAssertEqual(url.host, "compose-send")
+        XCTAssertEqual(url.path, "/")
         XCTAssertEqual(names(url), ["recipientHint", "senderAppName", "isGroup", "direction",
                                      "disappearingMessagesSeconds", "correlationId", "returnUri"])
         XCTAssertEqual(items(url).map(\.value),
@@ -49,7 +50,7 @@ final class TalerLinksTest: XCTestCase {
                                          memberCount: nil, disappearingMessagesSeconds: 3600,
                                          direction: .payPull, correlationId: correlationId)
         XCTAssertEqual(url.absoluteString,
-                       "talerlink://compose-send?recipientHint=Anna%20M%C3%BCller&senderAppName=Signal&isGroup=false"
+                       "taler://compose-send/?recipientHint=Anna%20M%C3%BCller&senderAppName=Signal&isGroup=false"
                        + "&direction=PAY_PULL&disappearingMessagesSeconds=3600"
                        + "&correlationId=\(correlationId)"
                        + "&returnUri=sgnl%3A%2F%2Ftaler-return")
@@ -101,7 +102,7 @@ final class TalerLinksTest: XCTestCase {
         XCTAssertEqual(names(url), ["originalUri", "correlationId", "returnUri"])
         // Alle Sonderzeichen kodiert: : / + ? = & # bleiben nirgends roh.
         XCTAssertEqual(url.absoluteString,
-                       "talerlink://compose-refund?originalUri=taler%3A%2F%2Fpay-push%2Fexchange.example.org%2FAAA%2BB%3Fx%3D1%26y%3D%2F2%23frag"
+                       "taler://compose-refund/?originalUri=taler%3A%2F%2Fpay-push%2Fexchange.example.org%2FAAA%2BB%3Fx%3D1%26y%3D%2F2%23frag"
                        + "&correlationId=\(correlationId)"
                        + "&returnUri=sgnl%3A%2F%2Ftaler-return")
     }
@@ -123,7 +124,7 @@ final class TalerLinksTest: XCTestCase {
         let uri = "taler://pay-push/e/A+B&C=D"
         let url = TalerLinks.composeAbort(uris: [uri], correlationId: correlationId)
         XCTAssertEqual(url.absoluteString,
-                       "talerlink://compose-abort?v=1&uri=taler%3A%2F%2Fpay-push%2Fe%2FA%2BB%26C%3DD"
+                       "taler://compose-abort/?v=1&uri=taler%3A%2F%2Fpay-push%2Fe%2FA%2BB%26C%3DD"
                        + "&correlationId=\(correlationId)"
                        + "&returnUri=sgnl%3A%2F%2Ftaler-return")
     }
@@ -189,7 +190,7 @@ final class TalerLinksTest: XCTestCase {
         let url = TalerLinks.actionLink(forTalerUri: "taler://pay-push/exchange.example.org/7Q4XK2",
                                         correlationId: correlationId)
         XCTAssertEqual(url?.absoluteString,
-                       "talerlink://pay-push/exchange.example.org/7Q4XK2"
+                       "taler://pay-push/exchange.example.org/7Q4XK2"
                        + "?correlationId=\(correlationId)"
                        + "&returnUri=sgnl%3A%2F%2Ftaler-return")
     }
@@ -198,7 +199,7 @@ final class TalerLinksTest: XCTestCase {
         let url = TalerLinks.actionLink(forTalerUri: "taler://pay-pull/exchange.example.org/7Q4XK2",
                                         correlationId: correlationId)
         XCTAssertEqual(url?.absoluteString,
-                       "talerlink://pay-pull/exchange.example.org/7Q4XK2"
+                       "taler://pay-pull/exchange.example.org/7Q4XK2"
                        + "?correlationId=\(correlationId)"
                        + "&returnUri=sgnl%3A%2F%2Ftaler-return")
     }
@@ -206,16 +207,16 @@ final class TalerLinksTest: XCTestCase {
     func testActionLinkIsCaseInsensitiveForSchemeAndAction() {
         let url = TalerLinks.actionLink(forTalerUri: "TALER://PAY-PULL/ex/AAA",
                                         correlationId: correlationId)
-        // Scheme wird zu talerlink, der Rest bleibt unveraendert (Pfad inkl. Gross-/Kleinschreibung).
+        // Scheme bleibt taler (klein), der Rest bleibt unveraendert (Pfad inkl. Gross-/Kleinschreibung).
         XCTAssertEqual(url?.absoluteString,
-                       "talerlink://PAY-PULL/ex/AAA?correlationId=\(correlationId)&returnUri=sgnl%3A%2F%2Ftaler-return")
+                       "taler://PAY-PULL/ex/AAA?correlationId=\(correlationId)&returnUri=sgnl%3A%2F%2Ftaler-return")
     }
 
     func testActionLinkAppendsWithAmpersandWhenUriHasQuery() {
         let url = TalerLinks.actionLink(forTalerUri: "taler://pay-push/ex/AAA?foo=bar",
                                         correlationId: correlationId)
         XCTAssertEqual(url?.absoluteString,
-                       "talerlink://pay-push/ex/AAA?foo=bar&correlationId=\(correlationId)&returnUri=sgnl%3A%2F%2Ftaler-return")
+                       "taler://pay-push/ex/AAA?foo=bar&correlationId=\(correlationId)&returnUri=sgnl%3A%2F%2Ftaler-return")
     }
 
     func testActionLinkRejectsOtherKindsAndGarbage() {

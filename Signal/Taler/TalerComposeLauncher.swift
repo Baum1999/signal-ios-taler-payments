@@ -8,7 +8,7 @@ import SignalUI
 import UIKit
 
 /// Startet den compose-send-Flow (Paket S4): der Taler-Knopf im
-/// Anhang-Menue oeffnet `talerlink://compose-send` in GNU Taler. Signal fragt
+/// Anhang-Menue oeffnet `taler://compose-send` in GNU Taler. Signal fragt
 /// dabei weder Betrag noch Zweck ab (Regel: Signal kennt keine Taler-Betraege)
 /// und gibt nur unbedenkliche Kontextinfo mit (link-protokoll.md 3). Die
 /// Richtung (Senden/Anfordern) waehlt der Nutzer in Talers eigenem Screen;
@@ -34,7 +34,7 @@ enum TalerComposeLauncher {
         }
 
         // Nur anbieten/oeffnen, wenn Taler den Scheme ueberhaupt registriert
-        // hat (LSApplicationQueriesSchemes enthaelt talerlink). Beim Tippen
+        // hat (LSApplicationQueriesSchemes enthaelt taler). Beim Tippen
         // frisch pruefen - zentraler Cache, siehe TalerInstallation.
         guard TalerInstallation.refresh() else {
             OWSActionSheets.showActionSheet(

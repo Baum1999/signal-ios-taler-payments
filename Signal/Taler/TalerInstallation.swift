@@ -7,7 +7,7 @@ import SignalServiceKit
 import UIKit
 
 /// Zentraler, thread-sicher lesbarer Cache dafuer, ob eine App das
-/// `talerlink://`-Schema registriert hat (Voraussetzung: `talerlink` in
+/// `taler://`-Schema registriert hat (Voraussetzung: `taler` in
 /// LSApplicationQueriesSchemes). Spiegel von `TalerInstallation`
 /// (signal-android), das dort PackageManager-Fragen klumpen; hier ist die
 /// einzige Quelle `UIApplication.canOpenURL`.

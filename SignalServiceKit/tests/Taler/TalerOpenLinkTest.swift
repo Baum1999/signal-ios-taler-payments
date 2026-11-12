@@ -29,7 +29,7 @@ final class TalerOpenLinkTest: XCTestCase {
         XCTAssertTrue(TalerOpenLink.isOpenUrl(url("v=1&uriHash=\(pushHash)")))
         XCTAssertTrue(TalerOpenLink.isOpenUrl(URL(string: "\(TalerLinks.returnScheme.uppercased())://TALER-OPEN?uriHash=\(pushHash)")!))
         XCTAssertFalse(TalerOpenLink.isOpenUrl(url("uriHash=\(pushHash)", host: "taler-return")))
-        XCTAssertFalse(TalerOpenLink.isOpenUrl(URL(string: "talerlink://taler-open?uriHash=\(pushHash)")!))
+        XCTAssertFalse(TalerOpenLink.isOpenUrl(URL(string: "taler://taler-open?uriHash=\(pushHash)")!))
     }
 
     func testParsesValidHashesInOrderWithoutDuplicates() {

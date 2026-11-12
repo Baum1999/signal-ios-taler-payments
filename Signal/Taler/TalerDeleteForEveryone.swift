@@ -101,7 +101,7 @@ enum TalerDeleteForEveryone {
     }
 }
 
-/// Startet `talerlink://compose-abort` fuer "Fuer alle loeschen" und das
+/// Startet `taler://compose-abort` fuer "Fuer alle loeschen" und das
 /// Menue-Abbrechen mehrerer Anteile (Multi-URI-Link 5.2). Mehr als
 /// `TalerAbortPlan.maxUrisPerLink` URIs gehen in Stapeln; den naechsten
 /// startet TalerReturnHandler nach dem Ruecksprung des vorherigen.

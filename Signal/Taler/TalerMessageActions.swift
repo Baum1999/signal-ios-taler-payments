@@ -201,7 +201,7 @@ enum TalerMessageActions {
     /// Abbrechen: oeffnet Talers eigene Abbrechen-UI fuer den eigenen,
     /// offenen Anteil. Immer ein einziger compose-abort (`reason=menu`,
     /// Multi-URI-Link 5.2), auch bei nur einer URI: der Aktionslink
-    /// `talerlink://pay-push/...` oeffnet in Taler den Annehmen-Bildschirm,
+    /// `taler://pay-push/...` oeffnet in Taler den Annehmen-Bildschirm,
     /// und auf einem zweiten eigenen Geraet derselben Signal-Identitaet
     /// koennte dort die eigene Wallet das Geld einziehen (E16). Bei
     /// mehreren Anteilen (Gruppenkarte) bleibt es ein Link statt einem pro

@@ -24,7 +24,7 @@ final class TalerReturnTest: XCTestCase {
 
     func testRejectsWrongSchemeOrHost() {
         XCTAssertNil(parse("sgnl://linkdevice?correlationId=abc"))
-        XCTAssertNil(parse("talerlink://compose-send?correlationId=abc"))
+        XCTAssertNil(parse("taler://compose-send/?correlationId=abc"))
         XCTAssertNil(parse("sgnl://other?correlationId=abc"))
         // Opake URL ohne Host.
         XCTAssertNil(parse("sgnl:taler-return?correlationId=abc"))

@@ -75,7 +75,7 @@ final class TalerHttpsLinkTest: XCTestCase {
         )
         XCTAssertEqual(
             url?.absoluteString,
-            "talerlink://pay-push/exchange.example.org/7Q4XK2?correlationId=c&returnUri=\(TalerLinks.returnScheme)%3A%2F%2Ftaler-return"
+            "taler://pay-push/exchange.example.org/7Q4XK2?correlationId=c&returnUri=\(TalerLinks.returnScheme)%3A%2F%2Ftaler-return"
         )
     }
 

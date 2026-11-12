@@ -22,10 +22,9 @@ public enum TalerLinks {
     /// Exakt dieser String, ohne Query, Pfad oder Fragment.
     public static let returnUri = "\(returnScheme)://taler-return"
 
-    /// Scheme aller Links, die Signal an Taler schickt. iOS nutzt es auch
-    /// fuer Aktionslinks (`talerlink://pay-push/...`), weil iOS kein
-    /// `setPackage` kennt (link-protokoll.md 2.1).
-    public static let linkScheme = "talerlink"
+    /// Scheme aller Links, die Signal an Taler schickt: `taler://<aktion>/...`
+    /// (DD 103, link-protokoll.md 2.1). Es gibt kein eigenes Scheme mehr.
+    public static let linkScheme = "taler"
 
     /// Anfangsstellung des Richtungs-Toggles im Taler-Compose-Screen.
     /// Rohwerte sind Teil des Protokolls (TalerUriKind), nicht umbenennen.
@@ -53,6 +52,8 @@ public enum TalerLinks {
         var components = URLComponents()
         components.scheme = linkScheme
         components.host = host
+        // `taler://<aktion>/?...`: Pfad "/" haelt die DD-103-Form ${action}/${rest} ein.
+        components.path = "/"
         components.percentEncodedQueryItems = items
         // Scheme und Host sind Konstanten, alle Werte bestehen nach der
         // strengen Kodierung nur noch aus unreserved Zeichen und %XX - ein
@@ -70,7 +71,7 @@ public enum TalerLinks {
     /// Dient Taler nur als Vorschlagstext fuers Zweck-Feld.
     public static let senderAppName = "Signal"
 
-    /// `talerlink://compose-send` - Signal bittet Taler, eine Zahlung zu
+    /// `taler://compose-send` - Signal bittet Taler, eine Zahlung zu
     /// erstellen. Betrag und Zweck fragt Taler selbst ab; Signal gibt nur
     /// unbedenkliche Kontextinfo mit. Sender-Reihenfolge (link-protokoll.md 3):
     /// `recipientHint`, `senderAppName`, `isGroup`, `direction`,
@@ -102,7 +103,7 @@ public enum TalerLinks {
         return composeLink(host: "compose-send", items: items)
     }
 
-    /// `talerlink://compose-refund` - Signal bittet Taler, eine Rueckerstattung
+    /// `taler://compose-refund` - Signal bittet Taler, eine Rueckerstattung
     /// zu erstellen. `originalUri` ist die einzige Angabe; Taler loest daraus
     /// selbst Betrag und Zweck auf. Reihenfolge (link-protokoll.md 4):
     /// `originalUri`, `correlationId`, `returnUri`.
@@ -115,7 +116,7 @@ public enum TalerLinks {
         ])
     }
 
-    /// `talerlink://compose-abort` (Gap A, link-protokoll.md 5; Multi-URI-Link
+    /// `taler://compose-abort` (Gap A, link-protokoll.md 5; Multi-URI-Link
     /// spec-multi-uri-link.md 3.1) - Signal bittet Taler, eigene offene
     /// Zahlungen tatsaechlich abzubrechen. Reihenfolge: `v=1`, eine URI pro
     /// wiederholtem `uri`-Parameter (keine Komma-Trennung, URIs koennen
@@ -165,7 +166,7 @@ public enum TalerLinks {
     }
 
     /// Aktionslink (link-protokoll.md 6): die normale Zahlungs-URI mit Scheme
-    /// `taler` (Gross/Kleinschreibung egal) wird zu `talerlink://...`, der Rest
+    /// `taler` (Gross/Kleinschreibung egal) bleibt `taler://...` (Scheme klein), der Rest
     /// der URI bleibt byte-identisch; `correlationId` und `returnUri` werden
     /// angehaengt (per `&`, falls die URI bereits eine Query traegt, sonst per
     /// `?` - wie Android, TalerAcceptRejectActions.kt).

@@ -555,7 +555,7 @@ extension ConversationViewController {
     /// Taler payment — unlike `paymentButtonPressed()` (MobileCoin), not
     /// restricted to 1:1 threads, since Taler payments support groups (see
     /// docs/API.md's group-split feature). Opens GNU Taler via
-    /// `talerlink://compose-send` (TalerComposeLauncher, package S4); the
+    /// `taler://compose-send` (TalerComposeLauncher, package S4); the
     /// payment message itself is sent after the return jump from Taler
     /// (TalerReturnHandler). No primary-device restriction: linked devices
     /// may send.
