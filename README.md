@@ -32,7 +32,7 @@ https://github.com/Baum1999/taler-ios-signal-integration). The two apps talk
   `DataMessage.talerPayment` (field 9000). The message text also carries a
   readable line plus the plain URI, so ordinary Signal clients see a normal link.
 - **Send / request.** An entry in the attachment keyboard opens
-  `talerlink://compose-send`. The wallet returns the created URI via
+  `taler://compose-send/`. The wallet returns the created URI via
   `sgnl://taler-return`, and Signal sends the message. Group payments
   can be split per member.
 - **Refund** via `compose-refund`, prepared as a quoted reply draft and never

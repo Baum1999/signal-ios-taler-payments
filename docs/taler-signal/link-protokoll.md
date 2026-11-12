@@ -1,6 +1,6 @@
 # Link-Protokoll Signal <-> Taler
 
-Stand: 2026-09-29. Verbindlich für Android und iOS. Keine App-zu-App-IPC:
+Stand: 2026-11-12 (Scheme `taler://` für alle Links, E9; ältere Abschnitte nennen teils noch `talerlink`). Verbindlich für Android und iOS. Keine App-zu-App-IPC:
 Signal und Taler reden ausschließlich über Links (Eiserne Regel 2).
 
 Legende der Markierungen: **[Ist Android]** = im Code von `gnu-fork` geprüft.
@@ -26,16 +26,14 @@ geprüft.
 
 | | Signal -> Taler | Taler -> Signal |
 |---|---|---|
-| Android | `talerlink://` für compose-*; `taler://` für Aktionslinks. Immer **explizit adressiert**: `Intent.ACTION_VIEW` plus `setPackage(de.lenkenhoff.talerfuersignal.fdroid)`, bei `talerlink://` zusätzlich `setClassName(..., "net.taler.wallet.main.MainActivity")` [Ist Android: `TalerSendActions.kt:53-56`, `TalerRefundActions.kt:65-68`, `TalerAcceptRejectActions.kt:35-37`] | `sgnl://taler-return`, explizit an das per Signing-Cert verifizierte Package [Ist Android: `ReturnIntentSender.kt:63-99`] |
-| iOS | `talerlink://` für **alle** Links, auch Annehmen und Abbrechen (`talerlink://pay-push/...`). iOS kennt kein `setPackage`, und Upstream-GNU-Taler registriert ebenfalls `taler://`; welche App iOS bei doppelt registriertem Scheme öffnet, ist nicht deterministisch (siehe `entscheidungen.md` E2) | `sgnl://taler-return`, geöffnet per `UIApplication.open` |
+| Android | `taler://` für alle Links (compose-* als `taler://compose-send/?…`). Immer **explizit adressiert**: `Intent.ACTION_VIEW` plus `setPackage(de.lenkenhoff.talerfuersignal.fdroid)`, bei `compose-*` zusätzlich `setClassName(..., "net.taler.wallet.main.MainActivity")` [Ist Android: `TalerSendActions.kt:53-56`, `TalerRefundActions.kt:65-68`, `TalerAcceptRejectActions.kt:35-37`] | `sgnl://taler-return`, explizit an das per Signing-Cert verifizierte Package [Ist Android: `ReturnIntentSender.kt:63-99`] |
+| iOS | `taler://` für **alle** Links, auch Annehmen und Abbrechen (`taler://pay-push/...`). Es gibt kein eigenes Scheme mehr (siehe `entscheidungen.md` E9); iOS kennt kein `setPackage`, das ist mit nur einer Taler-App unkritisch | `sgnl://taler-return`, geöffnet per `UIApplication.open` |
 
-Konsequenz für Taler-Android [Neu]: Damit ein iOS-first-Vertrag später auf
-Android ohne Umbau gilt, soll Taler-Android `talerlink://pay-push/...` und
-`talerlink://pay-pull/...` ebenfalls annehmen (N1 der Nachzieh-Liste). Heute
-kennt der Manifest-Filter `talerlink` gar nicht (`AndroidManifest.xml:76-85`
-listet nur `taler`, `ext+taler`, `payto`); die compose-Links funktionieren
-nur, weil Signal sie per `setClassName` direkt an die Activity schickt und
-`MainActivity` sie selbst zerlegt (`MainActivity.kt:437-442`).
+Seit E9 (2026-11-12) gibt es kein `talerlink://` mehr. Die compose-Links sind
+normale Taler-Aktionen nach DD 103 (`${action}/${rest}`, hier mit `rest` = `?query`);
+`https://wallet.taler.net/link#…` ist deren gleichwertige Form, wird aber für
+`compose-*` und `register` nie erzeugt. Die Nachzieh-Liste N1 (talerlink-Filter in Android)
+entfällt.
 
 Der Rücksprung-Wert `returnUri` ist auf beiden Plattformen exakt
 `sgnl://taler-return` (ohne Query, ohne Pfad, ohne Fragment).
@@ -144,8 +142,8 @@ fragt **Taler** ab; Signal kennt keine Beträge. Ob gesendet oder angefordert
 wird, wählt der Nutzer in Taler per Umschalter (`direction` ist nur die
 Anfangsstellung).
 
-**Scheme:** Android `talerlink://compose-send` (explizit an `MainActivity`),
-iOS `talerlink://compose-send`.
+**Scheme:** Android `taler://compose-send/?…` (explizit an `MainActivity`),
+iOS `taler://compose-send/?…`.
 
 | Parameter | Pflicht | Typ | Werte / Standard | Kodierung |
 |---|---|---|---|---|
@@ -165,7 +163,7 @@ Gruppe) `memberCount`. [Ist Android: `TalerSendActions.kt:37-51`]
 Beispiel (1:1-Chat, Umbrüche nur zur Lesbarkeit):
 
 ```
-talerlink://compose-send?recipientHint=Anna%20M%C3%BCller&isGroup=false
+taler://compose-send/?recipientHint=Anna%20M%C3%BCller&isGroup=false
   &direction=PAY_PUSH&disappearingMessagesSeconds=0
   &correlationId=6f1c2a34-8b1e-4d7a-9c55-0e8f3b2a1d90
   &returnUri=sgnl%3A%2F%2Ftaler-return
@@ -195,7 +193,7 @@ auf `talerUri` zurück (ein Split verliert dann alle URIs außer der ersten).
 | Kein Guthaben in Taler | Taler zeigt Fehler und ruft beim Verlassen `cancelled` zurück | nichts gesendet |
 | Kaltstart über den Link | Taler wartet, bis wallet-core bereit ist, bevor die UI Beträge verarbeitet. Android: reaktives Laden der Salden [Ist Android: `ComposeSendScreen.kt`, Kommentar und Code ab Zeile 225]; iOS: `backendState == .ready` abwarten | - |
 | Zweiter compose-send während der erste offen ist | Der ältere Screen wird ersetzt, ohne `cancelled` zu feuern [Ist Android: `MainActivity.kt:381-420`]; iOS: gleiches Verhalten anstreben | ältere correlationId bleibt ungenutzt bis TTL |
-| Taler nicht installiert | - | Android: Menüeintrag nur sichtbar, wenn Taler installiert **und** Cert stimmt (`AttachmentKeyboardFragment.kt:158`); `startActivity` in `runCatching`, stiller Abbruch ohne Toast (`TalerSendActions.kt:62`). iOS: Eintrag nur, wenn `canOpenURL(talerlink://)`; `open` schlägt fehl -> nichts senden |
+| Taler nicht installiert | - | Android: Menüeintrag nur sichtbar, wenn Taler installiert **und** Cert stimmt (`AttachmentKeyboardFragment.kt:158`); `startActivity` in `runCatching`, stiller Abbruch ohne Toast (`TalerSendActions.kt:62`). iOS: Eintrag nur, wenn `canOpenURL(taler://)`; `open` schlägt fehl -> nichts senden |
 | Kein Rücksprung (Nutzer wechselt weg, Prozess beendet) | Taler kann bereits committet haben | Es wird nichts gesendet. Bekannte Grenze, siehe 2.4 |
 
 **Signal-Regeln beim Empfang des Rücksprungs (SEND):**
@@ -241,7 +239,7 @@ Reihenfolge: `originalUri`, `correlationId`, `returnUri`. [Ist Android:
 Beispiel:
 
 ```
-talerlink://compose-refund?originalUri=taler%3A%2F%2Fpay-push%2Fexchange.example.org%2F7Q4XK2
+taler://compose-refund/?originalUri=taler%3A%2F%2Fpay-push%2Fexchange.example.org%2F7Q4XK2
   &correlationId=0b6c9f52-31d8-4a0f-8a3e-6d2c5e7f9a11
   &returnUri=sgnl%3A%2F%2Ftaler-return
 ```
@@ -310,7 +308,7 @@ gespeicherten Links zu.
 Beispiel (zwei URIs eines Gruppen-Splits):
 
 ```
-talerlink://compose-abort?uri=taler%3A%2F%2Fpay-push%2Fexchange.example.org%2FAAAA
+taler://compose-abort/?uri=taler%3A%2F%2Fpay-push%2Fexchange.example.org%2FAAAA
   &uri=taler%3A%2F%2Fpay-push%2Fexchange.example.org%2FBBBB
   &correlationId=91d3e0aa-5c47-4b6e-a8d2-7f10c3b9e455
   &returnUri=sgnl%3A%2F%2Ftaler-return
@@ -374,10 +372,9 @@ die URI eine **eigene** ist:
 
 - Android: `taler://pay-push/<rest>?correlationId=...&returnUri=...`, explizit
   per `setPackage` an Taler (kein `setClassName`).
-- iOS: `talerlink://pay-push/<rest>?correlationId=...&returnUri=...` (Scheme
-  `taler` durch `talerlink` ersetzt, Pfad unverändert). Für `pay-pull` analog.
+- iOS: `taler://pay-push/<rest>?correlationId=...&returnUri=...` (Scheme `taler`, Pfad unverändert; seit E9 wie Android). Für `pay-pull` analog.
   Groß/Kleinschreibung des Schemes egal (`TALER://` möglich).
-- Taler-Android [Neu]: soll auch `talerlink://pay-push|pay-pull/...`
+- Taler-Android [Neu]: soll auch `taler://pay-push|pay-pull/...`
   annehmen (N1); Taler-iOS nimmt es (Paket T1).
 
 | Parameter | Pflicht | Typ | Werte | Kodierung |
@@ -392,7 +389,7 @@ Anhängen: Enthält die URI bereits ein `?`, wird mit `&` angehängt, sonst mit
 Beispiel iOS:
 
 ```
-talerlink://pay-push/exchange.example.org/7Q4XK2
+taler://pay-push/exchange.example.org/7Q4XK2
   ?correlationId=7a5e1d30-2b9c-4f88-91d6-c3a04e8b2f17
   &returnUri=sgnl%3A%2F%2Ftaler-return
 ```
@@ -403,7 +400,7 @@ Beispiel Android (gleiche Zahlung): `taler://pay-push/exchange.example.org/7Q4XK
 
 - `correlationId` und `returnUri` werden gelesen und **danach die gesamte Query
   entfernt**, bevor die URI an wallet-core geht (wallet-core kennt sie nicht).
-  Bei `talerlink` wird zusätzlich das Scheme auf `taler` zurückgesetzt. Nur die
+  Es gibt kein Zurücksetzen des Schemes mehr (Scheme ist immer `taler`). Nur die
   bereinigte URI wird weitergereicht, nie die Original-URL. Unbekannte
   Query-Parameter werden ebenfalls entfernt. [Ist Android:
   `ReturnCallbackParams.stripQuery`, `HandleUriScreen.kt:125-129` (pay-pull), `:139-143` (pay-push)]
@@ -446,8 +443,8 @@ heute nicht gesendet (`TalerCardActionGate.kt`: Annehmen nur für `PAY_PUSH`).
 ```
 Signal                                  Taler
   |  Store.put(correlationId, intent)     |
-  |------ talerlink://compose-* -------->|  parse, Nutzer bestätigt
-  |------ [taler|talerlink]://pay-*?... ->|  Query lesen, entfernen, bereinigte URI verarbeiten
+  |------ taler://compose-* -------->|  parse, Nutzer bestätigt
+  |------ taler://pay-*?... ->|  Query lesen, entfernen, bereinigte URI verarbeiten
   |<----- sgnl://taler-return ---|  Query neu aufgebaut, Ziel validiert
   Store.take(correlationId) (single-use)
   Re-Check gegen Exchange / Nachricht senden / Entwurf / Status übernehmen
@@ -582,7 +579,7 @@ baut: `correlationId`, dann je URI ein `result`.
 
 ## 11. Änderungen gegenüber Android (Kurzfassung)
 
-Siehe `android-nachzieh-liste.md`. Kurz: `talerlink://` auch für Aktionslinks
+Siehe `android-nachzieh-liste.md`. Kurz: `taler://` auch für Aktionslinks
 annehmen, compose-abort mit result-Parser, `talerPaymentData` tolerant
 lesen, URI-Art im JSON-Sendepfad prüfen, Aktionslink-Öffnen absichern.
 

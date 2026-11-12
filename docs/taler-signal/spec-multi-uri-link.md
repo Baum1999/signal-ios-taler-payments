@@ -16,7 +16,7 @@ Lektüre, nichts davon wurde verändert). Was aus dem Code nicht sicher folgt, i
 
 ## 0. Kurzfassung
 
-- Version 1 liefert genau **einen** neuen Link: `talerlink://compose-abort` (Gap A), aber gleich
+- Version 1 liefert genau **einen** neuen Link: `taler://compose-abort/` (Gap A), aber gleich
   mit dem allgemeinen Mehr-URI-Schema (wiederholtes `uri`, `result=<uri>|<status>`) und flachen,
   versionierten Metadaten-Parametern.
 - Metadaten reisen als **einzelne flache Query-Parameter** (plus `v=1`), nicht als JSON-Parameter.
@@ -56,7 +56,7 @@ Gemeinsame Randbedingungen (gelten für alle Varianten):
   (`setPackage` + `setClassName(..., "net.taler.wallet.main.MainActivity")`), wie `TalerSendActions`.
   Die Grenze für die Länge ist praktisch die Binder-Transaktionsgröße (etwa 1 MB) und damit kein
   Engpass **[UNSICHER, nicht getestet]**.
-- iOS: Alle Links Signal an Taler über `talerlink://`, ohne `setPackage`-Äquivalent.
+- iOS: Alle Links Signal an Taler über `taler://`, ohne `setPackage`-Äquivalent.
   Es gibt keine dokumentierte harte Grenze für die Länge eines Custom-Scheme-URL beim `open(_:)`;
   in der Praxis funktionieren mehrere KB **[UNSICHER, vor Umsetzung mit 30 URIs auf einem Gerät testen]**.
 - Größenordnung: eine `pay-push`-URI hat grob 130 bis 160 Zeichen, prozentkodiert grob 200. Ein
@@ -64,7 +64,7 @@ Gemeinsame Randbedingungen (gelten für alle Varianten):
 
 ### Variante A: ein Link pro Aktion, gemeinsames Parameterschema, flache Metadaten (Empfehlung)
 
-`talerlink://compose-abort?v=1&uri=…&uri=…&currency=…&totalAmount=…&…&correlationId=…&returnUri=…`
+`taler://compose-abort/?v=1&uri=…&uri=…&currency=…&totalAmount=…&…&correlationId=…&returnUri=…`
 (später analog `compose-accept`).
 
 - Vorteile: Passt zu `compose-send`/`compose-refund` (Host = Compose-Screen, alle Felder als
@@ -79,7 +79,7 @@ Gemeinsame Randbedingungen (gelten für alle Varianten):
 
 ### Variante B: ein generischer Link mit Aktionsparameter
 
-`talerlink://batch?action=abort|accept|refund&uri=…`
+`taler://batch?action=abort|accept|refund&uri=…`
 
 - Vorteile: Ein Router-Eintrag, neue Aktionen ohne neuen Host.
 - Nachteile: Eine falsch geschriebene oder unbekannte `action` läuft in einen generischen Fehlerpfad
@@ -123,7 +123,7 @@ Zahlungs-URI in einer Zahlungs-URI wäre auch für ältere Taler-Versionen ein F
 
 ### 3.1 Link Signal an Taler
 
-`talerlink://compose-abort?…`, Parameter als Query, jeder Wert einzeln prozentkodiert
+`taler://compose-abort/?…`, Parameter als Query, jeder Wert einzeln prozentkodiert
 (`Uri.Builder.appendQueryParameter` bzw. auf iOS `URLComponents` mit eigenem Zeichensatz, siehe 3.6).
 
 | Parameter | Wiederholbar | Typ | Pflicht | Bedeutung |
@@ -154,7 +154,7 @@ kennt ihn aus der eigenen Transaktion.
 
 Beispiel (gekürzt, Werte nicht prozentkodiert dargestellt):
 ```
-talerlink://compose-abort?v=1&uri=taler://pay-push/ex.example/AAA…&uri=taler://pay-push/ex.example/BBB…
+taler://compose-abort/?v=1&uri=taler://pay-push/ex.example/AAA…&uri=taler://pay-push/ex.example/BBB…
   &reason=delete&isGroup=true&recipientHint=Familie&memberCount=4&isGroupSplit=true&includeSelf=true
   &splitCount=4&currency=KUDOS&totalAmount=…&summary=Pizza&correlationId=<uuid>&returnUri=sgnl://taler-return
 ```
@@ -266,12 +266,12 @@ Re-Check per `TalerUriRefreshJob` laufen (Empfehlung, Frage 6).
 ### 3.7 Verhalten, wenn Taler den Link nicht kennt
 
 - **Android, ältere Taler-Version:** `MainActivity` kennt bisher nur die Hosts `compose-send` und
-  `compose-refund`; alle anderen `talerlink://`-Links gehen in `emitUri` und damit nach
+  `compose-refund`; alle anderen `taler://`-Links gehen in `emitUri` und damit nach
   `HandleUriScreen`, wo der `else`-Zweig „Unsupported URI“ zeigt und zurückspringt. Es entsteht
   kein Rücksprung; in Signal bleibt der Status `OFFEN`. Die Sicherheit ist gewahrt (es passiert
   nichts), der Nutzer erhält aber eine kryptische Meldung. Ob der Intent-Filter im Manifest den Host
   `compose-abort` überhaupt an Taler zustellt, ist nicht geprüft **[UNSICHER]**.
-- **iOS:** Unbekannter Pfad bei `talerlink://` wird von der Taler-App nicht geroutet; Verhalten je
+- **iOS:** Unbekannter Pfad bei `taler://` wird von der Taler-App nicht geroutet; Verhalten je
   nach Umsetzung von T1 (Zielbild: verwerfen ohne Rücksprung).
 - **Signal darf nicht raten.** Auf Android kann Signal `versionCode` des Taler-Packages lesen und die
   Aktion erst ab einer Mindestversion anbieten (`getPackageInfo`, Package-Sichtbarkeit nötig, siehe
@@ -294,7 +294,7 @@ Re-Check per `TalerUriRefreshJob` laufen (Empfehlung, Frage 6).
    aufgeweicht.
 6. **iOS: Restrisiko Scheme-Übernahme.** Ein Custom Scheme lässt sich auf iOS von jeder App
    registrieren, es gibt keine Zuordnung zu einem Empfänger. Da der Link nun bis zu 32 Inhaberpapiere
-   in einem Rutsch trägt, wächst der Schaden eines Abfangens. Der iOS-Rahmen (`talerlink://`, ohne
+   in einem Rutsch trägt, wächst der Schaden eines Abfangens. Der iOS-Rahmen (`taler://`, ohne
    HMAC) ist vorgegeben; das Risiko ist damit bekannt und nicht durch diese Spec lösbar. Zu prüfen
    wäre, ob `compose-abort` ohne den geheimen Teil der URI auskäme **[UNSICHER]**: `OwnUriTracker`
    sucht heute mit der vollständigen URI (siehe Frage 7).

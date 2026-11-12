@@ -17,7 +17,7 @@ This index and the repository READMEs are in English.
 ## Ground rules
 
 - **Links only.** Signal and Taler never call each other directly (no IPC, no
-  shared container, no relay server). Signal opens a `talerlink://` URL, Taler
+  shared container, no relay server). Signal opens a `taler://` URL, Taler
   answers with `sgnl://taler-return`.
 - **Signal never moves money.** Every payment is confirmed by the user in the
   Taler UI. Signal only shows payment cards and builds links.
@@ -54,8 +54,8 @@ repositories. The package names match the commit messages in the iOS repos.
 ```
 Signal                                   Taler
   |  store.put(correlationId, intent)      |
-  |------ talerlink://compose-* --------->|  parse, user confirms in Taler UI
-  |------ talerlink://pay-push/...?... -->|  read + strip query, hand clean URI to wallet-core
+  |------ taler://compose-* --------->|  parse, user confirms in Taler UI
+  |------ taler://pay-push/...?... -->|  read + strip query, hand clean URI to wallet-core
   |<----- sgnl://taler-return ---|  rebuild query, validate target
   store.take(correlationId)  (single use)
   re-check against exchange / send message / prepare draft / update status

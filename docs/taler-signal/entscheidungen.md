@@ -11,7 +11,7 @@ Parity-Plan geändert, **offen** = noch zu entscheiden.
 | ID | Titel | Status |
 |---|---|---|
 | E1 | Krypto vor Karte | gilt, umgesetzt (M1, M2) |
-| E2 | `talerlink://` für alle Links Signal -> Taler auf iOS | gilt (aktualisiert, Nutzer 2026-09-29) |
+| E2 | `talerlink://` für alle Links Signal -> Taler auf iOS | ersetzt durch E9 (2026-11-12) |
 | E3 | Rücksprung über `sgnl://taler-return` | gilt |
 | E4 | CryptoKit plus schmale Eigenimplementierung | gilt |
 | E5 | Seitentabelle statt SDS-Feld | gilt |
@@ -44,7 +44,7 @@ der Interimszustand, den Android mit `b3ec1b2d07` beendet hat.
 **Folgen.** M1 und M2 sind committet (72 Tests grün). Die Karte hat eine echte
 Datenquelle. Erledigt.
 
-## E2 `talerlink://` für alle Links Signal -> Taler auf iOS
+## E2 `talerlink://` für alle Links Signal -> Taler auf iOS (ersetzt durch E9)
 
 **Kontext.** Upstream-GNU-Taler registriert ebenfalls `taler://`. Sind beide
 Apps installiert, wählt iOS bei doppelt registriertem Scheme nicht
@@ -312,7 +312,7 @@ zu Leerzeichen dekodiert. URIs mit rohem `|` sind nicht sicher transportierbar
 **Kontext.** Löschen einer eigenen offenen Zahlungsnachricht setzt heute nur
 lokal `LOKAL_ABGEBROCHEN`. Taler-seitig bleibt die Zahlung offen.
 
-**Entscheidung.** Nur "Für alle löschen" löst `talerlink://compose-abort` aus
+**Entscheidung.** Nur "Für alle löschen" löst `taler://compose-abort/` aus
 (nicht "Für mich löschen"); Taler zeigt einen Sammel-Dialog und bricht pro
 Transaktion ab; Rücksprung mit `result=<uri>|aborted|already_claimed|expired|declined`.
 Mapping in `datenmodell.md` Abschnitt 9. Ist Taler nicht installiert: lokaler
@@ -327,3 +327,33 @@ zuverlässig an, `TalerAcceptRejectActions.kt:107-111`).
 Die Gap-A-Spec setzt beim fehlenden Rücksprung ebenfalls `LOKAL_ABGEBROCHEN`,
 das Zielbild lässt `OFFEN`. Der Vertrag folgt dem Zielbild; die Entscheidung des
 Nutzers steht aus. Gap B (Löschungen von außen) bleibt zurückgestellt.
+
+## E9 Ein Scheme: `taler://` für alle Links (ersetzt E2)
+
+**Kontext.** E2 führte `talerlink://` ein, weil Upstream-GNU-Taler ebenfalls
+`taler://` registriert und iOS bei doppelt registriertem Scheme nicht
+deterministisch wählt. Der Fork geht später in Upstream auf, dann gibt es nur
+noch eine Taler-App mit `taler://`. DD 103 (https://docs.taler.net/design-documents/103-https-wallet-links.html)
+bildet jede Aktion generisch auf `taler://${action}/${rest}` ab.
+
+**Entscheidung (Nutzer, 2026-11-12).** Es gibt kein eigenes Scheme und keine
+eigene Link-Domain mehr. Alle Links Signal -> Taler laufen über
+`taler://<aktion>/<rest>`: `compose-send`, `compose-refund`, `compose-abort`
+als `taler://compose-send/?…` (Pfad `/`, Query wie bisher), Annehmen/Abbrechen
+als `taler://pay-push|pay-pull/…?correlationId=…&returnUri=…`, `register` als
+`taler://register/?…`. Der Rücksprung bleibt `sgnl://taler-return`
+(Scheme der Messenger-App, nicht von Taler). `compose-*` und `register` werden
+nie als `https://wallet.taler.net/link#…` erzeugt. Android adressiert weiter
+explizit (`setPackage`, bei `compose-*` zusätzlich `setClassName`). Das
+Umschreiben `taler` <-> `talerlink` auf iOS und der Manifest-Filter für
+`talerlink` entfallen.
+
+**Folgen.** Ältere Signal-Versionen mit `talerlink://` werden nicht mehr
+angenommen. `canOpenURL(taler://)` ist auf iOS für jedes Taler-Wallet wahr;
+eine Wallet ohne compose-* nimmt den Link an und tut nichts. Auf Android
+erreicht ein Web-Link `taler://compose-send/?…` die `MainActivity` (BROWSABLE-Filter
+von `taler`), eine Aufruferprüfung ist wegen des unzuverlässigen
+`Activity.getReferrer()` bei `onNewIntent` nicht umgesetzt; Taler zeigt nur
+den Bestätigungsscreen, der Rücksprung geht ausschließlich an den per
+Signing-Cert verifizierten Messenger. Upstream muss die Aktionen beim Merge
+akzeptieren.
